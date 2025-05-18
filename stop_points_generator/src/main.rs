@@ -26,6 +26,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut tube_stations: Vec<StopPoint> = all
         .into_iter()
         .filter(|s| s.stop_type == "NaptanMetroStation")
+        .map(|mut s| {
+            if let Some(stripped) = s.common_name.strip_suffix(" Underground Station") {
+                s.common_name = stripped.to_string();
+            }
+            s
+        })
         .collect();
 
     // Sort by name
@@ -33,7 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Save to file
     let json = serde_json::to_string_pretty(&tube_stations)?;
-    fs::write(Path::new("stop_points.json"), json)?;
+    fs::write(Path::new("../webapp/stop_points.json"), &json)?;
 
     println!(
         "Successfully created stop_points.json with {} stations",
