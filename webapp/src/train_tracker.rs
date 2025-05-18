@@ -1,5 +1,6 @@
 use crate::station::{Arrival, StopPoint, VehicleArrival, fetch_arrivals, fetch_vehicle_arrivals};
 use gloo_timers::callback::Interval;
+use std::rc::Rc;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
 
@@ -8,6 +9,8 @@ pub struct TrainTrackerProps {
     pub train: Arrival,
     pub station: StopPoint,
     pub on_close: Callback<()>,
+    #[prop_or_default]
+    pub key: String, // Added key prop for uniqueness
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -18,21 +21,25 @@ struct NextStop {
 
 #[function_component(TrainTracker)]
 pub fn train_tracker(props: &TrainTrackerProps) -> Html {
-    let train = use_state(|| props.train.clone());
+    // Use local state for each train tracker
+    let train = props.train.clone();
     let station = props.station.clone();
+
+    // Define component-specific state
     let current_location = use_state(|| props.train.current_location.clone());
     let time_to_station = use_state(|| props.train.time_to_station);
     let status = use_state(|| "Approaching".to_string());
     let loading = use_state(|| false);
-    let track_interval = use_state(|| None::<Interval>);
     let next_stops = use_state(|| Vec::<NextStop>::new());
     let vehicle_id = use_state(|| props.train.vehicle_id.clone().unwrap_or_default());
     let line_id = use_state(|| props.train.line_id.clone().unwrap_or_default());
     let error_message = use_state(|| String::new());
 
+    // Use a Rc to store the interval so it can be dropped properly on unmount
+    let track_interval = use_state(|| None::<Rc<Interval>>);
+
     // Function to update train status using vehicle API
     let update_train_status = {
-        let train = train.clone();
         let loading = loading.clone();
         let current_location = current_location.clone();
         let time_to_station = time_to_station.clone();
@@ -42,6 +49,7 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
         let next_stops = next_stops.clone();
         let error_message = error_message.clone();
         let station_id = station.id.clone();
+        let train_id = train.id.clone();
 
         Callback::from(move |_| {
             loading.set(true);
@@ -49,7 +57,7 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
 
             // If we don't have a vehicle ID yet, try to get it from the station arrivals
             if vehicle_id.is_empty() {
-                let train_id = train.id.clone();
+                let train_id = train_id.clone();
                 let station_id = station_id.clone();
                 let loading = loading.clone();
                 let vehicle_id = vehicle_id.clone();
@@ -158,7 +166,13 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
                 update_train_status.emit(());
             });
 
-            track_interval.set(Some(interval));
+            // Store the interval in an Rc so we can safely drop it on unmount
+            track_interval.set(Some(Rc::new(interval)));
+
+            // Cleanup function to cancel the interval when the component unmounts
+            || {
+                // The interval will be dropped when track_interval is dropped
+            }
         });
     }
 

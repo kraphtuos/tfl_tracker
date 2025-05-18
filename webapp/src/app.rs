@@ -31,7 +31,7 @@ pub fn app() -> Html {
                 loading.set(false);
 
                 // Use a timeout to ensure the select element is reset to default after rendering
-                gloo_timers::callback::Timeout::new(100, move || {
+                gloo_timers::callback::Timeout::new(0, move || {
                     if let Some(select) = select_ref.cast::<HtmlSelectElement>() {
                         select.set_value("");
                     }
@@ -226,6 +226,7 @@ pub fn app() -> Html {
 
                                     html! {
                                         <TrainTracker
+                                            key={train.id.clone()}
                                             train={train.clone()}
                                             station={station.clone()}
                                             on_close={on_close}
