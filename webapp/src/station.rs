@@ -88,7 +88,7 @@ pub async fn fetch_vehicle_arrivals(vehicle_id: &str) -> Vec<VehicleArrival> {
 // Helper function to group arrivals by line and platform
 pub fn group_arrivals_by_line_platform(
     arrivals: &[Arrival],
-) -> HashMap<String, HashMap<String, Vec<Arrival>>> {
+) -> Vec<(String, Vec<(String, Vec<Arrival>)>)> {
     let mut grouped: HashMap<String, HashMap<String, Vec<Arrival>>> = HashMap::new();
 
     for arrival in arrivals {
@@ -110,5 +110,16 @@ pub fn group_arrivals_by_line_platform(
         }
     }
 
-    grouped
+    // Collect and sort lines and platforms
+    let mut lines: Vec<_> = grouped.into_iter().collect();
+    lines.sort_by(|a, b| a.0.cmp(&b.0)); // Sort by line name
+
+    lines
+        .into_iter()
+        .map(|(line_name, platforms)| {
+            let mut platforms_vec: Vec<_> = platforms.into_iter().collect();
+            platforms_vec.sort_by(|a, b| a.0.cmp(&b.0)); // Sort by platform name
+            (line_name, platforms_vec)
+        })
+        .collect()
 }

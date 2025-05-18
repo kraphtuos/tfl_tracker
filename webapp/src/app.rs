@@ -2,7 +2,6 @@ use crate::station::{
     Arrival, StopPoint, fetch_arrivals, fetch_tube_stations, group_arrivals_by_line_platform,
 };
 use crate::train_tracker::TrainTracker;
-use std::collections::HashMap;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::HtmlSelectElement;
 use yew::prelude::*;
@@ -14,7 +13,7 @@ pub fn app() -> Html {
     let loading = use_state(|| true);
     let fetching_data = use_state(|| false);
     let arrivals = use_state(|| Vec::<Arrival>::new());
-    let grouped_arrivals = use_state(|| HashMap::new()); // You may need to specify key/value types here too
+    let grouped_arrivals = use_state(|| Vec::new());
     let select_ref = use_node_ref();
     let tracked_trains = use_state(|| Vec::<Arrival>::new());
 
