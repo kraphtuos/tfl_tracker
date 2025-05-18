@@ -30,14 +30,13 @@ pub fn app() -> Html {
                 stations.set(fetched);
                 loading.set(false);
 
-                // Explicitly set select to default option after stations are loaded
-                if let Some(select) = select_ref.cast::<HtmlSelectElement>() {
-                    // Make sure this runs after the component has re-rendered with the stations
-                    gloo_timers::callback::Timeout::new(0, move || {
+                // Use a timeout to ensure the select element is reset to default after rendering
+                gloo_timers::callback::Timeout::new(100, move || {
+                    if let Some(select) = select_ref.cast::<HtmlSelectElement>() {
                         select.set_value("");
-                    })
-                    .forget();
-                }
+                    }
+                })
+                .forget();
             });
             || ()
         });
@@ -180,6 +179,7 @@ pub fn app() -> Html {
                         ref={select_ref.clone()}
                         class="w-full p-2 border rounded"
                         onchange={on_select}
+                        value=""
                     >
                         <option value="">{ "-- Choose a station --" }</option>
                         { for stations.iter().map(|s| html! {
