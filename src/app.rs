@@ -1,6 +1,7 @@
 use crate::station::{
     Arrival, StopPoint, fetch_arrivals, fetch_tube_stations, group_arrivals_by_line_platform,
 };
+use crate::train_tracker::TrainTracker;
 use std::collections::HashMap;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::HtmlSelectElement;
@@ -8,13 +9,14 @@ use yew::prelude::*;
 
 #[function_component(App)]
 pub fn app() -> Html {
-    let stations = use_state(Vec::new);
+    let stations = use_state(|| Vec::<StopPoint>::new());
     let selected_station = use_state(|| None::<StopPoint>);
     let loading = use_state(|| true);
     let fetching_data = use_state(|| false);
-    let arrivals = use_state(|| Vec::new());
-    let grouped_arrivals = use_state(|| HashMap::new());
+    let arrivals = use_state(|| Vec::<Arrival>::new());
+    let grouped_arrivals = use_state(|| HashMap::new()); // You may need to specify key/value types here too
     let select_ref = use_node_ref();
+    let tracked_trains = use_state(|| Vec::<Arrival>::new());
 
     // Initial loading of stations
     {
@@ -28,9 +30,13 @@ pub fn app() -> Html {
                 stations.set(fetched);
                 loading.set(false);
 
-                // Reset select to default option after stations are loaded
+                // Explicitly set select to default option after stations are loaded
                 if let Some(select) = select_ref.cast::<HtmlSelectElement>() {
-                    select.set_value("");
+                    // Make sure this runs after the component has re-rendered with the stations
+                    gloo_timers::callback::Timeout::new(0, move || {
+                        select.set_value("");
+                    })
+                    .forget();
                 }
             });
             || ()
@@ -93,6 +99,7 @@ pub fn app() -> Html {
     let on_select = {
         let stations = stations.clone();
         let selected_station = selected_station.clone();
+        let tracked_trains = tracked_trains.clone();
 
         Callback::from(move |e: Event| {
             let input: HtmlSelectElement = e.target_unchecked_into();
@@ -103,6 +110,8 @@ pub fn app() -> Html {
             }
 
             if let Some(station) = stations.iter().find(|s| s.id == id) {
+                // Clear tracked trains when changing stations
+                tracked_trains.set(Vec::new());
                 // Just set the selected station - effect hook will trigger the fetch
                 selected_station.set(Some(station.clone()));
             }
@@ -113,6 +122,37 @@ pub fn app() -> Html {
     let refresh_arrivals = {
         let fetch_station_arrivals = fetch_station_arrivals.clone();
         Callback::from(move |_e: MouseEvent| fetch_station_arrivals.emit(()))
+    };
+
+    // Track a train
+    let track_train = {
+        let tracked_trains = tracked_trains.clone();
+
+        Callback::from(move |arrival: Arrival| {
+            tracked_trains.set({
+                let mut updated = (*tracked_trains).clone();
+                // Check if train is already being tracked
+                if !updated.iter().any(|t| t.id == arrival.id) {
+                    updated.push(arrival);
+                }
+                updated
+            });
+        })
+    };
+
+    // Remove a tracked train
+    let remove_tracked_train = {
+        let tracked_trains = tracked_trains.clone();
+
+        Callback::from(move |index: usize| {
+            tracked_trains.set({
+                let mut updated = (*tracked_trains).clone();
+                if index < updated.len() {
+                    updated.remove(index);
+                }
+                updated
+            });
+        })
     };
 
     let format_time = |seconds: i32| -> String {
@@ -171,6 +211,30 @@ pub fn app() -> Html {
                             </button>
                         </div>
 
+                        // Track Train section
+                        if !tracked_trains.is_empty() {
+                            <div class="mb-6 space-y-4">
+                                <h3 class="text-lg font-semibold">{ "Tracked Trains" }</h3>
+                                { for tracked_trains.iter().enumerate().map(|(idx, train)| {
+                                    let on_close = {
+                                        let idx = idx;
+                                        let remove_tracked_train = remove_tracked_train.clone();
+                                        Callback::from(move |_| {
+                                            remove_tracked_train.emit(idx);
+                                        })
+                                    };
+
+                                    html! {
+                                        <TrainTracker
+                                            train={train.clone()}
+                                            station={station.clone()}
+                                            on_close={on_close}
+                                        />
+                                    }
+                                }) }
+                            </div>
+                        }
+
                         if *fetching_data {
                             <div class="flex items-center justify-center p-6">
                                 <LoadingSpinner />
@@ -190,16 +254,47 @@ pub fn app() -> Html {
                                                         { format!("Platform {}", platform_name) }
                                                     </div>
                                                     <div class="divide-y divide-gray-100">
-                                                        { for platform_arrivals.iter().map(|arrival| html! {
-                                                            <div class="flex justify-between items-center py-2 px-3">
-                                                                <div>
-                                                                    <div class="font-medium">{ &arrival.towards }</div>
-                                                                    <div class="text-sm text-gray-600">{ &arrival.current_location }</div>
+                                                        { for platform_arrivals.iter().map(|arrival| {
+                                                            let arrival_clone = arrival.clone();
+                                                            let on_track = {
+                                                                let track_train = track_train.clone();
+                                                                let arrival = arrival.clone();
+
+                                                                Callback::from(move |_| {
+                                                                    track_train.emit(arrival.clone());
+                                                                })
+                                                            };
+
+                                                            html! {
+                                                                <div class="flex justify-between items-center py-2 px-3">
+                                                                    <div class="flex-grow">
+                                                                        <div class="font-medium">{ &arrival_clone.towards }</div>
+                                                                        <div class="text-sm text-gray-600">{ &arrival_clone.current_location }</div>
+                                                                    </div>
+                                                                    <div class="flex items-center">
+                                                                        <div class="font-medium text-right mr-3">
+                                                                            { format_time(arrival_clone.time_to_station) }
+                                                                        </div>
+                                                                        <button
+                                                                            onclick={on_track}
+                                                                            disabled={tracked_trains.iter().any(|t| t.id == arrival_clone.id)}
+                                                                            class={
+                                                                                if tracked_trains.iter().any(|t| t.id == arrival_clone.id) {
+                                                                                    "bg-gray-300 text-gray-600 p-1 rounded cursor-not-allowed"
+                                                                                } else {
+                                                                                    "bg-blue-100 text-blue-700 hover:bg-blue-200 p-1 rounded"
+                                                                                }
+                                                                            }
+                                                                            title="Track this train"
+                                                                        >
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="font-medium text-right">
-                                                                    { format_time(arrival.time_to_station) }
-                                                                </div>
-                                                            </div>
+                                                            }
                                                         }) }
                                                     </div>
                                                 </div>
