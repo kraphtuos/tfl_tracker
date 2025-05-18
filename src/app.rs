@@ -261,6 +261,7 @@ pub fn app() -> Html {
                                                                 let arrival = arrival.clone();
 
                                                                 Callback::from(move |_| {
+                                                                    // Clone and emit the arrival for tracking
                                                                     track_train.emit(arrival.clone());
                                                                 })
                                                             };
@@ -281,11 +282,19 @@ pub fn app() -> Html {
                                                                             class={
                                                                                 if tracked_trains.iter().any(|t| t.id == arrival_clone.id) {
                                                                                     "bg-gray-300 text-gray-600 p-1 rounded cursor-not-allowed"
+                                                                                } else if arrival_clone.vehicle_id.is_some() {
+                                                                                    "bg-green-100 text-green-700 hover:bg-green-200 p-1 rounded"
                                                                                 } else {
                                                                                     "bg-blue-100 text-blue-700 hover:bg-blue-200 p-1 rounded"
                                                                                 }
                                                                             }
-                                                                            title="Track this train"
+                                                                            title={
+                                                                                if arrival_clone.vehicle_id.is_some() {
+                                                                                    "Track this train (Detailed tracking available)"
+                                                                                } else {
+                                                                                    "Track this train"
+                                                                                }
+                                                                            }
                                                                         >
                                                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

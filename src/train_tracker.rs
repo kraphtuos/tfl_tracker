@@ -1,4 +1,4 @@
-use crate::station::{Arrival, StopPoint, fetch_arrivals};
+use crate::station::{Arrival, StopPoint, VehicleArrival, fetch_arrivals, fetch_vehicle_arrivals};
 use gloo_timers::callback::Interval;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
@@ -10,6 +10,12 @@ pub struct TrainTrackerProps {
     pub on_close: Callback<()>,
 }
 
+#[derive(Clone, Debug, PartialEq)]
+struct NextStop {
+    station_name: String,
+    time_to_station: i32,
+}
+
 #[function_component(TrainTracker)]
 pub fn train_tracker(props: &TrainTrackerProps) -> Html {
     let train = use_state(|| props.train.clone());
@@ -19,45 +25,120 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
     let status = use_state(|| "Approaching".to_string());
     let loading = use_state(|| false);
     let track_interval = use_state(|| None::<Interval>);
+    let next_stops = use_state(|| Vec::<NextStop>::new());
+    let vehicle_id = use_state(|| props.train.vehicle_id.clone().unwrap_or_default());
+    let line_id = use_state(|| props.train.line_id.clone().unwrap_or_default());
+    let error_message = use_state(|| String::new());
 
-    // Function to update train status
+    // Function to update train status using vehicle API
     let update_train_status = {
         let train = train.clone();
-        let station_id = station.id.clone();
         let loading = loading.clone();
         let current_location = current_location.clone();
         let time_to_station = time_to_station.clone();
         let status = status.clone();
+        let vehicle_id = vehicle_id.clone();
+        let line_id = line_id.clone();
+        let next_stops = next_stops.clone();
+        let error_message = error_message.clone();
+        let station_id = station.id.clone();
 
         Callback::from(move |_| {
             loading.set(true);
-            let train_id = train.id.clone();
-            let station_id = station_id.clone();
+            error_message.set(String::new());
+
+            // If we don't have a vehicle ID yet, try to get it from the station arrivals
+            if vehicle_id.is_empty() {
+                let train_id = train.id.clone();
+                let station_id = station_id.clone();
+                let loading = loading.clone();
+                let vehicle_id = vehicle_id.clone();
+                let line_id = line_id.clone();
+                let error_message = error_message.clone();
+
+                spawn_local(async move {
+                    let arrivals = fetch_arrivals(&station_id).await;
+
+                    if let Some(updated_train) = arrivals.iter().find(|a| a.id == train_id) {
+                        if let Some(vid) = &updated_train.vehicle_id {
+                            vehicle_id.set(vid.clone());
+                            if let Some(lid) = &updated_train.line_id {
+                                line_id.set(lid.clone());
+                            }
+                        } else {
+                            error_message.set("No vehicle ID available for this train".to_string());
+                        }
+                    } else {
+                        error_message.set("Train not found in station arrivals".to_string());
+                    }
+                    loading.set(false);
+                });
+                return;
+            }
+
+            // If we have a vehicle ID, use the vehicle arrivals API
+            let vehicle_id_value = vehicle_id.to_string();
+            let line_id_value = line_id.to_string();
             let loading = loading.clone();
             let current_location = current_location.clone();
             let time_to_station = time_to_station.clone();
             let status = status.clone();
-            let train_handle = train.clone();
+            let next_stops = next_stops.clone();
+            let error_message = error_message.clone();
 
             spawn_local(async move {
-                let arrivals = fetch_arrivals(&station_id).await;
+                if vehicle_id_value.is_empty() {
+                    error_message.set("No vehicle ID available".to_string());
+                    loading.set(false);
+                    return;
+                }
 
-                if let Some(updated_train) = arrivals.iter().find(|a| a.id == train_id) {
-                    current_location.set(updated_train.current_location.clone());
-                    time_to_station.set(updated_train.time_to_station);
+                let vehicle_arrivals = fetch_vehicle_arrivals(&vehicle_id_value).await;
 
-                    if updated_train.time_to_station < 30 {
+                // Filter by line ID
+                let filtered_arrivals: Vec<VehicleArrival> = vehicle_arrivals
+                    .into_iter()
+                    .filter(|a| a.line_id == line_id_value)
+                    .collect();
+
+                if filtered_arrivals.is_empty() {
+                    error_message.set("No predictions found for this train".to_string());
+                    loading.set(false);
+                    return;
+                }
+
+                // Sort by time to station
+                let mut sorted_arrivals = filtered_arrivals.clone();
+                sorted_arrivals.sort_by(|a, b| a.time_to_station.cmp(&b.time_to_station));
+
+                // Get current location from the first arrival
+                if !sorted_arrivals.is_empty() {
+                    let first = &sorted_arrivals[0];
+                    current_location.set(first.current_location.clone());
+                    time_to_station.set(first.time_to_station);
+
+                    // Update status based on time to station
+                    if first.time_to_station < 30 {
                         status.set("Arriving".to_string());
-                    } else if updated_train.time_to_station < 60 {
+                    } else if first.time_to_station < 60 {
                         status.set("Approaching".to_string());
                     } else {
                         status.set("En Route".to_string());
                     }
 
-                    train_handle.set(updated_train.clone());
-                } else if *time_to_station <= 0 {
-                    status.set("Arrived".to_string());
+                    // Take the next 5 stops (or fewer if there aren't 5)
+                    let stops_count = std::cmp::min(5, sorted_arrivals.len());
+                    let next_5_stops: Vec<NextStop> = sorted_arrivals[0..stops_count]
+                        .iter()
+                        .map(|a| NextStop {
+                            station_name: a.station_name.clone(),
+                            time_to_station: a.time_to_station,
+                        })
+                        .collect();
+
+                    next_stops.set(next_5_stops);
                 }
+
                 loading.set(false);
             });
         })
@@ -106,7 +187,7 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
         _ => "bg-gray-100 text-gray-800",
     };
 
-    let update_train_status = {
+    let update_train_status_click = {
         let update_train_status = update_train_status.clone();
         Callback::from(move |_e: web_sys::MouseEvent| update_train_status.emit(()))
     };
@@ -140,10 +221,42 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
                     <p class="font-medium">{ &*current_location }</p>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500">{"Expected Arrival"}</p>
+                    <p class="text-sm text-gray-500">{"Next Arrival"}</p>
                     <p class="font-medium">{ format_time(*time_to_station) }</p>
                 </div>
             </div>
+
+            // Display next stops
+            if !next_stops.is_empty() {
+                <div class="mb-4">
+                    <h4 class="font-medium mb-2">{"Next Stops"}</h4>
+                    <div class="bg-gray-50 rounded p-2">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="text-left py-1">{"Station"}</th>
+                                    <th class="text-right py-1">{"Arrival"}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                { for next_stops.iter().map(|stop| html! {
+                                    <tr class="border-b border-gray-100">
+                                        <td class="py-1">{ &stop.station_name }</td>
+                                        <td class="text-right py-1">{ format_time(stop.time_to_station) }</td>
+                                    </tr>
+                                }) }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+
+            // Show error message if any
+            if !(*error_message).is_empty() {
+                <div class="mb-4 p-2 bg-red-50 text-red-700 rounded text-sm">
+                    { &*error_message }
+                </div>
+            }
 
             <div class="flex justify-between items-center">
                 <div class={format!("px-3 py-1 rounded-full text-sm font-medium {}", status_color)}>
@@ -151,7 +264,7 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
                 </div>
 
                 <button
-                    onclick={update_train_status}
+                    onclick={update_train_status_click}
                     disabled={*loading}
                     class="text-blue-600 hover:text-blue-800 text-sm flex items-center"
                 >

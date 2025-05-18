@@ -23,6 +23,29 @@ pub struct Arrival {
     pub current_location: String,
     #[serde(rename = "timeToStation")]
     pub time_to_station: i32,
+    #[serde(rename = "vehicleId")]
+    pub vehicle_id: Option<String>,
+    #[serde(rename = "lineId")]
+    pub line_id: Option<String>,
+}
+
+#[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
+pub struct VehicleArrival {
+    pub id: String,
+    #[serde(rename = "lineId")]
+    pub line_id: String,
+    #[serde(rename = "lineName")]
+    pub line_name: String,
+    #[serde(rename = "platformName")]
+    pub platform_name: Option<String>,
+    #[serde(rename = "stationName")]
+    pub station_name: String,
+    #[serde(rename = "towards")]
+    pub towards: String,
+    #[serde(rename = "currentLocation")]
+    pub current_location: String,
+    #[serde(rename = "timeToStation")]
+    pub time_to_station: i32,
 }
 
 pub async fn fetch_tube_stations() -> Vec<StopPoint> {
@@ -56,6 +79,20 @@ pub async fn fetch_arrivals(station_id: &str) -> Vec<Arrival> {
         .json::<Vec<Arrival>>()
         .await
         .expect("Failed to parse arrival data");
+
+    resp
+}
+
+pub async fn fetch_vehicle_arrivals(vehicle_id: &str) -> Vec<VehicleArrival> {
+    let url = format!("https://api.tfl.gov.uk/Vehicle/{}/Arrivals", vehicle_id);
+
+    let resp = Request::get(&url)
+        .send()
+        .await
+        .expect("Failed to fetch vehicle arrivals")
+        .json::<Vec<VehicleArrival>>()
+        .await
+        .expect("Failed to parse vehicle arrival data");
 
     resp
 }
