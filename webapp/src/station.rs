@@ -49,24 +49,12 @@ pub struct VehicleArrival {
 }
 
 pub async fn fetch_tube_stations() -> Vec<StopPoint> {
-    let resp: serde_json::Value = Request::get("https://api.tfl.gov.uk/StopPoint/Mode/tube")
-        .send()
-        .await
-        .expect("Failed to fetch stations")
-        .json()
-        .await
-        .expect("Failed to parse JSON");
+    // Load from hardcoded JSON instead of API call
+    let stations_json = include_str!("../stop_points.json");
+    let stations: Vec<StopPoint> =
+        serde_json::from_str(stations_json).expect("Failed to parse stations JSON");
 
-    let all: Vec<StopPoint> =
-        serde_json::from_value(resp["stopPoints"].clone()).expect("Failed to deserialize stations");
-
-    let mut res: Vec<StopPoint> = all
-        .into_iter()
-        .filter(|s| s.stop_type == "NaptanMetroStation")
-        .collect();
-
-    res.sort_by(|a, b| a.common_name.cmp(&b.common_name));
-    res
+    stations
 }
 
 pub async fn fetch_arrivals(station_id: &str) -> Vec<Arrival> {
