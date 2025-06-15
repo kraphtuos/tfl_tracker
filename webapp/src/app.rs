@@ -211,7 +211,6 @@ pub fn app() -> Html {
                     .to_lowercase()
                     .contains(&query.to_lowercase())
             })
-            .take(10)
             .cloned()
             .collect::<Vec<_>>()
     };
