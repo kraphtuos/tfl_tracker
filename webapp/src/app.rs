@@ -218,13 +218,22 @@ pub fn app() -> Html {
 
     let on_input = {
         let typeahead = typeahead.clone();
+        let selected_station = selected_station.clone();
         Callback::from(move |e: InputEvent| {
             let input: HtmlInputElement = e.target_unchecked_into();
+            let new_value = input.value();
             let mut state = (*typeahead).clone();
-            state.query = input.value();
+            state.query = new_value.clone();
             state.show_suggestions = true;
             state.focused_index = -1;
             typeahead.set(state);
+            
+            // Clear selected station if query doesn't match station name
+            if let Some(station) = &*selected_station {
+                if station.common_name.to_lowercase() != new_value.to_lowercase() {
+                    selected_station.set(None);
+                }
+            }
         })
     };
 
@@ -239,12 +248,17 @@ pub fn app() -> Html {
 
     let on_blur = {
         let typeahead = typeahead.clone();
+        let selected_station = selected_station.clone();
         Callback::from(move |_| {
-            // Use a small delay to allow click events on suggestions to fire
+            // Restore timeout to allow click events to complete
             let typeahead = typeahead.clone();
+            let selected_station = selected_station.clone();
             gloo_timers::callback::Timeout::new(200, move || {
                 let mut state = (*typeahead).clone();
                 state.show_suggestions = false;
+                if let Some(station) = &*selected_station {
+                    state.query = station.common_name.clone();
+                }
                 typeahead.set(state);
             })
             .forget();
@@ -301,24 +315,55 @@ pub fn app() -> Html {
         })
     };
 
+    // Clear input handler
+    let clear_input = {
+        let typeahead = typeahead.clone();
+        let selected_station = selected_station.clone();
+        Callback::from(move |_| {
+            let mut state = (*typeahead).clone();
+            state.query = String::new();
+            state.show_suggestions = false;
+            state.focused_index = -1;
+            typeahead.set(state);
+            selected_station.set(None);
+        })
+    };
+
     // Render station selection
     let station_selection = html! {
         <div class="relative w-full">
-            <input
-                ref={input_ref}
-                type="text"
-                placeholder="Search for a station..."
-                class="w-full p-3 text-base sm:text-lg border border-gray-200 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                value={typeahead.query.clone()}
-                oninput={on_input}
-                onfocus={on_focus}
-                onblur={on_blur}
-                onkeydown={on_keydown}
-            />
+            <div class="relative">
+                <input
+                    ref={input_ref}
+                    type="text"
+                    placeholder="Search for a station..."
+                    class="w-full p-3 text-base sm:text-lg border border-gray-200 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
+                    value={typeahead.query.clone()}
+                    oninput={on_input}
+                    onfocus={on_focus}
+                    onblur={on_blur}
+                    onkeydown={on_keydown}
+                />
+                if !typeahead.query.is_empty() {
+                    <button
+                        onclick={clear_input}
+                        onmousedown={Callback::from(|e: MouseEvent| e.prevent_default())}
+                        class="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-gray-700"
+                        aria-label="Clear search"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                }
+            </div>
             {
                 if typeahead.show_suggestions && !filtered_stations.is_empty() {
                     html! {
-                        <div class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-[70vh] sm:max-h-60 overflow-y-auto">
+                        <div 
+                            class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-[70vh] sm:max-h-60 overflow-y-auto"
+                            onmousedown={Callback::from(|e: MouseEvent| e.prevent_default())} // Add this line
+                        >
                             {
                                 filtered_stations.iter().enumerate().map(|(index, station)| {
                                     let is_focused = index as i32 == typeahead.focused_index;
