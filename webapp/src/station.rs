@@ -16,7 +16,7 @@ pub struct Arrival {
     #[serde(rename = "platformName")]
     pub platform_name: String,
     #[serde(rename = "destinationName")]
-    pub towards: String,
+    pub towards: Option<String>,
     #[serde(rename = "currentLocation")]
     pub current_location: String,
     #[serde(rename = "timeToStation")]
@@ -138,13 +138,53 @@ pub struct GroupedStation {
     pub all_stations: Vec<StopPoint>,
 }
 
+fn normalize_station_name(name: &str) -> String {
+    // Remove "(London)" and "(Berks)" suffix
+    let name = name
+        .replace("(London)", "")
+        .replace("(Berks)", "")
+        .trim()
+        .to_string();
+
+    // Remove "London " prefix
+    let name = if name.starts_with("London ") {
+        name.strip_prefix("London ").unwrap_or(&name).to_string()
+    } else {
+        name
+    };
+
+    // Special cases mapping
+    match name.as_str() {
+        "Liverpool Street" | "London Liverpool Street" => "Liverpool Street".to_string(),
+        "Paddington" | "London Paddington" => "Paddington".to_string(),
+        "Euston" | "London Euston" => "Euston".to_string(),
+        // Additional cases
+        "Bushey" | "Bushey DC" => "Bushey".to_string(),
+        "Custom House" | "Custom House (for ExCel)" => "Custom House".to_string(),
+        "Watford Junction" | "Watford Junction DC" => "Watford Junction".to_string(),
+        "Clapham Junction" | "Clapham Junction C" => "Clapham Junction".to_string(),
+        "Stratford" | "Stratford (London)" => "Stratford".to_string(),
+        "Queens Park" | "Queens Park (London)" => "Queens Park".to_string(),
+        "Richmond" | "Richmond (London)" => "Richmond".to_string(),
+        "Willesden Junction" | "Willesden Junction HL" => "Willesden Junction".to_string(),
+        "Whitechapel" => "Whitechapel".to_string(), // Combines Underground, Overground, and Elizabeth line stations
+        // DLR and Underground combinations
+        "Bank" => "Bank".to_string(), // Combines DLR and Underground stations
+        "Canary Wharf" => "Canary Wharf".to_string(), // Combines DLR, Underground, and Elizabeth line
+        "Canning Town" => "Canning Town".to_string(), // Combines DLR and Underground
+        "West Ham" => "West Ham".to_string(),         // Combines DLR and Underground
+        _ => name,
+    }
+}
+
 pub fn group_stations_by_name(stations: &[StopPoint]) -> Vec<GroupedStation> {
     let mut grouped: HashMap<String, Vec<StopPoint>> = HashMap::new();
 
-    // Group stations by common name
+    // Group stations by normalized common name
     for station in stations {
+        let normalized_name = normalize_station_name(&station.common_name);
         grouped
-            .entry(station.common_name.clone())
+            .entry(normalized_name)
             .or_default()
             .push(station.clone());
     }
