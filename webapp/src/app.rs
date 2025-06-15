@@ -64,6 +64,8 @@ pub fn app() -> Html {
     let expanded_platforms = use_state(|| HashMap::<String, bool>::new());
     let show_station_ids = use_state(|| false);
     let typeahead = use_state(TypeaheadState::default);
+    // Add collapsed_trains state after other state declarations
+    let collapsed_trains = use_state(|| HashMap::<String, bool>::new());
 
     // Initial loading of stations
     {
@@ -431,12 +433,28 @@ pub fn app() -> Html {
                                 })
                             };
 
+                            let is_collapsed = collapsed_trains.get(&tracked.train.id).copied().unwrap_or(false);
+                            let on_toggle = {
+                                let train_id = tracked.train.id.clone();
+                                let collapsed_trains = collapsed_trains.clone();
+                                Callback::from(move |_| {
+                                    collapsed_trains.set({
+                                        let mut new_map = (*collapsed_trains).clone();
+                                        let current = new_map.get(&train_id).copied().unwrap_or(false);
+                                        new_map.insert(train_id.clone(), !current);
+                                        new_map
+                                    });
+                                })
+                            };
+
                             html! {
                                 <TrainTracker
                                     key={tracked.train.id.clone()}
                                     train={tracked.train.clone()}
                                     station={tracked.station.clone()}
                                     on_close={on_close}
+                                    is_collapsed={is_collapsed}
+                                    on_toggle={on_toggle}
                                 />
                             }
                         }) }
@@ -598,7 +616,7 @@ pub fn app() -> Html {
                                                                                 if idx % 2 == 0 { "bg-white" } else { "bg-gray-50" }
                                                                             )}>
                                                                                 <div class="flex-grow">
-                                                                                    <div class="font-medium text-sm sm:text-base">{ arrival_clone.towards.unwrap_or_else(|| "Unknown".to_string()) }</div>
+                                                                                    <div class="font-medium text-sm sm:text-base">{ arrival_clone.destination_name.unwrap_or_else(|| "Unknown".to_string()) }</div>
                                                                                     <div class="text-xs sm:text-sm text-gray-600">{ &arrival_clone.current_location }</div>
                                                                                 </div>                                                                        <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
                                                                                     <div class="font-medium text-right">

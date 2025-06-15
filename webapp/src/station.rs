@@ -16,7 +16,7 @@ pub struct Arrival {
     #[serde(rename = "platformName")]
     pub platform_name: String,
     #[serde(rename = "destinationName")]
-    pub towards: Option<String>,
+    pub destination_name: Option<String>,
     #[serde(rename = "currentLocation")]
     pub current_location: String,
     #[serde(rename = "timeToStation")]
@@ -108,7 +108,7 @@ pub fn group_arrivals_by_line_platform(
     let mut deduped_arrivals: Vec<&Arrival> = Vec::new();
 
     for arrival in arrivals {
-        let key = match (&arrival.vehicle_id, &arrival.towards) {
+        let key = match (&arrival.vehicle_id, &arrival.destination_name) {
             (Some(vehicle_id), _) => vehicle_id.clone(), // Use vehicle_id if available
             (None, Some(towards)) => format!(
                 "{}-{}-{}",
