@@ -52,13 +52,18 @@ pub struct VehicleArrival {
 
 pub async fn fetch_tube_stations() -> Vec<StopPoint> {
     // Get stations from the generated JSON file
-    let resp = Request::get("/stop_points.json")
+    let mut resp = Request::get("/stop_points.json")
         .send()
         .await
         .expect("Failed to fetch stations")
         .json::<Vec<StopPoint>>()
         .await
         .expect("Failed to parse station data");
+
+    resp.iter_mut().for_each(|station| {
+        // Normalize station names
+        station.common_name = normalize_station_name(&station.common_name);
+    });
 
     resp
 }
@@ -217,9 +222,8 @@ pub fn group_stations_by_name(stations: &[StopPoint]) -> Vec<GroupedStation> {
 
     // Group stations by normalized common name
     for station in stations {
-        let normalized_name = normalize_station_name(&station.common_name);
         grouped
-            .entry(normalized_name)
+            .entry(station.common_name.clone())
             .or_default()
             .push(station.clone());
     }
