@@ -220,9 +220,7 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            </div>            <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <p class="text-sm text-gray-500">{"Destination"}</p>
                     <p class="font-medium">{ train.towards.as_deref().unwrap_or("Unknown") }</p>
@@ -238,6 +236,18 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
                 <div>
                     <p class="text-sm text-gray-500">{"Next Arrival"}</p>
                     <p class="font-medium">{ format_time(*time_to_station) }</p>
+                </div>
+                <div class="col-span-2">
+                    <p class="text-sm text-gray-500">{"Train ID"}</p>
+                    <p class="font-medium">
+                        {
+                            if !(*vehicle_id).is_empty() {
+                                vehicle_id.to_string()
+                            } else {
+                                train.id.clone()
+                            }
+                        }
+                    </p>
                 </div>
             </div>
 

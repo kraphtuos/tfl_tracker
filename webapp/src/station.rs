@@ -103,7 +103,27 @@ pub fn group_arrivals_by_line_platform(
 ) -> Vec<(String, Vec<(String, Vec<Arrival>)>)> {
     let mut grouped: HashMap<String, HashMap<String, Vec<Arrival>>> = HashMap::new();
 
+    // First, deduplicate arrivals based on vehicle_id and destination
+    let mut seen = std::collections::HashSet::new();
+    let mut deduped_arrivals: Vec<&Arrival> = Vec::new();
+
     for arrival in arrivals {
+        let key = match (&arrival.vehicle_id, &arrival.towards) {
+            (Some(vehicle_id), _) => vehicle_id.clone(), // Use vehicle_id if available
+            (None, Some(towards)) => format!(
+                "{}-{}-{}",
+                arrival.line_name, arrival.platform_name, towards
+            ),
+            (None, None) => arrival.id.clone(), // Fallback to arrival id
+        };
+
+        if seen.insert(key) {
+            deduped_arrivals.push(arrival);
+        }
+    }
+
+    // Now group the deduplicated arrivals
+    for arrival in deduped_arrivals {
         let line_group = grouped
             .entry(arrival.line_name.clone())
             .or_insert_with(HashMap::new);
