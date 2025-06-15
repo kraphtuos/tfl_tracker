@@ -603,22 +603,23 @@ pub fn app() -> Html {
 
                                                                         html! {                                                    <div class={classes!(
                                                                                 "flex",
-                                                                                "flex-col",
-                                                                                "sm:flex-row",
-                                                                                "sm:justify-between",
-                                                                                "items-start",
-                                                                                "sm:items-center",
+                                                                                "justify-between",  // Changed from flex-col to maintain single row
+                                                                                "items-center",    // Changed from items-start
                                                                                 "py-2",
                                                                                 "px-2",
                                                                                 "sm:px-3",
                                                                                 "gap-2",
-                                                                                "sm:gap-0",
                                                                                 if idx % 2 == 0 { "bg-white" } else { "bg-gray-50" }
                                                                             )}>
-                                                                                <div class="flex-grow">
-                                                                                    <div class="font-medium text-sm sm:text-base">{ arrival_clone.destination_name.unwrap_or_else(|| "Unknown".to_string()) }</div>
-                                                                                    <div class="text-xs sm:text-sm text-gray-600">{ &arrival_clone.current_location }</div>
-                                                                                </div>                                                                        <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
+                                                                                <div class="flex-grow min-w-0"> // Added min-w-0 to prevent text overflow
+                                                                                    <div class="font-medium text-sm truncate">
+                                                                                        { arrival_clone.destination_name.unwrap_or_else(|| "Unknown".to_string()) }
+                                                                                    </div>
+                                                                                    <div class="text-xs text-gray-600 truncate">
+                                                                                        { &arrival_clone.current_location }
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="flex items-center shrink-0 gap-2">
                                                                                     <div class="font-medium text-right">
                                                                                         { format_arrival_time(arrival_clone.time_to_station) }
                                                                                     </div>
