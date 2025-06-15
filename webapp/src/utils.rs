@@ -100,3 +100,21 @@ pub fn get_mode_colors(mode_name: &str) -> String {
     };
     format!("{} p-1 rounded hover:opacity-80", color)
 }
+
+pub fn format_arrival_time(seconds: i32) -> String {
+    if seconds < 60 {
+        "Due".to_string()
+    } else {
+        format!("{} min", seconds / 60)
+    }
+}
+
+pub fn get_status_color(status: &str) -> &'static str {
+    match status {
+        "Arrived" => "bg-green-100 text-green-800",
+        "Arriving" => "bg-yellow-100 text-yellow-800",
+        "Approaching" => "bg-blue-100 text-blue-800",
+        "Not Found" => "bg-red-100 text-red-800",
+        _ => "bg-gray-100 text-gray-800",
+    }
+}

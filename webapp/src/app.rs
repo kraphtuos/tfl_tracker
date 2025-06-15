@@ -3,7 +3,9 @@ use crate::station::{
     group_arrivals_by_line_platform, group_stations_by_name,
 };
 use crate::train_tracker::TrainTracker;
-use crate::utils::{get_line_background_colors, get_line_colors, get_mode_colors};
+use crate::utils::{
+    format_arrival_time, get_line_background_colors, get_line_colors, get_mode_colors,
+};
 use std::collections::HashMap;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::HtmlSelectElement;
@@ -13,6 +15,19 @@ use yew::prelude::*;
 struct TrackedTrain {
     train: Arrival,
     station: StopPoint,
+}
+
+// Helper function to get station IDs for a station group
+fn get_station_group_ids(station: &StopPoint, stations: &[GroupedStation]) -> Option<Vec<String>> {
+    stations
+        .iter()
+        .find(|s| s.all_stations.iter().any(|st| st.id == station.id))
+        .map(|group| group.all_stations.iter().map(|s| s.id.clone()).collect())
+}
+
+// Helper function to fetch arrivals for station IDs
+async fn fetch_station_arrivals(station_ids: &[String]) -> Vec<Arrival> {
+    fetch_arrivals(station_ids).await
 }
 
 #[function_component(App)]
@@ -41,7 +56,7 @@ pub fn app() -> Html {
                 stations.set(grouped);
                 loading.set(false);
 
-                // Use a timeout to ensure the select element is reset to default after rendering
+                // Reset select element after rendering
                 gloo_timers::callback::Timeout::new(0, move || {
                     if let Some(select) = select_ref.cast::<HtmlSelectElement>() {
                         select.set_value("");
@@ -73,19 +88,13 @@ pub fn app() -> Html {
 
         use_effect_with(selected_station.clone(), move |station| {
             if let Some(station) = &**station {
-                if let Some(group) = stations
-                    .iter()
-                    .find(|s| s.all_stations.iter().any(|st| st.id == station.id))
-                {
-                    let station_ids: Vec<String> =
-                        group.all_stations.iter().map(|s| s.id.clone()).collect();
-
+                if let Some(station_ids) = get_station_group_ids(station, &stations) {
                     fetching_data.set(true);
                     spawn_local({
                         let fetching_data = fetching_data.clone();
                         let arrivals = arrivals.clone();
                         async move {
-                            let arrival_data = fetch_arrivals(&station_ids).await;
+                            let arrival_data = fetch_station_arrivals(&station_ids).await;
                             arrivals.set(arrival_data);
                             fetching_data.set(false);
                         }
@@ -106,30 +115,28 @@ pub fn app() -> Html {
         Callback::from(move |e: Event| {
             let input: HtmlSelectElement = e.target_unchecked_into();
             let id = input.value();
+
             if id.is_empty() {
                 selected_station.set(None);
                 return;
             }
 
             if let Some(group) = stations.iter().find(|s| s.id == id) {
-                // Use the first station for display but fetch arrivals for all stations                if let Some(station) = group.all_stations.first() {
                 if let Some(station) = group.all_stations.first() {
                     selected_station.set(Some(station.clone()));
 
-                    // Fetch arrivals for all stations in the group
-                    let station_ids: Vec<String> =
-                        group.all_stations.iter().map(|s| s.id.clone()).collect();
-
-                    fetching_data.set(true);
-                    spawn_local({
-                        let fetching_data = fetching_data.clone();
-                        let arrivals = arrivals.clone();
-                        async move {
-                            let arrival_data = fetch_arrivals(&station_ids).await;
-                            arrivals.set(arrival_data);
-                            fetching_data.set(false);
-                        }
-                    });
+                    if let Some(station_ids) = get_station_group_ids(station, &stations) {
+                        fetching_data.set(true);
+                        spawn_local({
+                            let fetching_data = fetching_data.clone();
+                            let arrivals = arrivals.clone();
+                            async move {
+                                let arrival_data = fetch_station_arrivals(&station_ids).await;
+                                arrivals.set(arrival_data);
+                                fetching_data.set(false);
+                            }
+                        });
+                    }
                 }
             }
         })
@@ -144,19 +151,13 @@ pub fn app() -> Html {
 
         Callback::from(move |_e: MouseEvent| {
             if let Some(station) = &*selected_station {
-                if let Some(group) = stations
-                    .iter()
-                    .find(|s| s.all_stations.iter().any(|st| st.id == station.id))
-                {
-                    let station_ids: Vec<String> =
-                        group.all_stations.iter().map(|s| s.id.clone()).collect();
-
+                if let Some(station_ids) = get_station_group_ids(station, &stations) {
                     fetching_data.set(true);
                     spawn_local({
                         let fetching_data = fetching_data.clone();
                         let arrivals = arrivals.clone();
                         async move {
-                            let arrival_data = fetch_arrivals(&station_ids).await;
+                            let arrival_data = fetch_station_arrivals(&station_ids).await;
                             arrivals.set(arrival_data);
                             fetching_data.set(false);
                         }
@@ -203,16 +204,7 @@ pub fn app() -> Html {
         })
     };
 
-    let format_time = |seconds: i32| -> String {
-        if seconds < 60 {
-            format!("Due")
-        } else {
-            let minutes = seconds / 60;
-            format!("{} min", minutes)
-        }
-    };
-
-    // Add toggle_platform callback here
+    // Platform expansion toggle
     let toggle_platform = {
         let expanded_platforms = expanded_platforms.clone();
 
@@ -226,12 +218,14 @@ pub fn app() -> Html {
         })
     };
 
+    // Station IDs toggle
     let toggle_station_ids = {
         let show_station_ids = show_station_ids.clone();
         Callback::from(move |_| {
             show_station_ids.set(!*show_station_ids);
         })
     };
+
     html! {
         <div class="container mx-auto p-2 sm:p-4">
             <h1 class="text-xl sm:text-2xl font-bold mb-4">{ "TfL Tracker" }</h1>
@@ -413,7 +407,7 @@ pub fn app() -> Html {
                                                                             <div class="text-xs sm:text-sm text-gray-600">{ &arrival_clone.current_location }</div>
                                                                         </div>                                                                        <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
                                                                             <div class="font-medium text-right">
-                                                                                { format_time(arrival_clone.time_to_station) }
+                                                                                { format_arrival_time(arrival_clone.time_to_station) }
                                                                             </div>
                                                                             <button
                                                                                 onclick={on_track}
