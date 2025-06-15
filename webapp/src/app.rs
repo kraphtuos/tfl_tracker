@@ -42,6 +42,29 @@ fn get_line_colors(line_name: &str) -> String {
     format!("{} font-bold py-2 px-3", color)
 }
 
+fn get_line_background_colors(line_name: &str) -> String {
+    let color = match line_name {
+        // Underground lines
+        name if name.contains("Bakerloo") => "bg-orange-50",
+        name if name.contains("Central") => "bg-red-50",
+        name if name.contains("Circle") => "bg-yellow-50",
+        name if name.contains("District") => "bg-green-50",
+        name if name.contains("Hammersmith") => "bg-pink-50",
+        name if name.contains("Jubilee") => "bg-gray-100",
+        name if name.contains("Metropolitan") => "bg-purple-50",
+        name if name.contains("Northern") => "bg-gray-100",
+        name if name.contains("Piccadilly") => "bg-blue-50",
+        name if name.contains("Victoria") => "bg-blue-50",
+        name if name.contains("Waterloo") => "bg-cyan-50",
+        // Other modes
+        name if name.contains("DLR") => "bg-teal-50",
+        name if name.contains("Elizabeth") => "bg-purple-50",
+        name if name.contains("Overground") => "bg-orange-50",
+        _ => "bg-gray-100",
+    };
+    format!("{} font-medium py-2 px-3", color)
+}
+
 #[function_component(App)]
 pub fn app() -> Html {
     let stations = use_state(|| Vec::<GroupedStation>::new());
@@ -53,6 +76,7 @@ pub fn app() -> Html {
     let select_ref = use_node_ref();
     let tracked_trains = use_state(|| Vec::<Arrival>::new());
     let expanded_platforms = use_state(|| HashMap::<String, bool>::new());
+    let show_station_ids = use_state(|| false);
 
     // Initial loading of stations
     {
@@ -248,9 +272,16 @@ pub fn app() -> Html {
         })
     };
 
+    let toggle_station_ids = {
+        let show_station_ids = show_station_ids.clone();
+        Callback::from(move |_| {
+            show_station_ids.set(!*show_station_ids);
+        })
+    };
+
     html! {
-        <div class="container mx-auto p-4">
-            <h1 class="text-2xl font-bold mb-4">{ "TfL Tracker" }</h1>
+        <div class="container mx-auto p-2 sm:p-4">
+            <h1 class="text-xl sm:text-2xl font-bold mb-4">{ "TfL Tracker" }</h1>
 
             if *loading {
                 <div class="flex items-center justify-center p-4">
@@ -258,7 +289,7 @@ pub fn app() -> Html {
                     <p class="ml-2">{ "Loading stations..." }</p>
                 </div>
             } else {
-                <div class="mb-6">
+                <div class="mb-4 sm:mb-6">
                     <label class="block mb-2 font-medium">{ "Select a Station" }</label>
                     <select
                         ref={select_ref.clone()}
@@ -276,20 +307,34 @@ pub fn app() -> Html {
                 </div>
 
                 if let Some(station) = &*selected_station {
-                    <div class="mt-4 p-4 bg-blue-50 rounded">
-                        <div class="flex justify-between items-center mb-4">                            <div>
-                                <h2 class="text-xl font-semibold">{ &station.common_name }</h2>
+                    <div class="mt-4 p-3 sm:p-4 bg-blue-50 rounded">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                            <div>
+                                <h2 class="text-lg sm:text-xl font-semibold">{ &station.common_name }</h2>
                                 <div class="text-gray-600 text-sm">
                                     {
                                         if let Some(group) = stations.iter().find(|s| s.all_stations.iter().any(|st| st.id == station.id)) {
                                             let station_ids = group.all_stations.iter()
                                                 .map(|s| format!("{} ({})", s.id, s.mode_name))
-                                                .collect::<Vec<_>>()
-                                                .join(", ");
+                                                .collect::<Vec<_>>();
                                             html! {
                                                 <>
-                                                    <p>{ "Station IDs: " }</p>
-                                                    <p class="ml-2">{ station_ids }</p>
+                                                    <button
+                                                        onclick={toggle_station_ids.clone()}
+                                                        class="text-blue-600 hover:text-blue-800 text-sm py-1"
+                                                    >                                        { if *show_station_ids {
+                                            "Hide Station IDs".to_string()
+                                        } else {
+                                            format!("Show Station IDs ({})", station_ids.len())
+                                        }}
+                                                    </button>
+                                                    if *show_station_ids {
+                                                        <div class="mt-2 ml-2 text-sm space-y-1">
+                                                            { for station_ids.iter().map(|id| html! {
+                                                                <div>{ id }</div>
+                                                            }) }
+                                                        </div>
+                                                    }
                                                 </>
                                             }
                                         } else {
@@ -302,11 +347,11 @@ pub fn app() -> Html {
                             </div>
                             <button
                                 onclick={refresh_arrivals}
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                class="w-full sm:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                 disabled={*fetching_data}
                             >
                                 if *fetching_data {
-                                    <span class="flex items-center">
+                                    <span class="flex items-center justify-center">
                                         <LoadingSpinner />
                                         <span class="ml-2">{ "Updating..." }</span>
                                     </span>
@@ -318,7 +363,7 @@ pub fn app() -> Html {
 
                         // Track Train section
                         if !tracked_trains.is_empty() {
-                            <div class="mb-6 space-y-4">
+                            <div class="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
                                 <h3 class="text-lg font-semibold">{ "Tracked Trains" }</h3>
                                 { for tracked_trains.iter().enumerate().map(|(idx, train)| {
                                     let on_close = {
@@ -342,12 +387,12 @@ pub fn app() -> Html {
                         }
 
                         if *fetching_data {
-                            <div class="flex items-center justify-center p-6">
+                            <div class="flex items-center justify-center p-4 sm:p-6">
                                 <LoadingSpinner />
                                 <p class="ml-2">{ "Fetching arrival information..." }</p>
                             </div>
                         } else if !arrivals.is_empty() {
-                            <div class="space-y-6">
+                            <div class="space-y-4 sm:space-y-6">
                                 { for grouped_arrivals.iter().map(|(line_name, platforms)| html! {
                                     <div class="border rounded-lg overflow-hidden">
                                         <div class={get_line_colors(&line_name)}>
@@ -368,14 +413,12 @@ pub fn app() -> Html {
                                                     Callback::from(move |_| toggle_platform.emit(platform_id.clone()))
                                                 };
 
-                                                html! {
-                                                    <div class="border-t border-gray-200">
-                                                        <div class="bg-gray-50 py-1 px-3 font-medium flex justify-between items-center">
-                                                            <span>{ format!("Platform {}", platform_name) }</span>
+                                                html! {                                                    <div class="border-t border-gray-200">                                                        <div class={format!("{} flex items-center justify-between", get_line_background_colors(&line_name))}>
+                                                            <span class="text-gray-700">{ platform_name }</span>
                                                             if platform_arrivals.len() > 3 {
                                                                 <button
                                                                     onclick={toggle}
-                                                                    class="text-blue-600 hover:text-blue-800 text-sm"
+                                                                    class="text-blue-600 hover:text-blue-800 text-sm px-2 py-1"
                                                                 >
                                                                     if is_expanded {
                                                                         { "Show less" }
@@ -384,28 +427,37 @@ pub fn app() -> Html {
                                                                     }
                                                                 </button>
                                                             }
-                                                        </div>
-                                                        <div class="divide-y divide-gray-100">
-                                                            { for display_arrivals.iter().map(|arrival| {
+                                                        </div>                                                <div>
+                                                            { for display_arrivals.iter().enumerate().map(|(idx, arrival)| {
                                                                 let arrival_clone = arrival.clone();
                                                                 let on_track = {
                                                                     let track_train = track_train.clone();
                                                                     let arrival = arrival.clone();
 
                                                                     Callback::from(move |_| {
-                                                                        // Clone and emit the arrival for tracking
                                                                         track_train.emit(arrival.clone());
                                                                     })
                                                                 };
 
-                                                                html! {
-                                                                    <div class="flex justify-between items-center py-2 px-3">
+                                                                html! {                                                    <div class={classes!(
+                                                                        "flex",
+                                                                        "flex-col",
+                                                                        "sm:flex-row",
+                                                                        "sm:justify-between",
+                                                                        "items-start",
+                                                                        "sm:items-center",
+                                                                        "py-2",
+                                                                        "px-2",
+                                                                        "sm:px-3",
+                                                                        "gap-2",
+                                                                        "sm:gap-0",
+                                                                        if idx % 2 == 0 { "bg-white" } else { "bg-gray-50" }
+                                                                    )}>
                                                                         <div class="flex-grow">
-                                                                            <div class="font-medium">{ arrival_clone.towards.unwrap_or_else(|| "Unknown".to_string()) }</div>
-                                                                            <div class="text-sm text-gray-600">{ &arrival_clone.current_location }</div>
-                                                                        </div>
-                                                                        <div class="flex items-center">
-                                                                            <div class="font-medium text-right mr-3">
+                                                                            <div class="font-medium text-sm sm:text-base">{ arrival_clone.towards.unwrap_or_else(|| "Unknown".to_string()) }</div>
+                                                                            <div class="text-xs sm:text-sm text-gray-600">{ &arrival_clone.current_location }</div>
+                                                                        </div>                                                                        <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
+                                                                            <div class="font-medium text-right">
                                                                                 { format_time(arrival_clone.time_to_station) }
                                                                             </div>
                                                                             <button
@@ -446,7 +498,7 @@ pub fn app() -> Html {
                                 }) }
                             </div>
                         } else {
-                            <div class="text-center p-6 text-gray-500">
+                            <div class="text-center p-4 sm:p-6 text-gray-500">
                                 { "No arrival information available. Click 'Refresh Arrivals' to load data." }
                             </div>
                         }
