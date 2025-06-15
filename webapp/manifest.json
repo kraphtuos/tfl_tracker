@@ -1,7 +1,7 @@
 {
-    "name": "London Tube Tracker",
-    "short_name": "Tube Tracker",
-    "description": "Track London Underground trains in real-time",
+    "name": "TfL Tracker",
+    "short_name": "TfL Tracker",
+    "description": "Track London Underground, DLR, Elizabeth line and Overground trains in real-time",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",

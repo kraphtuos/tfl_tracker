@@ -1,5 +1,5 @@
 [package]
-name = "tube_tracker_webapp"
+name = "tfl_tracker"
 version = "0.1.0"
 edition = "2024"
 

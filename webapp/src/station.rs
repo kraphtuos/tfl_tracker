@@ -5,19 +5,17 @@ use std::collections::HashMap;
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct StopPoint {
     pub id: String,
-    #[serde(rename = "commonName")]
     pub common_name: String,
-    #[serde(rename = "stopType")]
     pub stop_type: String,
+    pub mode_name: String,
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct Arrival {
     pub id: String,
-    #[serde(rename = "lineName")]
-    pub line_name: String,
     #[serde(rename = "platformName")]
     pub platform_name: String,
+    #[serde(rename = "destinationName")]
     pub towards: String,
     #[serde(rename = "currentLocation")]
     pub current_location: String,
@@ -27,6 +25,10 @@ pub struct Arrival {
     pub vehicle_id: Option<String>,
     #[serde(rename = "lineId")]
     pub line_id: Option<String>,
+    #[serde(rename = "lineName")]
+    pub line_name: String,
+    #[serde(rename = "modeName")]
+    pub mode_name: String,
 }
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
@@ -49,12 +51,16 @@ pub struct VehicleArrival {
 }
 
 pub async fn fetch_tube_stations() -> Vec<StopPoint> {
-    // Load from hardcoded JSON instead of API call
-    let stations_json = include_str!("../stop_points.json");
-    let stations: Vec<StopPoint> =
-        serde_json::from_str(stations_json).expect("Failed to parse stations JSON");
+    // Get stations from the generated JSON file
+    let resp = Request::get("/stop_points.json")
+        .send()
+        .await
+        .expect("Failed to fetch stations")
+        .json::<Vec<StopPoint>>()
+        .await
+        .expect("Failed to parse station data");
 
-    stations
+    resp
 }
 
 pub async fn fetch_arrivals(station_id: &str) -> Vec<Arrival> {
@@ -122,4 +128,48 @@ pub fn group_arrivals_by_line_platform(
             (line_name, platforms_vec)
         })
         .collect()
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct GroupedStation {
+    pub id: String, // First station ID in the group
+    pub common_name: String,
+    pub modes: Vec<String>,
+    pub all_stations: Vec<StopPoint>,
+}
+
+pub fn group_stations_by_name(stations: &[StopPoint]) -> Vec<GroupedStation> {
+    let mut grouped: HashMap<String, Vec<StopPoint>> = HashMap::new();
+
+    // Group stations by common name
+    for station in stations {
+        grouped
+            .entry(station.common_name.clone())
+            .or_default()
+            .push(station.clone());
+    }
+
+    // Convert to GroupedStation structs
+    let mut result: Vec<GroupedStation> = grouped
+        .into_iter()
+        .map(|(name, stations)| {
+            let modes: Vec<String> = stations
+                .iter()
+                .map(|s| s.mode_name.clone())
+                .collect::<std::collections::HashSet<_>>()
+                .into_iter()
+                .collect();
+
+            GroupedStation {
+                id: stations[0].id.clone(),
+                common_name: name,
+                modes,
+                all_stations: stations,
+            }
+        })
+        .collect();
+
+    // Sort by station name
+    result.sort_by(|a, b| a.common_name.cmp(&b.common_name));
+    result
 }

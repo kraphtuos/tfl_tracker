@@ -1,49 +1,89 @@
 use reqwest;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use std::fs;
 use std::path::Path;
 
-#[derive(Deserialize, Serialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 struct StopPoint {
     id: String,
-    #[serde(rename = "commonName")]
     common_name: String,
-    #[serde(rename = "stopType")]
     stop_type: String,
+    mode_name: String,
 }
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Fetch tube stations
-    let response = reqwest::get("https://api.tfl.gov.uk/StopPoint/Mode/tube")
-        .await?
-        .json::<serde_json::Value>()
-        .await?;
+    // Fetch stations for multiple modes
+    let modes = ["tube", "dlr", "elizabeth-line", "overground"];
+    let mut all_stations = Vec::new();
 
-    let all: Vec<StopPoint> = serde_json::from_value(response["stopPoints"].clone())?;
+    for mode in modes {
+        let url = format!("https://api.tfl.gov.uk/StopPoint/Mode/{}", mode);
+        let response = reqwest::get(&url)
+            .await?
+            .json::<serde_json::Value>()
+            .await?;
 
-    // Filter for metro stations only
-    let mut tube_stations: Vec<StopPoint> = all
+        // Convert API response into our simplified format
+        let display_mode = match mode {
+            "tube" => "Underground",
+            "dlr" => "DLR",
+            "elizabeth-line" => "Elizabeth line",
+            "overground" => "Overground",
+            _ => mode,
+        };
+        let stations: Vec<StopPoint> = response["stopPoints"]
+            .as_array()
+            .unwrap_or(&Vec::new())
+            .iter()
+            .map(|point| StopPoint {
+                id: point["id"].as_str().unwrap_or("").to_string(),
+                common_name: point["commonName"].as_str().unwrap_or("").to_string(),
+                stop_type: point["stopType"].as_str().unwrap_or("").to_string(),
+                mode_name: display_mode.to_string(),
+            })
+            .collect();
+
+        all_stations.extend(stations);
+    }
+
+    // Filter for relevant station types and clean names
+    let mut stations: Vec<StopPoint> = all_stations
         .into_iter()
-        .filter(|s| s.stop_type == "NaptanMetroStation")
+        .filter(|s| {
+            matches!(
+                s.stop_type.as_str(),
+                "NaptanMetroStation" | "NaptanRailStation"
+            )
+        })
         .map(|mut s| {
-            if let Some(stripped) = s.common_name.strip_suffix(" Underground Station") {
-                s.common_name = stripped.to_string();
+            // Remove various suffix patterns
+            let suffixes = [
+                " Underground Station",
+                " DLR Station",
+                " Rail Station",
+                " Station",
+            ];
+            for suffix in suffixes {
+                if let Some(stripped) = s.common_name.strip_suffix(suffix) {
+                    s.common_name = stripped.to_string();
+                    break;
+                }
             }
             s
         })
         .collect();
 
     // Sort by name
-    tube_stations.sort_by(|a, b| a.common_name.cmp(&b.common_name));
+    stations.sort_by(|a, b| a.common_name.cmp(&b.common_name));
 
     // Save to file
-    let json = serde_json::to_string_pretty(&tube_stations)?;
-    fs::write(Path::new("../webapp/stop_points.json"), &json)?;
+    let json = serde_json::to_string_pretty(&stations)?;
+    fs::write(Path::new("./webapp/stop_points.json"), &json)?;
 
     println!(
         "Successfully created stop_points.json with {} stations",
-        tube_stations.len()
+        stations.len()
     );
     Ok(())
 }

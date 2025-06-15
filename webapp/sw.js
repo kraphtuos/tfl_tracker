@@ -1,9 +1,9 @@
-// Service worker for London Tube Tracker
-const CACHE_NAME = 'tube-tracker-cache-v1';
+// Service worker for TfL Tracker
+const CACHE_NAME = 'tfl-tracker-cache-v1';
 const URLS_TO_CACHE = [
     '/',
     '/index.html',
-    '/tube-tracker.js',
+    '/tfl-tracker.js',
     '/stop_points.json',
     'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css',
     '/icon.svg',

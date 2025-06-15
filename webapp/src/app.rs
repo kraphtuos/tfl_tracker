@@ -1,5 +1,6 @@
 use crate::station::{
-    Arrival, StopPoint, fetch_arrivals, fetch_tube_stations, group_arrivals_by_line_platform,
+    Arrival, GroupedStation, StopPoint, fetch_arrivals, fetch_tube_stations,
+    group_arrivals_by_line_platform, group_stations_by_name,
 };
 use crate::train_tracker::TrainTracker;
 use wasm_bindgen_futures::spawn_local;
@@ -8,7 +9,7 @@ use yew::prelude::*;
 
 #[function_component(App)]
 pub fn app() -> Html {
-    let stations = use_state(|| Vec::<StopPoint>::new());
+    let stations = use_state(|| Vec::<GroupedStation>::new());
     let selected_station = use_state(|| None::<StopPoint>);
     let loading = use_state(|| true);
     let fetching_data = use_state(|| false);
@@ -26,7 +27,8 @@ pub fn app() -> Html {
         use_effect_with((), move |_| {
             spawn_local(async move {
                 let fetched = fetch_tube_stations().await;
-                stations.set(fetched);
+                let grouped = group_stations_by_name(&fetched);
+                stations.set(grouped);
                 loading.set(false);
 
                 // Use a timeout to ensure the select element is reset to default after rendering
@@ -94,6 +96,7 @@ pub fn app() -> Html {
         })
     };
 
+    // Update station selection handler
     let on_select = {
         let stations = stations.clone();
         let selected_station = selected_station.clone();
@@ -107,11 +110,12 @@ pub fn app() -> Html {
                 return;
             }
 
-            if let Some(station) = stations.iter().find(|s| s.id == id) {
-                // Clear tracked trains when changing stations
-                tracked_trains.set(Vec::new());
-                // Just set the selected station - effect hook will trigger the fetch
-                selected_station.set(Some(station.clone()));
+            if let Some(group) = stations.iter().find(|s| s.id == id) {
+                // Use the first station in the group for initial display
+                if let Some(station) = group.all_stations.first() {
+                    tracked_trains.set(Vec::new());
+                    selected_station.set(Some(station.clone()));
+                }
             }
         })
     };
@@ -164,7 +168,7 @@ pub fn app() -> Html {
 
     html! {
         <div class="container mx-auto p-4">
-            <h1 class="text-2xl font-bold mb-4">{ "London Underground Tracker" }</h1>
+            <h1 class="text-2xl font-bold mb-4">{ "TfL Tracker" }</h1>
 
             if *loading {
                 <div class="flex items-center justify-center p-4">
@@ -173,7 +177,7 @@ pub fn app() -> Html {
                 </div>
             } else {
                 <div class="mb-6">
-                    <label class="block mb-2 font-medium">{ "Select a Tube Station" }</label>
+                    <label class="block mb-2 font-medium">{ "Select a Station" }</label>
                     <select
                         ref={select_ref.clone()}
                         class="w-full p-2 border rounded"
@@ -182,7 +186,9 @@ pub fn app() -> Html {
                     >
                         <option value="">{ "-- Choose a station --" }</option>
                         { for stations.iter().map(|s| html! {
-                            <option value={s.id.clone()}>{ &s.common_name }</option>
+                            <option value={s.id.clone()}>
+                                { &s.common_name }
+                            </option>
                         }) }
                     </select>
                 </div>
