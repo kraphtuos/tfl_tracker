@@ -120,12 +120,11 @@ pub fn group_arrivals_by_line_platform(
         if seen.insert(key) {
             deduped_arrivals.push(arrival);
         }
-    }
-
-    // Now group the deduplicated arrivals
+    } // Now group the deduplicated arrivals
     for arrival in deduped_arrivals {
+        let normalized_line_name = normalize_line_name(&arrival.line_name);
         let line_group = grouped
-            .entry(arrival.line_name.clone())
+            .entry(normalized_line_name)
             .or_insert_with(HashMap::new);
 
         let platform_group = line_group
@@ -238,4 +237,11 @@ pub fn group_stations_by_name(stations: &[StopPoint]) -> Vec<GroupedStation> {
     // Sort by station name
     result.sort_by(|a, b| a.common_name.cmp(&b.common_name));
     result
+}
+
+pub fn normalize_line_name(line_name: &str) -> String {
+    match line_name {
+        "Elizabeth line" => "Elizabeth".to_string(),
+        _ => line_name.to_string(),
+    }
 }

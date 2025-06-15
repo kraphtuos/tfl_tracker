@@ -3,66 +3,16 @@ use crate::station::{
     group_arrivals_by_line_platform, group_stations_by_name,
 };
 use crate::train_tracker::TrainTracker;
+use crate::utils::{get_line_background_colors, get_line_colors, get_mode_colors};
 use std::collections::HashMap;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::HtmlSelectElement;
 use yew::prelude::*;
 
-fn get_mode_colors(mode_name: &str) -> String {
-    let color = match mode_name {
-        "Underground" => "bg-blue-100 text-blue-800",
-        "DLR" => "bg-teal-100 text-teal-800",
-        "Overground" => "bg-orange-100 text-orange-800",
-        "Elizabeth line" => "bg-purple-100 text-purple-800",
-        _ => "bg-gray-100 text-gray-800",
-    };
-    format!("{} p-1 rounded hover:opacity-80", color)
-}
-
-fn get_line_colors(line_name: &str) -> String {
-    let color = match line_name {
-        // Underground lines
-        name if name.contains("Bakerloo") => "bg-orange-700 text-white",
-        name if name.contains("Central") => "bg-red-600 text-white",
-        name if name.contains("Circle") => "bg-yellow-400 text-black",
-        name if name.contains("District") => "bg-green-600 text-white",
-        name if name.contains("Hammersmith") => "bg-pink-400 text-white",
-        name if name.contains("Jubilee") => "bg-gray-500 text-white",
-        name if name.contains("Metropolitan") => "bg-purple-700 text-white",
-        name if name.contains("Northern") => "bg-black text-white",
-        name if name.contains("Piccadilly") => "bg-blue-800 text-white",
-        name if name.contains("Victoria") => "bg-blue-400 text-white",
-        name if name.contains("Waterloo") => "bg-cyan-500 text-white",
-        // Other modes
-        name if name.contains("DLR") => "bg-teal-500 text-white",
-        name if name.contains("Elizabeth") => "bg-purple-500 text-white",
-        name if name.contains("Overground") => "bg-orange-500 text-white",
-        _ => "bg-gray-700 text-white",
-    };
-    format!("{} font-bold py-2 px-3", color)
-}
-
-fn get_line_background_colors(line_name: &str) -> String {
-    let color = match line_name {
-        // Underground lines
-        name if name.contains("Bakerloo") => "bg-orange-50",
-        name if name.contains("Central") => "bg-red-50",
-        name if name.contains("Circle") => "bg-yellow-50",
-        name if name.contains("District") => "bg-green-50",
-        name if name.contains("Hammersmith") => "bg-pink-50",
-        name if name.contains("Jubilee") => "bg-gray-100",
-        name if name.contains("Metropolitan") => "bg-purple-50",
-        name if name.contains("Northern") => "bg-gray-100",
-        name if name.contains("Piccadilly") => "bg-blue-50",
-        name if name.contains("Victoria") => "bg-blue-50",
-        name if name.contains("Waterloo") => "bg-cyan-50",
-        // Other modes
-        name if name.contains("DLR") => "bg-teal-50",
-        name if name.contains("Elizabeth") => "bg-purple-50",
-        name if name.contains("Overground") => "bg-orange-50",
-        _ => "bg-gray-100",
-    };
-    format!("{} font-medium py-2 px-3", color)
+#[derive(Clone, PartialEq)]
+struct TrackedTrain {
+    train: Arrival,
+    station: StopPoint,
 }
 
 #[function_component(App)]
@@ -74,7 +24,7 @@ pub fn app() -> Html {
     let arrivals = use_state(|| Vec::<Arrival>::new());
     let grouped_arrivals = use_state(|| Vec::new());
     let select_ref = use_node_ref();
-    let tracked_trains = use_state(|| Vec::<Arrival>::new());
+    let tracked_trains = use_state(|| Vec::<TrackedTrain>::new());
     let expanded_platforms = use_state(|| HashMap::<String, bool>::new());
     let show_station_ids = use_state(|| false);
 
@@ -150,7 +100,6 @@ pub fn app() -> Html {
     let on_select = {
         let stations = stations.clone();
         let selected_station = selected_station.clone();
-        let tracked_trains = tracked_trains.clone();
         let fetching_data = fetching_data.clone();
         let arrivals = arrivals.clone();
 
@@ -163,9 +112,8 @@ pub fn app() -> Html {
             }
 
             if let Some(group) = stations.iter().find(|s| s.id == id) {
-                // Use the first station for display but fetch arrivals for all stations
+                // Use the first station for display but fetch arrivals for all stations                if let Some(station) = group.all_stations.first() {
                 if let Some(station) = group.all_stations.first() {
-                    tracked_trains.set(Vec::new());
                     selected_station.set(Some(station.clone()));
 
                     // Fetch arrivals for all stations in the group
@@ -221,16 +169,22 @@ pub fn app() -> Html {
     // Track a train
     let track_train = {
         let tracked_trains = tracked_trains.clone();
+        let selected_station = selected_station.clone();
 
         Callback::from(move |arrival: Arrival| {
-            tracked_trains.set({
-                let mut updated = (*tracked_trains).clone();
-                // Check if train is already being tracked
-                if !updated.iter().any(|t| t.id == arrival.id) {
-                    updated.push(arrival);
-                }
-                updated
-            });
+            if let Some(station) = &*selected_station {
+                tracked_trains.set({
+                    let mut updated = (*tracked_trains).clone();
+                    // Check if train is already being tracked
+                    if !updated.iter().any(|t| t.train.id == arrival.id) {
+                        updated.push(TrackedTrain {
+                            train: arrival,
+                            station: station.clone(),
+                        });
+                    }
+                    updated
+                });
+            }
         })
     };
 
@@ -278,10 +232,35 @@ pub fn app() -> Html {
             show_station_ids.set(!*show_station_ids);
         })
     };
-
     html! {
         <div class="container mx-auto p-2 sm:p-4">
             <h1 class="text-xl sm:text-2xl font-bold mb-4">{ "TfL Tracker" }</h1>
+
+            if !tracked_trains.is_empty() {
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold mb-4">{ "Tracked Trains" }</h2>
+                    <div class="space-y-3 sm:space-y-4">
+                        { for tracked_trains.iter().enumerate().map(|(idx, tracked)| {
+                            let on_close = {
+                                let idx = idx;
+                                let remove_tracked_train = remove_tracked_train.clone();
+                                Callback::from(move |_| {
+                                    remove_tracked_train.emit(idx);
+                                })
+                            };
+
+                            html! {
+                                <TrainTracker
+                                    key={tracked.train.id.clone()}
+                                    train={tracked.train.clone()}
+                                    station={tracked.station.clone()}
+                                    on_close={on_close}
+                                />
+                            }
+                        }) }
+                    </div>
+                </div>
+            }
 
             if *loading {
                 <div class="flex items-center justify-center p-4">
@@ -322,11 +301,12 @@ pub fn app() -> Html {
                                                     <button
                                                         onclick={toggle_station_ids.clone()}
                                                         class="text-blue-600 hover:text-blue-800 text-sm py-1"
-                                                    >                                        { if *show_station_ids {
-                                            "Hide Station IDs".to_string()
-                                        } else {
-                                            format!("Show Station IDs ({})", station_ids.len())
-                                        }}
+                                                    >
+                                                        { if *show_station_ids {
+                                                            "Hide Station IDs".to_string()
+                                                        } else {
+                                                            format!("Show Station IDs ({})", station_ids.len())
+                                                        }}
                                                     </button>
                                                     if *show_station_ids {
                                                         <div class="mt-2 ml-2 text-sm space-y-1">
@@ -360,31 +340,6 @@ pub fn app() -> Html {
                                 }
                             </button>
                         </div>
-
-                        // Track Train section
-                        if !tracked_trains.is_empty() {
-                            <div class="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
-                                <h3 class="text-lg font-semibold">{ "Tracked Trains" }</h3>
-                                { for tracked_trains.iter().enumerate().map(|(idx, train)| {
-                                    let on_close = {
-                                        let idx = idx;
-                                        let remove_tracked_train = remove_tracked_train.clone();
-                                        Callback::from(move |_| {
-                                            remove_tracked_train.emit(idx);
-                                        })
-                                    };
-
-                                    html! {
-                                        <TrainTracker
-                                            key={train.id.clone()}
-                                            train={train.clone()}
-                                            station={station.clone()}
-                                            on_close={on_close}
-                                        />
-                                    }
-                                }) }
-                            </div>
-                        }
 
                         if *fetching_data {
                             <div class="flex items-center justify-center p-4 sm:p-6">
@@ -462,9 +417,9 @@ pub fn app() -> Html {
                                                                             </div>
                                                                             <button
                                                                                 onclick={on_track}
-                                                                                disabled={tracked_trains.iter().any(|t| t.id == arrival_clone.id)}
+                                                                                disabled={tracked_trains.iter().any(|t| t.train.id == arrival_clone.id)}
                                                                                 class={
-                                                                                    if tracked_trains.iter().any(|t| t.id == arrival_clone.id) {
+                                                                                    if tracked_trains.iter().any(|t| t.train.id == arrival_clone.id) {
                                                                                         "bg-gray-300 text-gray-600 p-1 rounded cursor-not-allowed".to_string()
                                                                                     } else if arrival_clone.vehicle_id.is_some() {
                                                                                         get_mode_colors(&arrival_clone.mode_name)

@@ -9,7 +9,7 @@
     "id": "910GABWDXR",
     "common_name": "Abbey Wood",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GACTNCTL",
@@ -21,7 +21,7 @@
     "id": "910GACTONML",
     "common_name": "Acton Main Line",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUACT",
@@ -237,7 +237,7 @@
     "id": "910GBONDST",
     "common_name": "Bond Street",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUBOR",
@@ -279,7 +279,7 @@
     "id": "910GBRTWOOD",
     "common_name": "Brentwood",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUBXN",
@@ -327,7 +327,7 @@
     "id": "910GBNHAM",
     "common_name": "Burnham (Berks)",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUBTK",
@@ -411,7 +411,7 @@
     "id": "910GCANWHRF",
     "common_name": "Canary Wharf",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUCGT",
@@ -453,7 +453,7 @@
     "id": "910GCHDWLHT",
     "common_name": "Chadwell Heath",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUCAL",
@@ -609,7 +609,7 @@
     "id": "910GCSTMHSXR",
     "common_name": "Custom House",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZDLCUS",
@@ -693,7 +693,7 @@
     "id": "910GEALINGB",
     "common_name": "Ealing Broadway",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUECM",
@@ -837,7 +837,7 @@
     "id": "910GFRNDXR",
     "common_name": "Farringdon",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUFYC",
@@ -867,7 +867,7 @@
     "id": "910GFRSTGT",
     "common_name": "Forest Gate",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GFORESTH",
@@ -897,7 +897,7 @@
     "id": "910GGIDEAPK",
     "common_name": "Gidea Park",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUGTR",
@@ -927,7 +927,7 @@
     "id": "910GGODMAYS",
     "common_name": "Goodmayes",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GGOSPLOK",
@@ -1041,7 +1041,7 @@
     "id": "910GHANWELL",
     "common_name": "Hanwell",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUHSN",
@@ -1059,7 +1059,7 @@
     "id": "910GHRLDWOD",
     "common_name": "Harold Wood",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GHRGYGL",
@@ -1101,7 +1101,7 @@
     "id": "910GHAYESAH",
     "common_name": "Hayes & Harlington",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GHEDSTNL",
@@ -1119,7 +1119,7 @@
     "id": "910GHTRWTM4",
     "common_name": "Heathrow Terminal 4",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUHR5",
@@ -1131,7 +1131,7 @@
     "id": "910GHTRWTM5",
     "common_name": "Heathrow Terminal 5",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUHRC",
@@ -1143,7 +1143,7 @@
     "id": "910GHTRWAPT",
     "common_name": "Heathrow Terminals 2 & 3",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUHCL",
@@ -1275,7 +1275,7 @@
     "id": "910GILFORD",
     "common_name": "Ilford",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GCSEAH",
@@ -1293,7 +1293,7 @@
     "id": "910GIVER",
     "common_name": "Iver",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUKNG",
@@ -1437,7 +1437,7 @@
     "id": "910GLANGLEY",
     "common_name": "Langley (Berks)",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLULRD",
@@ -1497,7 +1497,7 @@
     "id": "910GLIVSTLL",
     "common_name": "Liverpool Street",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLULNB",
@@ -1527,7 +1527,7 @@
     "id": "910GLIVST",
     "common_name": "London Liverpool Street",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GLIVST",
@@ -1539,7 +1539,7 @@
     "id": "910GPADTON",
     "common_name": "London Paddington",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLULGN",
@@ -1557,7 +1557,7 @@
     "id": "910GMDNHEAD",
     "common_name": "Maidenhead",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUMRH",
@@ -1569,7 +1569,7 @@
     "id": "910GMANRPK",
     "common_name": "Manor Park",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUMSH",
@@ -1587,7 +1587,7 @@
     "id": "910GMRYLAND",
     "common_name": "Maryland",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUMYB",
@@ -1791,7 +1791,7 @@
     "id": "910GPADTLL",
     "common_name": "Paddington",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUPAH",
@@ -1935,7 +1935,7 @@
     "id": "910GRDNGSTN",
     "common_name": "Reading",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GRCTRYRD",
@@ -1983,7 +1983,7 @@
     "id": "910GROMFORD",
     "common_name": "Romford",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GROMFORD",
@@ -2043,7 +2043,7 @@
     "id": "910GSVNKNGS",
     "common_name": "Seven Kings",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUSVS",
@@ -2073,7 +2073,7 @@
     "id": "910GSHENFLD",
     "common_name": "Shenfield",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUSBC",
@@ -2115,7 +2115,7 @@
     "id": "910GSLOUGH",
     "common_name": "Slough",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUSNB",
@@ -2199,7 +2199,7 @@
     "id": "910GSTHALL",
     "common_name": "Southall",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GSBURY",
@@ -2319,7 +2319,7 @@
     "id": "910GSTFD",
     "common_name": "Stratford (London)",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GSTFD",
@@ -2373,7 +2373,7 @@
     "id": "910GTAPLOW",
     "common_name": "Taplow",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUTMP",
@@ -2415,7 +2415,7 @@
     "id": "910GTOTCTRD",
     "common_name": "Tottenham Court Road",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUTMH",
@@ -2469,7 +2469,7 @@
     "id": "910GTWYFORD",
     "common_name": "Twyford",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUUPM",
@@ -2655,13 +2655,13 @@
     "id": "910GWDRYTON",
     "common_name": "West Drayton",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GWEALING",
     "common_name": "West Ealing",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUWFN",
@@ -2763,7 +2763,7 @@
     "id": "910GWCHAPXR",
     "common_name": "Whitechapel",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "910GWCHAPEL",
@@ -2841,7 +2841,7 @@
     "id": "910GWOLWXR",
     "common_name": "Woolwich",
     "stop_type": "NaptanRailStation",
-    "mode_name": "Elizabeth line"
+    "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZDLWLA",

@@ -1,4 +1,7 @@
-use crate::station::{Arrival, StopPoint, VehicleArrival, fetch_arrivals, fetch_vehicle_arrivals};
+use crate::station::{
+    Arrival, StopPoint, VehicleArrival, fetch_arrivals, fetch_vehicle_arrivals, normalize_line_name,
+};
+use crate::utils::get_line_theme_colors;
 use gloo_timers::callback::Interval;
 use std::rc::Rc;
 use wasm_bindgen_futures::spawn_local;
@@ -206,11 +209,12 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
         let update_train_status = update_train_status.clone();
         Callback::from(move |_e: web_sys::MouseEvent| update_train_status.emit(()))
     };
+    let (bg_color, border_color) = get_line_theme_colors(&train.line_name);
 
     html! {
-        <div class="border rounded-lg shadow-md p-4 mt-4 bg-white">
+        <div class={classes!("rounded-lg", "shadow-md", "p-4", "mt-4", "border-2", border_color, bg_color)}>
             <div class="flex justify-between items-center mb-3">
-                <h3 class="text-lg font-bold">{ format!("Train Tracker: {} Line", train.line_name) }</h3>
+                <h3 class="text-lg font-bold">{ format!("Train Tracker: {} Line", normalize_line_name(&train.line_name)) }</h3>
                 <button
                     onclick={on_close}
                     class="bg-gray-200 hover:bg-gray-300 rounded-full p-1"

@@ -28,7 +28,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let display_mode = match mode {
             "tube" => "Underground",
             "dlr" => "DLR",
-            "elizabeth-line" => "Elizabeth line",
+            "elizabeth-line" => "Elizabeth",
             "overground" => "Overground",
             _ => mode,
         };
