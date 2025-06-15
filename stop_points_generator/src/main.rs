@@ -56,22 +56,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 "NaptanMetroStation" | "NaptanRailStation"
             )
         })
-        .map(|mut s| {
-            // Remove various suffix patterns
-            let suffixes = [
-                " Underground Station",
-                " DLR Station",
-                " Rail Station",
-                " Station",
-            ];
-            for suffix in suffixes {
-                if let Some(stripped) = s.common_name.strip_suffix(suffix) {
-                    s.common_name = stripped.to_string();
-                    break;
-                }
-            }
-            s
-        })
         .collect();
 
     // Sort by name

@@ -69,13 +69,20 @@ pub async fn fetch_arrivals(station_ids: &[String]) -> Vec<Arrival> {
     for station_id in station_ids {
         let url = format!("https://api.tfl.gov.uk/StopPoint/{}/Arrivals", station_id);
 
-        let resp = Request::get(&url)
+        let mut resp = Request::get(&url)
             .send()
             .await
             .expect("Failed to fetch arrivals")
             .json::<Vec<Arrival>>()
             .await
             .expect("Failed to parse arrival data");
+
+        // Normalize destination names
+        for arrival in &mut resp {
+            if let Some(dest) = &arrival.destination_name {
+                arrival.destination_name = Some(normalize_station_name(dest));
+            }
+        }
 
         all_arrivals.extend(resp);
     }
@@ -164,41 +171,44 @@ pub struct GroupedStation {
 }
 
 fn normalize_station_name(name: &str) -> String {
-    // Remove "(London)" and "(Berks)" suffix
-    let name = name
-        .replace("(London)", "")
-        .replace("(Berks)", "")
-        .trim()
-        .to_string();
+    // Remove various suffix patterns
+    let suffixes = [
+        " Underground Station",
+        " DLR Station",
+        " Rail Station",
+        " Station",
+        " (London)",
+        " (Berks)",
+        " (H&C Line)-Underground",
+        " (for ExCel)",
+        " (for Maritime Greenwich)",
+    ];
+
+    let mut normalized = name.to_string();
+    for suffix in suffixes {
+        if let Some(stripped) = normalized.strip_suffix(suffix) {
+            normalized = stripped.to_string();
+            break;
+        }
+    }
 
     // Remove "London " prefix
-    let name = if name.starts_with("London ") {
-        name.strip_prefix("London ").unwrap_or(&name).to_string()
-    } else {
-        name
-    };
+    normalized = normalized
+        .strip_prefix("London ")
+        .unwrap_or(&normalized)
+        .to_string();
 
     // Special cases mapping
-    match name.as_str() {
-        // Major rail stations
-        "Liverpool Street" | "London Liverpool Street" => "Liverpool Street".to_string(),
-        "Paddington" | "Paddington (H&C Line)-Underground" | "London Paddington" => {
-            "Paddington".to_string()
-        }
-        "Euston" | "London Euston" => "Euston".to_string(),
-
-        // Elizabeth line stations
-        "Custom House" | "Custom House (for ExCel)" => "Custom House".to_string(),
-
+    match normalized.as_str() {
         // Multiple line stations
         "Hammersmith (Dist&Picc Line)" | "Hammersmith (H&C Line)" => "Hammersmith".to_string(),
         "Edgware Road (Bakerloo)" | "Edgware Road (Circle Line)" => "Edgware Road".to_string(),
         "Shepherds Bush" | "Shepherd's Bush (Central)" => "Shepherd's Bush".to_string(),
 
         // Stations with variant spellings
-        "Queens Park (London)" | "Queen's Park" => "Queen's Park".to_string(),
+        "Queens Park" | "Queen's Park" => "Queen's Park".to_string(),
 
-        _ => name,
+        _ => normalized,
     }
 }
 

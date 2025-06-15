@@ -1,7 +1,7 @@
 [
   {
     "id": "940GZZDLABR",
-    "common_name": "Abbey Road",
+    "common_name": "Abbey Road DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
@@ -13,121 +13,115 @@
   },
   {
     "id": "910GACTNCTL",
-    "common_name": "Acton Central",
+    "common_name": "Acton Central Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GACTONML",
-    "common_name": "Acton Main Line",
+    "common_name": "Acton Main Line Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUACT",
-    "common_name": "Acton Town",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUALD",
-    "common_name": "Aldgate",
+    "common_name": "Acton Town Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUADE",
-    "common_name": "Aldgate East",
+    "common_name": "Aldgate East Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
+    "id": "940GZZLUALD",
+    "common_name": "Aldgate Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLALL",
-    "common_name": "All Saints",
+    "common_name": "All Saints DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUALP",
-    "common_name": "Alperton",
+    "common_name": "Alperton Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUAMS",
-    "common_name": "Amersham",
+    "common_name": "Amersham Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GANERLEY",
-    "common_name": "Anerley",
+    "common_name": "Anerley Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUAGL",
-    "common_name": "Angel",
+    "common_name": "Angel Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUACY",
-    "common_name": "Archway",
+    "common_name": "Archway Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUASG",
-    "common_name": "Arnos Grove",
+    "common_name": "Arnos Grove Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUASL",
-    "common_name": "Arsenal",
+    "common_name": "Arsenal Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUBST",
-    "common_name": "Baker Street",
+    "common_name": "Baker Street Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUBLM",
-    "common_name": "Balham",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUBNK",
-    "common_name": "Bank",
+    "common_name": "Balham Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLBNK",
-    "common_name": "Bank",
+    "common_name": "Bank DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
-    "id": "940GZZLUBBN",
-    "common_name": "Barbican",
+    "id": "940GZZLUBNK",
+    "common_name": "Bank Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "940GZZLUBKG",
-    "common_name": "Barking",
+    "id": "940GZZLUBBN",
+    "common_name": "Barbican Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GBARKING",
-    "common_name": "Barking",
+    "common_name": "Barking Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
@@ -138,100 +132,100 @@
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUBKG",
+    "common_name": "Barking Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUBKE",
-    "common_name": "Barkingside",
+    "common_name": "Barkingside Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUBSC",
-    "common_name": "Barons Court",
+    "common_name": "Barons Court Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZBPSUST",
-    "common_name": "Battersea Power Station",
+    "common_name": "Battersea Power Station Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUBWT",
-    "common_name": "Bayswater",
+    "common_name": "Bayswater Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLBEC",
-    "common_name": "Beckton",
+    "common_name": "Beckton DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZDLBPK",
-    "common_name": "Beckton Park",
+    "common_name": "Beckton Park DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUBEC",
-    "common_name": "Becontree",
+    "common_name": "Becontree Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUBZP",
-    "common_name": "Belsize Park",
+    "common_name": "Belsize Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUBMY",
-    "common_name": "Bermondsey",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUBLG",
-    "common_name": "Bethnal Green",
+    "common_name": "Bermondsey Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GBTHNLGR",
-    "common_name": "Bethnal Green",
+    "common_name": "Bethnal Green Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZLUBKF",
-    "common_name": "Blackfriars",
+    "id": "940GZZLUBLG",
+    "common_name": "Bethnal Green Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "940GZZLUBLR",
-    "common_name": "Blackhorse Road",
+    "id": "940GZZLUBKF",
+    "common_name": "Blackfriars Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GBLCHSRD",
-    "common_name": "Blackhorse Road",
+    "common_name": "Blackhorse Road Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZDLBLA",
-    "common_name": "Blackwall",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "DLR"
-  },
-  {
-    "id": "940GZZLUBND",
-    "common_name": "Bond Street",
+    "id": "940GZZLUBLR",
+    "common_name": "Blackhorse Road Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
+  },
+  {
+    "id": "940GZZDLBLA",
+    "common_name": "Blackwall DLR Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "DLR"
   },
   {
     "id": "910GBONDST",
@@ -240,172 +234,166 @@
     "mode_name": "Elizabeth"
   },
   {
+    "id": "940GZZLUBND",
+    "common_name": "Bond Street Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUBOR",
-    "common_name": "Borough",
+    "common_name": "Borough Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUBOS",
-    "common_name": "Boston Manor",
+    "common_name": "Boston Manor Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUBDS",
-    "common_name": "Bounds Green",
+    "common_name": "Bounds Green Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLBOW",
-    "common_name": "Bow Church",
+    "common_name": "Bow Church DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUBWR",
-    "common_name": "Bow Road",
+    "common_name": "Bow Road Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUBTX",
-    "common_name": "Brent Cross",
+    "common_name": "Brent Cross Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GBRTWOOD",
-    "common_name": "Brentwood",
+    "common_name": "Brentwood Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUBXN",
-    "common_name": "Brixton",
+    "common_name": "Brixton Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GBROCKLY",
-    "common_name": "Brockley",
+    "common_name": "Brockley Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUBBB",
-    "common_name": "Bromley-by-Bow",
+    "common_name": "Bromley-by-Bow Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "910GBRBY",
-    "common_name": "Brondesbury",
+    "id": "910GBRBYPK",
+    "common_name": "Brondesbury Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "910GBRBYPK",
-    "common_name": "Brondesbury Park",
+    "id": "910GBRBY",
+    "common_name": "Brondesbury Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GBRUCGRV",
-    "common_name": "Bruce Grove",
+    "common_name": "Bruce Grove Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUBKH",
-    "common_name": "Buckhurst Hill",
+    "common_name": "Buckhurst Hill Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GBNHAM",
-    "common_name": "Burnham (Berks)",
+    "common_name": "Burnham (Berks) Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUBTK",
-    "common_name": "Burnt Oak",
+    "common_name": "Burnt Oak Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GBHILLPK",
-    "common_name": "Bush Hill Park",
+    "common_name": "Bush Hill Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GBUSHEY",
-    "common_name": "Bushey",
+    "common_name": "Bushey Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GBUSHYDC",
-    "common_name": "Bushey",
+    "common_name": "Bushey Rail Station",
+    "stop_type": "NaptanRailStation",
+    "mode_name": "Overground"
+  },
+  {
+    "id": "910GCLDNNRB",
+    "common_name": "Caledonian Road & Barnsbury Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUCAR",
-    "common_name": "Caledonian Road",
+    "common_name": "Caledonian Road Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "910GCLDNNRB",
-    "common_name": "Caledonian Road & Barnsbury",
-    "stop_type": "NaptanRailStation",
-    "mode_name": "Overground"
-  },
-  {
     "id": "910GCAMHTH",
-    "common_name": "Cambridge Heath (London)",
+    "common_name": "Cambridge Heath (London) Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GCMDNRD",
-    "common_name": "Camden Road",
+    "common_name": "Camden Road Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUCTN",
-    "common_name": "Camden Town",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUCWR",
-    "common_name": "Canada Water",
+    "common_name": "Camden Town Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GCNDAW",
-    "common_name": "Canada Water",
+    "common_name": "Canada Water Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZLUCYF",
-    "common_name": "Canary Wharf",
+    "id": "940GZZLUCWR",
+    "common_name": "Canada Water Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZDLCAN",
-    "common_name": "Canary Wharf",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "DLR"
   },
   {
     "id": "910GCANWHRF",
@@ -414,194 +402,206 @@
     "mode_name": "Elizabeth"
   },
   {
-    "id": "940GZZLUCGT",
-    "common_name": "Canning Town",
+    "id": "940GZZDLCAN",
+    "common_name": "Canary Wharf DLR Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "DLR"
+  },
+  {
+    "id": "940GZZLUCYF",
+    "common_name": "Canary Wharf Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLCGT",
-    "common_name": "Canning Town",
+    "common_name": "Canning Town DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
+    "id": "940GZZLUCGT",
+    "common_name": "Canning Town Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUCST",
-    "common_name": "Cannon Street",
+    "common_name": "Cannon Street Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GCNNB",
-    "common_name": "Canonbury",
+    "common_name": "Canonbury Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUCPK",
-    "common_name": "Canons Park",
+    "common_name": "Canons Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GCRPNDPK",
-    "common_name": "Carpenders Park",
+    "common_name": "Carpenders Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GCHDWLHT",
-    "common_name": "Chadwell Heath",
+    "common_name": "Chadwell Heath Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUCAL",
-    "common_name": "Chalfont & Latimer",
+    "common_name": "Chalfont & Latimer Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCFM",
-    "common_name": "Chalk Farm",
+    "common_name": "Chalk Farm Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCHL",
-    "common_name": "Chancery Lane",
+    "common_name": "Chancery Lane Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCHX",
-    "common_name": "Charing Cross",
+    "common_name": "Charing Cross Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCSM",
-    "common_name": "Chesham",
+    "common_name": "Chesham Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GCHESHNT",
-    "common_name": "Cheshunt",
+    "common_name": "Cheshunt Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUCWL",
-    "common_name": "Chigwell",
+    "common_name": "Chigwell Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GCHINGFD",
-    "common_name": "Chingford",
+    "common_name": "Chingford Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUCWP",
-    "common_name": "Chiswick Park",
+    "common_name": "Chiswick Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCYD",
-    "common_name": "Chorleywood",
+    "common_name": "Chorleywood Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCPC",
-    "common_name": "Clapham Common",
+    "common_name": "Clapham Common Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GCLPHHS",
-    "common_name": "Clapham High Street",
+    "common_name": "Clapham High Street Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GCLPHMJ1",
-    "common_name": "Clapham Junction",
+    "common_name": "Clapham Junction Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GCLPHMJC",
-    "common_name": "Clapham Junction",
+    "common_name": "Clapham Junction Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUCPN",
-    "common_name": "Clapham North",
+    "common_name": "Clapham North Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCPS",
-    "common_name": "Clapham South",
+    "common_name": "Clapham South Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GCLAPTON",
-    "common_name": "Clapton",
+    "common_name": "Clapton Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUCKS",
-    "common_name": "Cockfosters",
+    "common_name": "Cockfosters Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCND",
-    "common_name": "Colindale",
+    "common_name": "Colindale Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCSD",
-    "common_name": "Colliers Wood",
+    "common_name": "Colliers Wood Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUCGN",
-    "common_name": "Covent Garden",
+    "common_name": "Covent Garden Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLCLA",
-    "common_name": "Crossharbour",
+    "common_name": "Crossharbour DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "910GCROUCHH",
-    "common_name": "Crouch Hill",
+    "common_name": "Crouch Hill Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUCXY",
-    "common_name": "Croxley",
+    "common_name": "Croxley Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GCRYSTLP",
-    "common_name": "Crystal Palace",
+    "common_name": "Crystal Palace Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
@@ -613,223 +613,217 @@
   },
   {
     "id": "940GZZDLCUS",
-    "common_name": "Custom House (for ExCel)",
+    "common_name": "Custom House (for ExCel) DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZDLCUT",
-    "common_name": "Cutty Sark (for Maritime Greenwich)",
+    "common_name": "Cutty Sark (for Maritime Greenwich) DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZDLCYP",
-    "common_name": "Cyprus",
+    "common_name": "Cyprus DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUDGE",
-    "common_name": "Dagenham East",
+    "common_name": "Dagenham East Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUDGY",
-    "common_name": "Dagenham Heathway",
+    "common_name": "Dagenham Heathway Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GDALS",
-    "common_name": "Dalston Junction",
+    "common_name": "Dalston Junction Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GDALSKLD",
-    "common_name": "Dalston Kingsland",
+    "common_name": "Dalston Kingsland Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUDBN",
-    "common_name": "Debden",
+    "common_name": "Debden Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GDENMRKH",
-    "common_name": "Denmark Hill",
+    "common_name": "Denmark Hill Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZDLDEP",
-    "common_name": "Deptford Bridge",
+    "common_name": "Deptford Bridge DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZDLDEV",
-    "common_name": "Devons Road",
+    "common_name": "Devons Road DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUDOH",
-    "common_name": "Dollis Hill",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUEBY",
-    "common_name": "Ealing Broadway",
+    "common_name": "Dollis Hill Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GEALINGB",
-    "common_name": "Ealing Broadway",
+    "common_name": "Ealing Broadway Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
+    "id": "940GZZLUEBY",
+    "common_name": "Ealing Broadway Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUECM",
-    "common_name": "Ealing Common",
+    "common_name": "Ealing Common Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUECT",
-    "common_name": "Earl's Court",
+    "common_name": "Earl's Court Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUEAN",
-    "common_name": "East Acton",
+    "common_name": "East Acton Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUEFY",
-    "common_name": "East Finchley",
+    "common_name": "East Finchley Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUEHM",
-    "common_name": "East Ham",
+    "common_name": "East Ham Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLEIN",
-    "common_name": "East India",
+    "common_name": "East India DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUEPY",
-    "common_name": "East Putney",
+    "common_name": "East Putney Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUEAE",
-    "common_name": "Eastcote",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUEGW",
-    "common_name": "Edgware",
+    "common_name": "Eastcote Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUERB",
-    "common_name": "Edgware Road (Bakerloo)",
+    "common_name": "Edgware Road (Bakerloo) Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUERC",
-    "common_name": "Edgware Road (Circle Line)",
+    "common_name": "Edgware Road (Circle Line) Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
+    "id": "940GZZLUEGW",
+    "common_name": "Edgware Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GEDMNGRN",
-    "common_name": "Edmonton Green",
+    "common_name": "Edmonton Green Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUEAC",
-    "common_name": "Elephant & Castle",
+    "common_name": "Elephant & Castle Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUEPK",
-    "common_name": "Elm Park",
+    "common_name": "Elm Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLELV",
-    "common_name": "Elverson Road",
+    "common_name": "Elverson Road DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUEMB",
-    "common_name": "Embankment",
+    "common_name": "Embankment Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GEMRSPKH",
-    "common_name": "Emerson Park",
+    "common_name": "Emerson Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GENFLDTN",
-    "common_name": "Enfield Town",
+    "common_name": "Enfield Town Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUEPG",
-    "common_name": "Epping",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUEUS",
-    "common_name": "Euston",
+    "common_name": "Epping Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUESQ",
-    "common_name": "Euston Square",
+    "common_name": "Euston Square Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
+    "id": "940GZZLUEUS",
+    "common_name": "Euston Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUFLP",
-    "common_name": "Fairlop",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUFCN",
-    "common_name": "Farringdon",
+    "common_name": "Fairlop Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
@@ -840,658 +834,658 @@
     "mode_name": "Elizabeth"
   },
   {
-    "id": "940GZZLUFYC",
-    "common_name": "Finchley Central",
+    "id": "940GZZLUFCN",
+    "common_name": "Farringdon Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "940GZZLUFYR",
-    "common_name": "Finchley Road",
+    "id": "940GZZLUFYC",
+    "common_name": "Finchley Central Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GFNCHLYR",
-    "common_name": "Finchley Road & Frognal",
+    "common_name": "Finchley Road & Frognal Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUFYR",
+    "common_name": "Finchley Road Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUFPK",
-    "common_name": "Finsbury Park",
+    "common_name": "Finsbury Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GFRSTGT",
-    "common_name": "Forest Gate",
+    "common_name": "Forest Gate Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GFORESTH",
-    "common_name": "Forest Hill",
+    "common_name": "Forest Hill Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUFBY",
-    "common_name": "Fulham Broadway",
+    "common_name": "Fulham Broadway Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLGAL",
-    "common_name": "Gallions Reach",
+    "common_name": "Gallions Reach DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUGTH",
-    "common_name": "Gants Hill",
+    "common_name": "Gants Hill Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GGIDEAPK",
-    "common_name": "Gidea Park",
+    "common_name": "Gidea Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUGTR",
-    "common_name": "Gloucester Road",
+    "common_name": "Gloucester Road Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUGGN",
-    "common_name": "Golders Green",
+    "common_name": "Golders Green Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUGHK",
-    "common_name": "Goldhawk Road",
+    "common_name": "Goldhawk Road Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUGDG",
-    "common_name": "Goodge Street",
+    "common_name": "Goodge Street Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GGODMAYS",
-    "common_name": "Goodmayes",
+    "common_name": "Goodmayes Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GGOSPLOK",
-    "common_name": "Gospel Oak",
+    "common_name": "Gospel Oak Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUGGH",
-    "common_name": "Grange Hill",
+    "common_name": "Grange Hill Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUGPS",
-    "common_name": "Great Portland Street",
+    "common_name": "Great Portland Street Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUGPK",
-    "common_name": "Green Park",
+    "common_name": "Green Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUGFD",
-    "common_name": "Greenford",
+    "common_name": "Greenford Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLGRE",
-    "common_name": "Greenwich",
+    "common_name": "Greenwich DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
-    "id": "940GZZLUGBY",
-    "common_name": "Gunnersbury",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
     "id": "910GGNRSBRY",
-    "common_name": "Gunnersbury",
+    "common_name": "Gunnersbury Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUGBY",
+    "common_name": "Gunnersbury Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "910GHACKNYC",
-    "common_name": "Hackney Central",
+    "common_name": "Hackney Central Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GHAKNYNM",
-    "common_name": "Hackney Downs",
+    "common_name": "Hackney Downs Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GHACKNYW",
-    "common_name": "Hackney Wick",
+    "common_name": "Hackney Wick Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GHAGGERS",
-    "common_name": "Haggerston",
+    "common_name": "Haggerston Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUHLT",
-    "common_name": "Hainault",
+    "common_name": "Hainault Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHSD",
-    "common_name": "Hammersmith (Dist&Picc Line)",
+    "common_name": "Hammersmith (Dist&Picc Line) Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHSC",
-    "common_name": "Hammersmith (H&C Line)",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUHTD",
-    "common_name": "Hampstead",
+    "common_name": "Hammersmith (H&C Line) Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GHMPSTDH",
-    "common_name": "Hampstead Heath",
+    "common_name": "Hampstead Heath Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUHTD",
+    "common_name": "Hampstead Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUHGR",
-    "common_name": "Hanger Lane",
+    "common_name": "Hanger Lane Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GHANWELL",
-    "common_name": "Hanwell",
+    "common_name": "Hanwell Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
-    "id": "940GZZLUHSN",
-    "common_name": "Harlesden",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
     "id": "910GHARLSDN",
-    "common_name": "Harlesden",
+    "common_name": "Harlesden Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUHSN",
+    "common_name": "Harlesden Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "910GHRLDWOD",
-    "common_name": "Harold Wood",
+    "common_name": "Harold Wood Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GHRGYGL",
-    "common_name": "Harringay Green Lanes",
+    "common_name": "Harringay Green Lanes Rail Station",
+    "stop_type": "NaptanRailStation",
+    "mode_name": "Overground"
+  },
+  {
+    "id": "910GHROW",
+    "common_name": "Harrow & Wealdstone Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUHAW",
-    "common_name": "Harrow & Wealdstone",
+    "common_name": "Harrow & Wealdstone Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "910GHROW",
-    "common_name": "Harrow & Wealdstone",
-    "stop_type": "NaptanRailStation",
-    "mode_name": "Overground"
-  },
-  {
     "id": "940GZZLUHOH",
-    "common_name": "Harrow-on-the-Hill",
+    "common_name": "Harrow-on-the-Hill Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GHTCHEND",
-    "common_name": "Hatch End",
+    "common_name": "Hatch End Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUHNX",
-    "common_name": "Hatton Cross",
+    "common_name": "Hatton Cross Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GHAYESAH",
-    "common_name": "Hayes & Harlington",
+    "common_name": "Hayes & Harlington Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GHEDSTNL",
-    "common_name": "Headstone Lane",
+    "common_name": "Headstone Lane Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZLUHR4",
-    "common_name": "Heathrow Terminal 4",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
     "id": "910GHTRWTM4",
-    "common_name": "Heathrow Terminal 4",
+    "common_name": "Heathrow Terminal 4 Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
-    "id": "940GZZLUHR5",
-    "common_name": "Heathrow Terminal 5",
+    "id": "940GZZLUHR4",
+    "common_name": "Heathrow Terminal 4 Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GHTRWTM5",
-    "common_name": "Heathrow Terminal 5",
+    "common_name": "Heathrow Terminal 5 Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
-    "id": "940GZZLUHRC",
-    "common_name": "Heathrow Terminals 2 & 3",
+    "id": "940GZZLUHR5",
+    "common_name": "Heathrow Terminal 5 Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GHTRWAPT",
-    "common_name": "Heathrow Terminals 2 & 3",
+    "common_name": "Heathrow Terminals 2 & 3 Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
+    "id": "940GZZLUHRC",
+    "common_name": "Heathrow Terminals 2 & 3 Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUHCL",
-    "common_name": "Hendon Central",
+    "common_name": "Hendon Central Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLHEQ",
-    "common_name": "Heron Quays",
+    "common_name": "Heron Quays DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUHBT",
-    "common_name": "High Barnet",
+    "common_name": "High Barnet Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHSK",
-    "common_name": "High Street Kensington",
+    "common_name": "High Street Kensington Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GHGHMSPK",
-    "common_name": "Highams Park",
+    "common_name": "Highams Park Rail Station",
+    "stop_type": "NaptanRailStation",
+    "mode_name": "Overground"
+  },
+  {
+    "id": "910GHGHI",
+    "common_name": "Highbury & Islington Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUHAI",
-    "common_name": "Highbury & Islington",
+    "common_name": "Highbury & Islington Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "910GHGHI",
-    "common_name": "Highbury & Islington",
-    "stop_type": "NaptanRailStation",
-    "mode_name": "Overground"
-  },
-  {
     "id": "940GZZLUHGT",
-    "common_name": "Highgate",
+    "common_name": "Highgate Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHGD",
-    "common_name": "Hillingdon",
+    "common_name": "Hillingdon Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHBN",
-    "common_name": "Holborn",
+    "common_name": "Holborn Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHPK",
-    "common_name": "Holland Park",
+    "common_name": "Holland Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHWY",
-    "common_name": "Holloway Road",
+    "common_name": "Holloway Road Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GHOMRTON",
-    "common_name": "Homerton",
+    "common_name": "Homerton Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GHONROPK",
-    "common_name": "Honor Oak Park",
+    "common_name": "Honor Oak Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUHCH",
-    "common_name": "Hornchurch",
+    "common_name": "Hornchurch Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHWC",
-    "common_name": "Hounslow Central",
+    "common_name": "Hounslow Central Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHWE",
-    "common_name": "Hounslow East",
+    "common_name": "Hounslow East Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUHWT",
-    "common_name": "Hounslow West",
+    "common_name": "Hounslow West Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GHOXTON",
-    "common_name": "Hoxton",
+    "common_name": "Hoxton Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUHPC",
-    "common_name": "Hyde Park Corner",
+    "common_name": "Hyde Park Corner Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUICK",
-    "common_name": "Ickenham",
+    "common_name": "Ickenham Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GILFORD",
-    "common_name": "Ilford",
+    "common_name": "Ilford Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GCSEAH",
-    "common_name": "Imperial Wharf",
+    "common_name": "Imperial Wharf Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZDLISL",
-    "common_name": "Island Gardens",
+    "common_name": "Island Gardens DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "910GIVER",
-    "common_name": "Iver",
+    "common_name": "Iver Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUKNG",
-    "common_name": "Kennington",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUKSL",
-    "common_name": "Kensal Green",
+    "common_name": "Kennington Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GKENSLG",
-    "common_name": "Kensal Green",
+    "common_name": "Kensal Green Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUKSL",
+    "common_name": "Kensal Green Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "910GKENR",
-    "common_name": "Kensal Rise",
+    "common_name": "Kensal Rise Rail Station",
+    "stop_type": "NaptanRailStation",
+    "mode_name": "Overground"
+  },
+  {
+    "id": "910GKENOLYM",
+    "common_name": "Kensington (Olympia) Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUKOY",
-    "common_name": "Kensington (Olympia)",
+    "common_name": "Kensington (Olympia) Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "910GKENOLYM",
-    "common_name": "Kensington (Olympia)",
-    "stop_type": "NaptanRailStation",
-    "mode_name": "Overground"
-  },
-  {
     "id": "940GZZLUKSH",
-    "common_name": "Kentish Town",
+    "common_name": "Kentish Town Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GKNTSHTW",
-    "common_name": "Kentish Town West",
+    "common_name": "Kentish Town West Rail Station",
+    "stop_type": "NaptanRailStation",
+    "mode_name": "Overground"
+  },
+  {
+    "id": "910GKTON",
+    "common_name": "Kenton Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUKEN",
-    "common_name": "Kenton",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "910GKTON",
-    "common_name": "Kenton",
-    "stop_type": "NaptanRailStation",
-    "mode_name": "Overground"
-  },
-  {
-    "id": "940GZZLUKWG",
-    "common_name": "Kew Gardens",
+    "common_name": "Kenton Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GKEWGRDN",
-    "common_name": "Kew Gardens",
+    "common_name": "Kew Gardens Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZLUKBN",
-    "common_name": "Kilburn",
+    "id": "940GZZLUKWG",
+    "common_name": "Kew Gardens Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GKLBRNHR",
-    "common_name": "Kilburn High Road",
+    "common_name": "Kilburn High Road Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUKPK",
-    "common_name": "Kilburn Park",
+    "common_name": "Kilburn Park Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
+    "id": "940GZZLUKBN",
+    "common_name": "Kilburn Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLKGV",
-    "common_name": "King George V",
+    "common_name": "King George V DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUKSX",
-    "common_name": "King's Cross St. Pancras",
+    "common_name": "King's Cross St. Pancras Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUKBY",
-    "common_name": "Kingsbury",
+    "common_name": "Kingsbury Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUKNB",
-    "common_name": "Knightsbridge",
+    "common_name": "Knightsbridge Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLULAD",
-    "common_name": "Ladbroke Grove",
+    "common_name": "Ladbroke Grove Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLULBN",
-    "common_name": "Lambeth North",
+    "common_name": "Lambeth North Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLULGT",
-    "common_name": "Lancaster Gate",
+    "common_name": "Lancaster Gate Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLLDP",
-    "common_name": "Langdon Park",
+    "common_name": "Langdon Park DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "910GLANGLEY",
-    "common_name": "Langley (Berks)",
+    "common_name": "Langley (Berks) Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLULRD",
-    "common_name": "Latimer Road",
+    "common_name": "Latimer Road Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLULSQ",
-    "common_name": "Leicester Square",
+    "common_name": "Leicester Square Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLLEW",
-    "common_name": "Lewisham",
+    "common_name": "Lewisham DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
-    "id": "940GZZLULYN",
-    "common_name": "Leyton",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
     "id": "910GLEYTNMR",
-    "common_name": "Leyton Midland Road",
+    "common_name": "Leyton Midland Road Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZLULYS",
-    "common_name": "Leytonstone",
+    "id": "940GZZLULYN",
+    "common_name": "Leyton Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GLYTNSHR",
-    "common_name": "Leytonstone High Road",
+    "common_name": "Leytonstone High Road Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZDLLIM",
-    "common_name": "Limehouse",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "DLR"
-  },
-  {
-    "id": "940GZZLULVT",
-    "common_name": "Liverpool Street",
+    "id": "940GZZLULYS",
+    "common_name": "Leytonstone Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
+  },
+  {
+    "id": "940GZZDLLIM",
+    "common_name": "Limehouse DLR Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "DLR"
   },
   {
     "id": "910GLIVSTLL",
@@ -1500,290 +1494,290 @@
     "mode_name": "Elizabeth"
   },
   {
+    "id": "940GZZLULVT",
+    "common_name": "Liverpool Street Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLULNB",
-    "common_name": "London Bridge",
+    "common_name": "London Bridge Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLLCA",
-    "common_name": "London City Airport",
+    "common_name": "London City Airport DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "910GEUSTON",
-    "common_name": "London Euston",
+    "common_name": "London Euston Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GLONFLDS",
-    "common_name": "London Fields",
+    "common_name": "London Fields Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GLIVST",
-    "common_name": "London Liverpool Street",
+    "common_name": "London Liverpool Street Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GLIVST",
-    "common_name": "London Liverpool Street",
+    "common_name": "London Liverpool Street Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GPADTON",
-    "common_name": "London Paddington",
+    "common_name": "London Paddington Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLULGN",
-    "common_name": "Loughton",
+    "common_name": "Loughton Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUMVL",
-    "common_name": "Maida Vale",
+    "common_name": "Maida Vale Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GMDNHEAD",
-    "common_name": "Maidenhead",
+    "common_name": "Maidenhead Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUMRH",
-    "common_name": "Manor House",
+    "common_name": "Manor House Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GMANRPK",
-    "common_name": "Manor Park",
+    "common_name": "Manor Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUMSH",
-    "common_name": "Mansion House",
+    "common_name": "Mansion House Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUMBA",
-    "common_name": "Marble Arch",
+    "common_name": "Marble Arch Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GMRYLAND",
-    "common_name": "Maryland",
+    "common_name": "Maryland Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUMYB",
-    "common_name": "Marylebone",
+    "common_name": "Marylebone Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUMED",
-    "common_name": "Mile End",
+    "common_name": "Mile End Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUMHL",
-    "common_name": "Mill Hill East",
+    "common_name": "Mill Hill East Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUMMT",
-    "common_name": "Monument",
+    "common_name": "Monument Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUMPK",
-    "common_name": "Moor Park",
+    "common_name": "Moor Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUMGT",
-    "common_name": "Moorgate",
+    "common_name": "Moorgate Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUMDN",
-    "common_name": "Morden",
+    "common_name": "Morden Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUMTC",
-    "common_name": "Mornington Crescent",
+    "common_name": "Mornington Crescent Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLMUD",
-    "common_name": "Mudchute",
+    "common_name": "Mudchute DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUNDN",
-    "common_name": "Neasden",
+    "common_name": "Neasden Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GNWCRELL",
-    "common_name": "New Cross ELL",
+    "common_name": "New Cross ELL Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GNEWXGTE",
-    "common_name": "New Cross Gate",
+    "common_name": "New Cross Gate Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUNBP",
-    "common_name": "Newbury Park",
+    "common_name": "Newbury Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZNEUGST",
-    "common_name": "Nine Elms",
+    "common_name": "Nine Elms Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUNAN",
-    "common_name": "North Acton",
+    "common_name": "North Acton Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUNEN",
-    "common_name": "North Ealing",
+    "common_name": "North Ealing Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUNGW",
-    "common_name": "North Greenwich",
+    "common_name": "North Greenwich Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUNHA",
-    "common_name": "North Harrow",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUNWY",
-    "common_name": "North Wembley",
+    "common_name": "North Harrow Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GNWEMBLY",
-    "common_name": "North Wembley",
+    "common_name": "North Wembley Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUNWY",
+    "common_name": "North Wembley Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUNFD",
-    "common_name": "Northfields",
+    "common_name": "Northfields Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUNHT",
-    "common_name": "Northolt",
+    "common_name": "Northolt Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUNKP",
-    "common_name": "Northwick Park",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUNOW",
-    "common_name": "Northwood",
+    "common_name": "Northwick Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUNWH",
-    "common_name": "Northwood Hills",
+    "common_name": "Northwood Hills Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
+    "id": "940GZZLUNOW",
+    "common_name": "Northwood Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GNORWDJ",
-    "common_name": "Norwood Junction",
+    "common_name": "Norwood Junction Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUNHG",
-    "common_name": "Notting Hill Gate",
+    "common_name": "Notting Hill Gate Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUOAK",
-    "common_name": "Oakwood",
+    "common_name": "Oakwood Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUODS",
-    "common_name": "Old Street",
+    "common_name": "Old Street Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUOSY",
-    "common_name": "Osterley",
+    "common_name": "Osterley Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUOVL",
-    "common_name": "Oval",
+    "common_name": "Oval Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUOXC",
-    "common_name": "Oxford Circus",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUPAC",
-    "common_name": "Paddington",
+    "common_name": "Oxford Circus Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
@@ -1800,614 +1794,614 @@
     "mode_name": "Underground"
   },
   {
+    "id": "940GZZLUPAC",
+    "common_name": "Paddington Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUPKR",
-    "common_name": "Park Royal",
+    "common_name": "Park Royal Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUPSG",
-    "common_name": "Parsons Green",
+    "common_name": "Parsons Green Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GPCKHMRY",
-    "common_name": "Peckham Rye",
+    "common_name": "Peckham Rye Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GPENEW",
-    "common_name": "Penge West",
+    "common_name": "Penge West Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUPVL",
-    "common_name": "Perivale",
+    "common_name": "Perivale Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUPCC",
-    "common_name": "Piccadilly Circus",
+    "common_name": "Piccadilly Circus Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUPCO",
-    "common_name": "Pimlico",
+    "common_name": "Pimlico Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUPNR",
-    "common_name": "Pinner",
+    "common_name": "Pinner Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUPLW",
-    "common_name": "Plaistow",
+    "common_name": "Plaistow Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLPDK",
-    "common_name": "Pontoon Dock",
+    "common_name": "Pontoon Dock DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZDLPOP",
-    "common_name": "Poplar",
+    "common_name": "Poplar DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUPRD",
-    "common_name": "Preston Road",
+    "common_name": "Preston Road Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLPRE",
-    "common_name": "Prince Regent",
+    "common_name": "Prince Regent DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZDLPUD",
-    "common_name": "Pudding Mill Lane",
+    "common_name": "Pudding Mill Lane DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUPYB",
-    "common_name": "Putney Bridge",
+    "common_name": "Putney Bridge Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUQPS",
-    "common_name": "Queen's Park",
+    "common_name": "Queen's Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GQPRK",
-    "common_name": "Queens Park (London)",
+    "common_name": "Queens Park (London) Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GPCKHMQD",
-    "common_name": "Queens Road Peckham",
+    "common_name": "Queens Road Peckham Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUQBY",
-    "common_name": "Queensbury",
+    "common_name": "Queensbury Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUQWY",
-    "common_name": "Queensway",
+    "common_name": "Queensway Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLURVP",
-    "common_name": "Ravenscourt Park",
+    "common_name": "Ravenscourt Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLURYL",
-    "common_name": "Rayners Lane",
+    "common_name": "Rayners Lane Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GRDNGSTN",
-    "common_name": "Reading",
+    "common_name": "Reading Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GRCTRYRD",
-    "common_name": "Rectory Road",
+    "common_name": "Rectory Road Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLURBG",
-    "common_name": "Redbridge",
+    "common_name": "Redbridge Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLURGP",
-    "common_name": "Regent's Park",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLURMD",
-    "common_name": "Richmond",
+    "common_name": "Regent's Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GRICHMND",
-    "common_name": "Richmond (London)",
+    "common_name": "Richmond (London) Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLURMD",
+    "common_name": "Richmond Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLURKW",
-    "common_name": "Rickmansworth",
+    "common_name": "Rickmansworth Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLURVY",
-    "common_name": "Roding Valley",
+    "common_name": "Roding Valley Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GROMFORD",
-    "common_name": "Romford",
+    "common_name": "Romford Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GROMFORD",
-    "common_name": "Romford",
+    "common_name": "Romford Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GRTHERHI",
-    "common_name": "Rotherhithe",
+    "common_name": "Rotherhithe Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZDLRAL",
-    "common_name": "Royal Albert",
+    "common_name": "Royal Albert DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLURYO",
-    "common_name": "Royal Oak",
+    "common_name": "Royal Oak Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLRVC",
-    "common_name": "Royal Victoria",
+    "common_name": "Royal Victoria DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
-    "id": "940GZZLURSP",
-    "common_name": "Ruislip",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
     "id": "940GZZLURSG",
-    "common_name": "Ruislip Gardens",
+    "common_name": "Ruislip Gardens Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLURSM",
-    "common_name": "Ruislip Manor",
+    "common_name": "Ruislip Manor Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
+    "id": "940GZZLURSP",
+    "common_name": "Ruislip Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLURSQ",
-    "common_name": "Russell Square",
+    "common_name": "Russell Square Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSVNKNGS",
-    "common_name": "Seven Kings",
+    "common_name": "Seven Kings Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
-    "id": "940GZZLUSVS",
-    "common_name": "Seven Sisters",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
     "id": "910GSEVNSIS",
-    "common_name": "Seven Sisters",
+    "common_name": "Seven Sisters Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUSVS",
+    "common_name": "Seven Sisters Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZDLSHA",
-    "common_name": "Shadwell",
+    "common_name": "Shadwell DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "910GSHADWEL",
-    "common_name": "Shadwell",
+    "common_name": "Shadwell Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GSHENFLD",
-    "common_name": "Shenfield",
+    "common_name": "Shenfield Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUSBC",
-    "common_name": "Shepherd's Bush (Central)",
+    "common_name": "Shepherd's Bush (Central) Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSBM",
-    "common_name": "Shepherd's Bush Market",
+    "common_name": "Shepherd's Bush Market Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSHPDSB",
-    "common_name": "Shepherds Bush",
+    "common_name": "Shepherds Bush Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GSHRDHST",
-    "common_name": "Shoreditch High Street",
+    "common_name": "Shoreditch High Street Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GSIVRST",
-    "common_name": "Silver Street",
+    "common_name": "Silver Street Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUSSQ",
-    "common_name": "Sloane Square",
+    "common_name": "Sloane Square Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSLOUGH",
-    "common_name": "Slough",
+    "common_name": "Slough Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUSNB",
-    "common_name": "Snaresbrook",
+    "common_name": "Snaresbrook Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSACTON",
-    "common_name": "South Acton",
+    "common_name": "South Acton Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUSEA",
-    "common_name": "South Ealing",
+    "common_name": "South Ealing Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSHMPSTD",
-    "common_name": "South Hampstead",
+    "common_name": "South Hampstead Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUSHH",
-    "common_name": "South Harrow",
+    "common_name": "South Harrow Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSKS",
-    "common_name": "South Kensington",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUSKT",
-    "common_name": "South Kenton",
+    "common_name": "South Kensington Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSKENTON",
-    "common_name": "South Kenton",
+    "common_name": "South Kenton Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUSKT",
+    "common_name": "South Kenton Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZDLSOQ",
-    "common_name": "South Quay",
+    "common_name": "South Quay DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUSRP",
-    "common_name": "South Ruislip",
+    "common_name": "South Ruislip Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSTOTNHM",
-    "common_name": "South Tottenham",
+    "common_name": "South Tottenham Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUSWN",
-    "common_name": "South Wimbledon",
+    "common_name": "South Wimbledon Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSWF",
-    "common_name": "South Woodford",
+    "common_name": "South Woodford Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSTHALL",
-    "common_name": "Southall",
+    "common_name": "Southall Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GSBURY",
-    "common_name": "Southbury",
+    "common_name": "Southbury Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUSFS",
-    "common_name": "Southfields",
+    "common_name": "Southfields Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSGT",
-    "common_name": "Southgate",
+    "common_name": "Southgate Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSWK",
-    "common_name": "Southwark",
+    "common_name": "Southwark Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSTJMSST",
-    "common_name": "St James Street (London)",
+    "common_name": "St James Street (London) Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUSJP",
-    "common_name": "St. James's Park",
+    "common_name": "St. James's Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSJW",
-    "common_name": "St. John's Wood",
+    "common_name": "St. John's Wood Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSPU",
-    "common_name": "St. Paul's",
+    "common_name": "St. Paul's Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSFB",
-    "common_name": "Stamford Brook",
+    "common_name": "Stamford Brook Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSTMFDHL",
-    "common_name": "Stamford Hill",
+    "common_name": "Stamford Hill Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUSTM",
-    "common_name": "Stanmore",
+    "common_name": "Stanmore Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLSTL",
-    "common_name": "Star Lane",
+    "common_name": "Star Lane DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUSGN",
-    "common_name": "Stepney Green",
+    "common_name": "Stepney Green Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSKW",
-    "common_name": "Stockwell",
+    "common_name": "Stockwell Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSTKNWNG",
-    "common_name": "Stoke Newington",
+    "common_name": "Stoke Newington Rail Station",
+    "stop_type": "NaptanRailStation",
+    "mode_name": "Overground"
+  },
+  {
+    "id": "910GSTNBGPK",
+    "common_name": "Stonebridge Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUSGP",
-    "common_name": "Stonebridge Park",
+    "common_name": "Stonebridge Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
-  },
-  {
-    "id": "910GSTNBGPK",
-    "common_name": "Stonebridge Park",
-    "stop_type": "NaptanRailStation",
-    "mode_name": "Overground"
-  },
-  {
-    "id": "940GZZLUSTD",
-    "common_name": "Stratford",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZDLSTD",
-    "common_name": "Stratford",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "DLR"
   },
   {
     "id": "910GSTFD",
-    "common_name": "Stratford (London)",
+    "common_name": "Stratford (London) Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GSTFD",
-    "common_name": "Stratford (London)",
+    "common_name": "Stratford (London) Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZDLSTD",
+    "common_name": "Stratford DLR Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "DLR"
+  },
+  {
     "id": "940GZZDLSHS",
-    "common_name": "Stratford High Street",
+    "common_name": "Stratford High Street DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZDLSIT",
-    "common_name": "Stratford International",
+    "common_name": "Stratford International DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
+    "id": "940GZZLUSTD",
+    "common_name": "Stratford Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUSUH",
-    "common_name": "Sudbury Hill",
+    "common_name": "Sudbury Hill Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUSUT",
-    "common_name": "Sudbury Town",
+    "common_name": "Sudbury Town Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSURREYQ",
-    "common_name": "Surrey Quays",
+    "common_name": "Surrey Quays Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUSWC",
-    "common_name": "Swiss Cottage",
+    "common_name": "Swiss Cottage Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GSYDENHM",
-    "common_name": "Sydenham",
+    "common_name": "Sydenham Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GTAPLOW",
-    "common_name": "Taplow",
+    "common_name": "Taplow Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUTMP",
-    "common_name": "Temple",
+    "common_name": "Temple Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GTHBLDSG",
-    "common_name": "Theobalds Grove",
+    "common_name": "Theobalds Grove Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUTHB",
-    "common_name": "Theydon Bois",
+    "common_name": "Theydon Bois Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUTBC",
-    "common_name": "Tooting Bec",
+    "common_name": "Tooting Bec Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUTBY",
-    "common_name": "Tooting Broadway",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUTCR",
-    "common_name": "Tottenham Court Road",
+    "common_name": "Tooting Broadway Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
@@ -2418,346 +2412,346 @@
     "mode_name": "Elizabeth"
   },
   {
+    "id": "940GZZLUTCR",
+    "common_name": "Tottenham Court Road Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUTMH",
-    "common_name": "Tottenham Hale",
+    "common_name": "Tottenham Hale Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUTAW",
-    "common_name": "Totteridge & Whetstone",
+    "common_name": "Totteridge & Whetstone Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLTWG",
-    "common_name": "Tower Gateway",
+    "common_name": "Tower Gateway DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUTWH",
-    "common_name": "Tower Hill",
+    "common_name": "Tower Hill Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUTFP",
-    "common_name": "Tufnell Park",
+    "common_name": "Tufnell Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GTURKYST",
-    "common_name": "Turkey Street",
+    "common_name": "Turkey Street Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUTNG",
-    "common_name": "Turnham Green",
+    "common_name": "Turnham Green Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUTPN",
-    "common_name": "Turnpike Lane",
+    "common_name": "Turnpike Lane Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GTWYFORD",
-    "common_name": "Twyford",
+    "common_name": "Twyford Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
-    "id": "940GZZLUUPM",
-    "common_name": "Upminster",
+    "id": "940GZZLUUPB",
+    "common_name": "Upminster Bridge Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GUPMNSTR",
-    "common_name": "Upminster",
+    "common_name": "Upminster Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZLUUPB",
-    "common_name": "Upminster Bridge",
+    "id": "940GZZLUUPM",
+    "common_name": "Upminster Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUUPY",
-    "common_name": "Upney",
+    "common_name": "Upney Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GUPRHLWY",
-    "common_name": "Upper Holloway",
+    "common_name": "Upper Holloway Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUUPK",
-    "common_name": "Upton Park",
+    "common_name": "Upton Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUUXB",
-    "common_name": "Uxbridge",
+    "common_name": "Uxbridge Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUVXL",
-    "common_name": "Vauxhall",
+    "common_name": "Vauxhall Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUVIC",
-    "common_name": "Victoria",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUWWL",
-    "common_name": "Walthamstow Central",
+    "common_name": "Victoria Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GWLTWCEN",
-    "common_name": "Walthamstow Central",
+    "common_name": "Walthamstow Central Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUWWL",
+    "common_name": "Walthamstow Central Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "910GWLTHQRD",
-    "common_name": "Walthamstow Queens Road",
+    "common_name": "Walthamstow Queens Road Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GWNDSWRD",
-    "common_name": "Wandsworth Road",
+    "common_name": "Wandsworth Road Rail Station",
+    "stop_type": "NaptanRailStation",
+    "mode_name": "Overground"
+  },
+  {
+    "id": "910GWNSTDPK",
+    "common_name": "Wanstead Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUWSD",
-    "common_name": "Wanstead",
+    "common_name": "Wanstead Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "910GWNSTDPK",
-    "common_name": "Wanstead Park",
-    "stop_type": "NaptanRailStation",
-    "mode_name": "Overground"
-  },
-  {
     "id": "910GWAPPING",
-    "common_name": "Wapping",
+    "common_name": "Wapping Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUWRR",
-    "common_name": "Warren Street",
+    "common_name": "Warren Street Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUWKA",
-    "common_name": "Warwick Avenue",
+    "common_name": "Warwick Avenue Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUWLO",
-    "common_name": "Waterloo",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUWAF",
-    "common_name": "Watford",
+    "common_name": "Waterloo Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GWATFDHS",
-    "common_name": "Watford High Street",
+    "common_name": "Watford High Street Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GWATFDJ",
-    "common_name": "Watford Junction",
+    "common_name": "Watford Junction Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GWATFJDC",
-    "common_name": "Watford Junction",
+    "common_name": "Watford Junction Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZLUWYC",
-    "common_name": "Wembley Central",
+    "id": "940GZZLUWAF",
+    "common_name": "Watford Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GWMBY",
-    "common_name": "Wembley Central",
+    "common_name": "Wembley Central Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUWYC",
+    "common_name": "Wembley Central Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUWYP",
-    "common_name": "Wembley Park",
+    "common_name": "Wembley Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUWTA",
-    "common_name": "West Acton",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUWBN",
-    "common_name": "West Brompton",
+    "common_name": "West Acton Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GWBRMPTN",
-    "common_name": "West Brompton",
+    "common_name": "West Brompton Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUWBN",
+    "common_name": "West Brompton Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "910GWCROYDN",
-    "common_name": "West Croydon",
+    "common_name": "West Croydon Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "910GWDRYTON",
-    "common_name": "West Drayton",
+    "common_name": "West Drayton Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "910GWEALING",
-    "common_name": "West Ealing",
+    "common_name": "West Ealing Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Elizabeth"
   },
   {
     "id": "940GZZLUWFN",
-    "common_name": "West Finchley",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
-  },
-  {
-    "id": "940GZZLUWHM",
-    "common_name": "West Ham",
+    "common_name": "West Finchley Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLWHM",
-    "common_name": "West Ham",
+    "common_name": "West Ham DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
-    "id": "940GZZLUWHP",
-    "common_name": "West Hampstead",
+    "id": "940GZZLUWHM",
+    "common_name": "West Ham Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GWHMDSTD",
-    "common_name": "West Hampstead",
+    "common_name": "West Hampstead Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
+    "id": "940GZZLUWHP",
+    "common_name": "West Hampstead Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
     "id": "940GZZLUWHW",
-    "common_name": "West Harrow",
+    "common_name": "West Harrow Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLWIQ",
-    "common_name": "West India Quay",
+    "common_name": "West India Quay DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUWKN",
-    "common_name": "West Kensington",
+    "common_name": "West Kensington Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUWRP",
-    "common_name": "West Ruislip",
+    "common_name": "West Ruislip Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLWSV",
-    "common_name": "West Silvertown",
+    "common_name": "West Silvertown DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUWSP",
-    "common_name": "Westbourne Park",
+    "common_name": "Westbourne Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZDLWFE",
-    "common_name": "Westferry",
+    "common_name": "Westferry DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   },
   {
     "id": "940GZZLUWSM",
-    "common_name": "Westminster",
+    "common_name": "Westminster Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUWCY",
-    "common_name": "White City",
+    "common_name": "White City Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GWHHRTLA",
-    "common_name": "White Hart Lane",
+    "common_name": "White Hart Lane Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
-  },
-  {
-    "id": "940GZZLUWPL",
-    "common_name": "Whitechapel",
-    "stop_type": "NaptanMetroStation",
-    "mode_name": "Underground"
   },
   {
     "id": "910GWCHAPXR",
@@ -2767,73 +2761,79 @@
   },
   {
     "id": "910GWCHAPEL",
-    "common_name": "Whitechapel",
+    "common_name": "Whitechapel Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZLUWIG",
-    "common_name": "Willesden Green",
+    "id": "940GZZLUWPL",
+    "common_name": "Whitechapel Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
-    "id": "940GZZLUWJN",
-    "common_name": "Willesden Junction",
+    "id": "940GZZLUWIG",
+    "common_name": "Willesden Green Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GWLSDJHL",
-    "common_name": "Willesden Junction",
+    "common_name": "Willesden Junction Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
-    "id": "940GZZLUWIM",
-    "common_name": "Wimbledon",
+    "id": "940GZZLUWJN",
+    "common_name": "Willesden Junction Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUWIP",
-    "common_name": "Wimbledon Park",
+    "common_name": "Wimbledon Park Underground Station",
+    "stop_type": "NaptanMetroStation",
+    "mode_name": "Underground"
+  },
+  {
+    "id": "940GZZLUWIM",
+    "common_name": "Wimbledon Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUWOG",
-    "common_name": "Wood Green",
+    "common_name": "Wood Green Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "940GZZLUWLA",
-    "common_name": "Wood Lane",
+    "common_name": "Wood Lane Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GWDST",
-    "common_name": "Wood Street",
+    "common_name": "Wood Street Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUWOF",
-    "common_name": "Woodford",
+    "common_name": "Woodford Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
   {
     "id": "910GWDGRNPK",
-    "common_name": "Woodgrange Park",
+    "common_name": "Woodgrange Park Rail Station",
     "stop_type": "NaptanRailStation",
     "mode_name": "Overground"
   },
   {
     "id": "940GZZLUWOP",
-    "common_name": "Woodside Park",
+    "common_name": "Woodside Park Underground Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "Underground"
   },
@@ -2845,7 +2845,7 @@
   },
   {
     "id": "940GZZDLWLA",
-    "common_name": "Woolwich Arsenal",
+    "common_name": "Woolwich Arsenal DLR Station",
     "stop_type": "NaptanMetroStation",
     "mode_name": "DLR"
   }
