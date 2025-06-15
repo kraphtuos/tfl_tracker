@@ -65,19 +65,20 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
                 let error_message = error_message.clone();
 
                 spawn_local(async move {
-                    let arrivals = fetch_arrivals(&station_id).await;
+                    let arrivals = fetch_arrivals(&[station_id]).await;
 
-                    if let Some(updated_train) = arrivals.iter().find(|a| a.id == train_id) {
-                        if let Some(vid) = &updated_train.vehicle_id {
-                            vehicle_id.set(vid.clone());
-                            if let Some(lid) = &updated_train.line_id {
-                                line_id.set(lid.clone());
+                    // Find our train in the arrivals
+                    if let Some(arrival) = arrivals.iter().find(|a| a.id == train_id) {
+                        if let Some(v_id) = &arrival.vehicle_id {
+                            vehicle_id.set(v_id.clone());
+                            if let Some(l_id) = &arrival.line_id {
+                                line_id.set(l_id.clone());
                             }
                         } else {
-                            error_message.set("No vehicle ID available for this train".to_string());
+                            error_message.set("Train no longer found at station".to_string());
                         }
                     } else {
-                        error_message.set("Train not found in station arrivals".to_string());
+                        error_message.set("Train no longer found at station".to_string());
                     }
                     loading.set(false);
                 });

@@ -63,18 +63,24 @@ pub async fn fetch_tube_stations() -> Vec<StopPoint> {
     resp
 }
 
-pub async fn fetch_arrivals(station_id: &str) -> Vec<Arrival> {
-    let url = format!("https://api.tfl.gov.uk/StopPoint/{}/Arrivals", station_id);
+pub async fn fetch_arrivals(station_ids: &[String]) -> Vec<Arrival> {
+    let mut all_arrivals = Vec::new();
 
-    let resp = Request::get(&url)
-        .send()
-        .await
-        .expect("Failed to fetch arrivals")
-        .json::<Vec<Arrival>>()
-        .await
-        .expect("Failed to parse arrival data");
+    for station_id in station_ids {
+        let url = format!("https://api.tfl.gov.uk/StopPoint/{}/Arrivals", station_id);
 
-    resp
+        let resp = Request::get(&url)
+            .send()
+            .await
+            .expect("Failed to fetch arrivals")
+            .json::<Vec<Arrival>>()
+            .await
+            .expect("Failed to parse arrival data");
+
+        all_arrivals.extend(resp);
+    }
+
+    all_arrivals
 }
 
 pub async fn fetch_vehicle_arrivals(vehicle_id: &str) -> Vec<VehicleArrival> {
