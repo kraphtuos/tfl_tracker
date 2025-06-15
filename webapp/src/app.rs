@@ -50,6 +50,9 @@ async fn fetch_station_arrivals(station_ids: &[String]) -> Vec<Arrival> {
 
 #[function_component(App)]
 pub fn app() -> Html {
+    // Add state for collapsed lines
+    let collapsed_lines = use_state(|| HashMap::<String, bool>::new());
+
     let stations = use_state(|| Vec::<GroupedStation>::new());
     let selected_station = use_state(|| None::<StopPoint>);
     let loading = use_state(|| true);
@@ -196,6 +199,20 @@ pub fn app() -> Html {
         let show_station_ids = show_station_ids.clone();
         Callback::from(move |_| {
             show_station_ids.set(!*show_station_ids);
+        })
+    };
+
+    // Add toggle_line callback near other callbacks
+    let toggle_line = {
+        let collapsed_lines = collapsed_lines.clone();
+
+        Callback::from(move |line_name: String| {
+            collapsed_lines.set({
+                let mut new_map = (*collapsed_lines).clone();
+                let current = new_map.get(&line_name).copied().unwrap_or(false);
+                new_map.insert(line_name, !current);
+                new_map
+            });
         })
     };
 
@@ -501,108 +518,129 @@ pub fn app() -> Html {
                             </div>
                         } else if !arrivals.is_empty() {
                             <div class="space-y-4 sm:space-y-6">
-                                { for grouped_arrivals.iter().map(|(line_name, platforms)| html! {
-                                    <div class="border rounded-lg overflow-hidden">
-                                        <div class={get_line_colors(&line_name)}>
-                                            { line_name }
-                                        </div>
-                                        <div>
-                                            { for platforms.iter().map(|(platform_name, platform_arrivals)| {
-                                                let platform_id = format!("{}-{}", line_name, platform_name);
-                                                let is_expanded = expanded_platforms.get(&platform_id).copied().unwrap_or(false);
-                                                let display_arrivals = if is_expanded {
-                                                    platform_arrivals
-                                                } else {
-                                                    &platform_arrivals[0..std::cmp::min(3, platform_arrivals.len())]
-                                                };
-                                                let toggle = {
-                                                    let platform_id = platform_id.clone();
-                                                    let toggle_platform = toggle_platform.clone();
-                                                    Callback::from(move |_| toggle_platform.emit(platform_id.clone()))
-                                                };
+                                { for grouped_arrivals.iter().map(|(line_name, platforms)| {
+                                    let is_line_collapsed = collapsed_lines.get(line_name).copied().unwrap_or(false);
+                                    let line_toggle = {
+                                        let line_name = line_name.clone();
+                                        let toggle_line = toggle_line.clone();
+                                        Callback::from(move |_| toggle_line.emit(line_name.clone()))
+                                    };
 
-                                                html! {                                                    <div class="border-t border-gray-200">                                                        <div class={format!("{} flex items-center justify-between", get_line_background_colors(&line_name))}>
-                                                            <span class="text-gray-700">{ platform_name }</span>
-                                                            if platform_arrivals.len() > 3 {
-                                                                <button
-                                                                    onclick={toggle}
-                                                                    class="text-blue-600 hover:text-blue-800 text-sm px-2 py-1"
-                                                                >
-                                                                    if is_expanded {
-                                                                        { "Show less" }
-                                                                    } else {
-                                                                        { format!("Show all ({})", platform_arrivals.len()) }
+                                    html! {
+                                        <div class="border rounded-lg overflow-hidden">
+                                            <div class={get_line_colors(&line_name)} onclick={line_toggle} style="cursor:pointer">
+                                                <div class="flex justify-between items-center">
+                                                    <span>{ line_name }</span>
+                                                    if is_line_collapsed {
+                                                        { "▼" }
+                                                    } else {
+                                                        { "▲" }
+                                                    }
+                                                </div>
+                                            </div>
+                                            if !is_line_collapsed {
+                                                <div>
+                                                    { for platforms.iter().map(|(platform_name, platform_arrivals)| {
+                                                        let platform_id = format!("{}-{}", line_name, platform_name);
+                                                        let is_expanded = expanded_platforms.get(&platform_id).copied().unwrap_or(false);
+                                                        let display_arrivals = if is_expanded {
+                                                            platform_arrivals
+                                                        } else {
+                                                            &platform_arrivals[0..std::cmp::min(3, platform_arrivals.len())]
+                                                        };
+                                                        let toggle = {
+                                                            let platform_id = platform_id.clone();
+                                                            let toggle_platform = toggle_platform.clone();
+                                                            Callback::from(move |_| toggle_platform.emit(platform_id.clone()))
+                                                        };
+
+                                                        html! {
+                                                            <div class="border-t border-gray-200">
+                                                                <div class={format!("{} flex items-center justify-between", get_line_background_colors(&line_name))}>
+                                                                    <span class="text-gray-700">{ platform_name }</span>
+                                                                    if platform_arrivals.len() > 3 {
+                                                                        <button
+                                                                            onclick={toggle}
+                                                                            class="text-blue-600 hover:text-blue-800 text-sm px-2 py-1"
+                                                                        >
+                                                                            if is_expanded {
+                                                                                { "Show less" }
+                                                                            } else {
+                                                                                { format!("Show all ({})", platform_arrivals.len()) }
+                                                                            }
+                                                                        </button>
                                                                     }
-                                                                </button>
-                                                            }
-                                                        </div>                                                <div>
-                                                            { for display_arrivals.iter().enumerate().map(|(idx, arrival)| {
-                                                                let arrival_clone = arrival.clone();
-                                                                let on_track = {
-                                                                    let track_train = track_train.clone();
-                                                                    let arrival = arrival.clone();
+                                                                </div>
+                                                                <div>
+                                                                    { for display_arrivals.iter().enumerate().map(|(idx, arrival)| {
+                                                                        let arrival_clone = arrival.clone();
+                                                                        let on_track = {
+                                                                            let track_train = track_train.clone();
+                                                                            let arrival = arrival.clone();
 
-                                                                    Callback::from(move |_| {
-                                                                        track_train.emit(arrival.clone());
-                                                                    })
-                                                                };
+                                                                            Callback::from(move |_| {
+                                                                                track_train.emit(arrival.clone());
+                                                                            })
+                                                                        };
 
-                                                                html! {                                                    <div class={classes!(
-                                                                        "flex",
-                                                                        "flex-col",
-                                                                        "sm:flex-row",
-                                                                        "sm:justify-between",
-                                                                        "items-start",
-                                                                        "sm:items-center",
-                                                                        "py-2",
-                                                                        "px-2",
-                                                                        "sm:px-3",
-                                                                        "gap-2",
-                                                                        "sm:gap-0",
-                                                                        if idx % 2 == 0 { "bg-white" } else { "bg-gray-50" }
-                                                                    )}>
-                                                                        <div class="flex-grow">
-                                                                            <div class="font-medium text-sm sm:text-base">{ arrival_clone.towards.unwrap_or_else(|| "Unknown".to_string()) }</div>
-                                                                            <div class="text-xs sm:text-sm text-gray-600">{ &arrival_clone.current_location }</div>
-                                                                        </div>                                                                        <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
-                                                                            <div class="font-medium text-right">
-                                                                                { format_arrival_time(arrival_clone.time_to_station) }
+                                                                        html! {                                                    <div class={classes!(
+                                                                                "flex",
+                                                                                "flex-col",
+                                                                                "sm:flex-row",
+                                                                                "sm:justify-between",
+                                                                                "items-start",
+                                                                                "sm:items-center",
+                                                                                "py-2",
+                                                                                "px-2",
+                                                                                "sm:px-3",
+                                                                                "gap-2",
+                                                                                "sm:gap-0",
+                                                                                if idx % 2 == 0 { "bg-white" } else { "bg-gray-50" }
+                                                                            )}>
+                                                                                <div class="flex-grow">
+                                                                                    <div class="font-medium text-sm sm:text-base">{ arrival_clone.towards.unwrap_or_else(|| "Unknown".to_string()) }</div>
+                                                                                    <div class="text-xs sm:text-sm text-gray-600">{ &arrival_clone.current_location }</div>
+                                                                                </div>                                                                        <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
+                                                                                    <div class="font-medium text-right">
+                                                                                        { format_arrival_time(arrival_clone.time_to_station) }
+                                                                                    </div>
+                                                                                    <button
+                                                                                        onclick={on_track}
+                                                                                        disabled={tracked_trains.iter().any(|t| t.train.id == arrival_clone.id)}
+                                                                                        class={
+                                                                                            if tracked_trains.iter().any(|t| t.train.id == arrival_clone.id) {
+                                                                                                "bg-gray-300 text-gray-600 p-1 rounded cursor-not-allowed".to_string()
+                                                                                            } else if arrival_clone.vehicle_id.is_some() {
+                                                                                                get_mode_colors(&arrival_clone.mode_name)
+                                                                                            } else {
+                                                                                                "bg-blue-100 text-blue-700 hover:bg-blue-200 p-1 rounded".to_string()
+                                                                                            }
+                                                                                        }
+                                                                                        title={
+                                                                                            if arrival_clone.vehicle_id.is_some() {
+                                                                                                "Track this train (Detailed tracking available)"
+                                                                                            } else {
+                                                                                                "Track this train"
+                                                                                            }
+                                                                                        }
+                                                                                    >
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </div>
                                                                             </div>
-                                                                            <button
-                                                                                onclick={on_track}
-                                                                                disabled={tracked_trains.iter().any(|t| t.train.id == arrival_clone.id)}
-                                                                                class={
-                                                                                    if tracked_trains.iter().any(|t| t.train.id == arrival_clone.id) {
-                                                                                        "bg-gray-300 text-gray-600 p-1 rounded cursor-not-allowed".to_string()
-                                                                                    } else if arrival_clone.vehicle_id.is_some() {
-                                                                                        get_mode_colors(&arrival_clone.mode_name)
-                                                                                    } else {
-                                                                                        "bg-blue-100 text-blue-700 hover:bg-blue-200 p-1 rounded".to_string()
-                                                                                    }
-                                                                                }
-                                                                                title={
-                                                                                    if arrival_clone.vehicle_id.is_some() {
-                                                                                        "Track this train (Detailed tracking available)"
-                                                                                    } else {
-                                                                                        "Track this train"
-                                                                                    }
-                                                                                }
-                                                                            >
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                                                </svg>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                }
-                                                            }) }
-                                                        </div>
-                                                    </div>
-                                                }
-                                            }) }
+                                                                        }
+                                                                    }) }
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }) }
+                                                </div>
+                                            }
                                         </div>
-                                    </div>
+                                    }
                                 }) }
                             </div>
                         } else {
