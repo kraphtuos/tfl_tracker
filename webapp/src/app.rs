@@ -227,7 +227,7 @@ pub fn app() -> Html {
             state.show_suggestions = true;
             state.focused_index = -1;
             typeahead.set(state);
-            
+
             // Clear selected station if query doesn't match station name
             if let Some(station) = &*selected_station {
                 if station.common_name.to_lowercase() != new_value.to_lowercase() {
@@ -360,7 +360,7 @@ pub fn app() -> Html {
             {
                 if typeahead.show_suggestions && !filtered_stations.is_empty() {
                     html! {
-                        <div 
+                        <div
                             class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-[70vh] sm:max-h-60 overflow-y-auto"
                             onmousedown={Callback::from(|e: MouseEvent| e.prevent_default())} // Add this line
                         >

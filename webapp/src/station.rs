@@ -180,24 +180,24 @@ fn normalize_station_name(name: &str) -> String {
 
     // Special cases mapping
     match name.as_str() {
+        // Major rail stations
         "Liverpool Street" | "London Liverpool Street" => "Liverpool Street".to_string(),
-        "Paddington" | "London Paddington" => "Paddington".to_string(),
+        "Paddington" | "Paddington (H&C Line)-Underground" | "London Paddington" => {
+            "Paddington".to_string()
+        }
         "Euston" | "London Euston" => "Euston".to_string(),
-        // Additional cases
-        "Bushey" | "Bushey DC" => "Bushey".to_string(),
+
+        // Elizabeth line stations
         "Custom House" | "Custom House (for ExCel)" => "Custom House".to_string(),
-        "Watford Junction" | "Watford Junction DC" => "Watford Junction".to_string(),
-        "Clapham Junction" | "Clapham Junction C" => "Clapham Junction".to_string(),
-        "Stratford" | "Stratford (London)" => "Stratford".to_string(),
-        "Queens Park" | "Queens Park (London)" => "Queens Park".to_string(),
-        "Richmond" | "Richmond (London)" => "Richmond".to_string(),
-        "Willesden Junction" | "Willesden Junction HL" => "Willesden Junction".to_string(),
-        "Whitechapel" => "Whitechapel".to_string(), // Combines Underground, Overground, and Elizabeth line stations
-        // DLR and Underground combinations
-        "Bank" => "Bank".to_string(), // Combines DLR and Underground stations
-        "Canary Wharf" => "Canary Wharf".to_string(), // Combines DLR, Underground, and Elizabeth line
-        "Canning Town" => "Canning Town".to_string(), // Combines DLR and Underground
-        "West Ham" => "West Ham".to_string(),         // Combines DLR and Underground
+
+        // Multiple line stations
+        "Hammersmith (Dist&Picc Line)" | "Hammersmith (H&C Line)" => "Hammersmith".to_string(),
+        "Edgware Road (Bakerloo)" | "Edgware Road (Circle Line)" => "Edgware Road".to_string(),
+        "Shepherds Bush" | "Shepherd's Bush (Central)" => "Shepherd's Bush".to_string(),
+
+        // Stations with variant spellings
+        "Queens Park (London)" | "Queen's Park" => "Queen's Park".to_string(),
+
         _ => name,
     }
 }
