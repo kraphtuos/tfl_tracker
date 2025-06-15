@@ -224,7 +224,7 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <p class="text-sm text-gray-500">{"Destination"}</p>
-                    <p class="font-medium">{ &train.towards }</p>
+                    <p class="font-medium">{ train.towards.as_deref().unwrap_or("Unknown") }</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">{"Platform"}</p>

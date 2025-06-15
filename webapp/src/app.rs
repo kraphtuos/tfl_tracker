@@ -3,9 +3,44 @@ use crate::station::{
     group_arrivals_by_line_platform, group_stations_by_name,
 };
 use crate::train_tracker::TrainTracker;
+use std::collections::HashMap;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::HtmlSelectElement;
 use yew::prelude::*;
+
+fn get_mode_colors(mode_name: &str) -> String {
+    let color = match mode_name {
+        "Underground" => "bg-blue-100 text-blue-800",
+        "DLR" => "bg-teal-100 text-teal-800",
+        "Overground" => "bg-orange-100 text-orange-800",
+        "Elizabeth line" => "bg-purple-100 text-purple-800",
+        _ => "bg-gray-100 text-gray-800",
+    };
+    format!("{} p-1 rounded hover:opacity-80", color)
+}
+
+fn get_line_colors(line_name: &str) -> String {
+    let color = match line_name {
+        // Underground lines
+        name if name.contains("Bakerloo") => "bg-orange-700 text-white",
+        name if name.contains("Central") => "bg-red-600 text-white",
+        name if name.contains("Circle") => "bg-yellow-400 text-black",
+        name if name.contains("District") => "bg-green-600 text-white",
+        name if name.contains("Hammersmith") => "bg-pink-400 text-white",
+        name if name.contains("Jubilee") => "bg-gray-500 text-white",
+        name if name.contains("Metropolitan") => "bg-purple-700 text-white",
+        name if name.contains("Northern") => "bg-black text-white",
+        name if name.contains("Piccadilly") => "bg-blue-800 text-white",
+        name if name.contains("Victoria") => "bg-blue-400 text-white",
+        name if name.contains("Waterloo") => "bg-cyan-500 text-white",
+        // Other modes
+        name if name.contains("DLR") => "bg-teal-500 text-white",
+        name if name.contains("Elizabeth") => "bg-purple-500 text-white",
+        name if name.contains("Overground") => "bg-orange-500 text-white",
+        _ => "bg-gray-700 text-white",
+    };
+    format!("{} font-bold py-2 px-3", color)
+}
 
 #[function_component(App)]
 pub fn app() -> Html {
@@ -17,6 +52,7 @@ pub fn app() -> Html {
     let grouped_arrivals = use_state(|| Vec::new());
     let select_ref = use_node_ref();
     let tracked_trains = use_state(|| Vec::<Arrival>::new());
+    let expanded_platforms = use_state(|| HashMap::<String, bool>::new());
 
     // Initial loading of stations
     {
@@ -166,6 +202,20 @@ pub fn app() -> Html {
         }
     };
 
+    // Add toggle_platform callback here
+    let toggle_platform = {
+        let expanded_platforms = expanded_platforms.clone();
+
+        Callback::from(move |platform_id: String| {
+            expanded_platforms.set({
+                let mut new_map = (*expanded_platforms).clone();
+                let current = new_map.get(&platform_id).copied().unwrap_or(false);
+                new_map.insert(platform_id, !current);
+                new_map
+            });
+        })
+    };
+
     html! {
         <div class="container mx-auto p-4">
             <h1 class="text-2xl font-bold mb-4">{ "TfL Tracker" }</h1>
@@ -250,69 +300,96 @@ pub fn app() -> Html {
                             <div class="space-y-6">
                                 { for grouped_arrivals.iter().map(|(line_name, platforms)| html! {
                                     <div class="border rounded-lg overflow-hidden">
-                                        <div class="bg-gray-100 font-bold py-2 px-3">
+                                        <div class={get_line_colors(&line_name)}>
                                             { line_name }
                                         </div>
                                         <div>
-                                            { for platforms.iter().map(|(platform_name, platform_arrivals)| html! {
-                                                <div class="border-t border-gray-200">
-                                                    <div class="bg-gray-50 py-1 px-3 font-medium">
-                                                        { format!("Platform {}", platform_name) }
-                                                    </div>
-                                                    <div class="divide-y divide-gray-100">
-                                                        { for platform_arrivals.iter().map(|arrival| {
-                                                            let arrival_clone = arrival.clone();
-                                                            let on_track = {
-                                                                let track_train = track_train.clone();
-                                                                let arrival = arrival.clone();
+                                            { for platforms.iter().map(|(platform_name, platform_arrivals)| {
+                                                let platform_id = format!("{}-{}", line_name, platform_name);
+                                                let is_expanded = expanded_platforms.get(&platform_id).copied().unwrap_or(false);
+                                                let display_arrivals = if is_expanded {
+                                                    platform_arrivals
+                                                } else {
+                                                    &platform_arrivals[0..std::cmp::min(3, platform_arrivals.len())]
+                                                };
+                                                let toggle = {
+                                                    let platform_id = platform_id.clone();
+                                                    let toggle_platform = toggle_platform.clone();
+                                                    Callback::from(move |_| toggle_platform.emit(platform_id.clone()))
+                                                };
 
-                                                                Callback::from(move |_| {
-                                                                    // Clone and emit the arrival for tracking
-                                                                    track_train.emit(arrival.clone());
-                                                                })
-                                                            };
-
-                                                            html! {
-                                                                <div class="flex justify-between items-center py-2 px-3">
-                                                                    <div class="flex-grow">
-                                                                        <div class="font-medium">{ &arrival_clone.towards }</div>
-                                                                        <div class="text-sm text-gray-600">{ &arrival_clone.current_location }</div>
-                                                                    </div>
-                                                                    <div class="flex items-center">
-                                                                        <div class="font-medium text-right mr-3">
-                                                                            { format_time(arrival_clone.time_to_station) }
-                                                                        </div>
-                                                                        <button
-                                                                            onclick={on_track}
-                                                                            disabled={tracked_trains.iter().any(|t| t.id == arrival_clone.id)}
-                                                                            class={
-                                                                                if tracked_trains.iter().any(|t| t.id == arrival_clone.id) {
-                                                                                    "bg-gray-300 text-gray-600 p-1 rounded cursor-not-allowed"
-                                                                                } else if arrival_clone.vehicle_id.is_some() {
-                                                                                    "bg-green-100 text-green-700 hover:bg-green-200 p-1 rounded"
-                                                                                } else {
-                                                                                    "bg-blue-100 text-blue-700 hover:bg-blue-200 p-1 rounded"
-                                                                                }
-                                                                            }
-                                                                            title={
-                                                                                if arrival_clone.vehicle_id.is_some() {
-                                                                                    "Track this train (Detailed tracking available)"
-                                                                                } else {
-                                                                                    "Track this train"
-                                                                                }
-                                                                            }
-                                                                        >
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                                            </svg>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
+                                                html! {
+                                                    <div class="border-t border-gray-200">
+                                                        <div class="bg-gray-50 py-1 px-3 font-medium flex justify-between items-center">
+                                                            <span>{ format!("Platform {}", platform_name) }</span>
+                                                            if platform_arrivals.len() > 3 {
+                                                                <button
+                                                                    onclick={toggle}
+                                                                    class="text-blue-600 hover:text-blue-800 text-sm"
+                                                                >
+                                                                    if is_expanded {
+                                                                        { "Show less" }
+                                                                    } else {
+                                                                        { format!("Show all ({})", platform_arrivals.len()) }
+                                                                    }
+                                                                </button>
                                                             }
-                                                        }) }
+                                                        </div>
+                                                        <div class="divide-y divide-gray-100">
+                                                            { for display_arrivals.iter().map(|arrival| {
+                                                                let arrival_clone = arrival.clone();
+                                                                let on_track = {
+                                                                    let track_train = track_train.clone();
+                                                                    let arrival = arrival.clone();
+
+                                                                    Callback::from(move |_| {
+                                                                        // Clone and emit the arrival for tracking
+                                                                        track_train.emit(arrival.clone());
+                                                                    })
+                                                                };
+
+                                                                html! {
+                                                                    <div class="flex justify-between items-center py-2 px-3">
+                                                                        <div class="flex-grow">
+                                                                            <div class="font-medium">{ arrival_clone.towards.unwrap_or_else(|| "Unknown".to_string()) }</div>
+                                                                            <div class="text-sm text-gray-600">{ &arrival_clone.current_location }</div>
+                                                                        </div>
+                                                                        <div class="flex items-center">
+                                                                            <div class="font-medium text-right mr-3">
+                                                                                { format_time(arrival_clone.time_to_station) }
+                                                                            </div>
+                                                                            <button
+                                                                                onclick={on_track}
+                                                                                disabled={tracked_trains.iter().any(|t| t.id == arrival_clone.id)}
+                                                                                class={
+                                                                                    if tracked_trains.iter().any(|t| t.id == arrival_clone.id) {
+                                                                                        "bg-gray-300 text-gray-600 p-1 rounded cursor-not-allowed".to_string()
+                                                                                    } else if arrival_clone.vehicle_id.is_some() {
+                                                                                        get_mode_colors(&arrival_clone.mode_name)
+                                                                                    } else {
+                                                                                        "bg-blue-100 text-blue-700 hover:bg-blue-200 p-1 rounded".to_string()
+                                                                                    }
+                                                                                }
+                                                                                title={
+                                                                                    if arrival_clone.vehicle_id.is_some() {
+                                                                                        "Track this train (Detailed tracking available)"
+                                                                                    } else {
+                                                                                        "Track this train"
+                                                                                    }
+                                                                                }
+                                                                            >
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                                                </svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            }) }
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                }
                                             }) }
                                         </div>
                                     </div>
