@@ -8,13 +8,31 @@ use crate::utils::{
 };
 use std::collections::HashMap;
 use wasm_bindgen_futures::spawn_local;
-use web_sys::HtmlSelectElement;
+use web_sys::{HtmlInputElement, KeyboardEvent};
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq)]
 struct TrackedTrain {
     train: Arrival,
     station: StopPoint,
+}
+
+// Add TypeaheadState to manage typeahead UI state
+#[derive(Clone, PartialEq)]
+struct TypeaheadState {
+    query: String,
+    focused_index: i32,
+    show_suggestions: bool,
+}
+
+impl Default for TypeaheadState {
+    fn default() -> Self {
+        Self {
+            query: String::new(),
+            focused_index: -1,
+            show_suggestions: false,
+        }
+    }
 }
 
 // Helper function to get station IDs for a station group
@@ -38,16 +56,16 @@ pub fn app() -> Html {
     let fetching_data = use_state(|| false);
     let arrivals = use_state(|| Vec::<Arrival>::new());
     let grouped_arrivals = use_state(|| Vec::new());
-    let select_ref = use_node_ref();
+    let input_ref = use_node_ref();
     let tracked_trains = use_state(|| Vec::<TrackedTrain>::new());
     let expanded_platforms = use_state(|| HashMap::<String, bool>::new());
     let show_station_ids = use_state(|| false);
+    let typeahead = use_state(TypeaheadState::default);
 
     // Initial loading of stations
     {
         let stations = stations.clone();
         let loading = loading.clone();
-        let select_ref = select_ref.clone();
 
         use_effect_with((), move |_| {
             spawn_local(async move {
@@ -55,14 +73,6 @@ pub fn app() -> Html {
                 let grouped = group_stations_by_name(&fetched);
                 stations.set(grouped);
                 loading.set(false);
-
-                // Reset select element after rendering
-                gloo_timers::callback::Timeout::new(0, move || {
-                    if let Some(select) = select_ref.cast::<HtmlSelectElement>() {
-                        select.set_value("");
-                    }
-                })
-                .forget();
             });
             || ()
         });
@@ -104,43 +114,6 @@ pub fn app() -> Html {
             || ()
         });
     }
-
-    // Update station selection handler
-    let on_select = {
-        let stations = stations.clone();
-        let selected_station = selected_station.clone();
-        let fetching_data = fetching_data.clone();
-        let arrivals = arrivals.clone();
-
-        Callback::from(move |e: Event| {
-            let input: HtmlSelectElement = e.target_unchecked_into();
-            let id = input.value();
-
-            if id.is_empty() {
-                selected_station.set(None);
-                return;
-            }
-
-            if let Some(group) = stations.iter().find(|s| s.id == id) {
-                if let Some(station) = group.all_stations.first() {
-                    selected_station.set(Some(station.clone()));
-
-                    if let Some(station_ids) = get_station_group_ids(station, &stations) {
-                        fetching_data.set(true);
-                        spawn_local({
-                            let fetching_data = fetching_data.clone();
-                            let arrivals = arrivals.clone();
-                            async move {
-                                let arrival_data = fetch_station_arrivals(&station_ids).await;
-                                arrivals.set(arrival_data);
-                                fetching_data.set(false);
-                            }
-                        });
-                    }
-                }
-            }
-        })
-    };
 
     // For refresh button
     let refresh_arrivals = {
@@ -226,6 +199,160 @@ pub fn app() -> Html {
         })
     };
 
+    // Filter stations based on search query
+    let filtered_stations = {
+        let stations = stations.clone();
+        let query = typeahead.query.clone();
+        stations
+            .iter()
+            .filter(|station| {
+                station
+                    .common_name
+                    .to_lowercase()
+                    .contains(&query.to_lowercase())
+            })
+            .take(10)
+            .cloned()
+            .collect::<Vec<_>>()
+    };
+
+    let on_input = {
+        let typeahead = typeahead.clone();
+        Callback::from(move |e: InputEvent| {
+            let input: HtmlInputElement = e.target_unchecked_into();
+            let mut state = (*typeahead).clone();
+            state.query = input.value();
+            state.show_suggestions = true;
+            state.focused_index = -1;
+            typeahead.set(state);
+        })
+    };
+
+    let on_focus = {
+        let typeahead = typeahead.clone();
+        Callback::from(move |_| {
+            let mut state = (*typeahead).clone();
+            state.show_suggestions = true;
+            typeahead.set(state);
+        })
+    };
+
+    let on_blur = {
+        let typeahead = typeahead.clone();
+        Callback::from(move |_| {
+            // Use a small delay to allow click events on suggestions to fire
+            let typeahead = typeahead.clone();
+            gloo_timers::callback::Timeout::new(200, move || {
+                let mut state = (*typeahead).clone();
+                state.show_suggestions = false;
+                typeahead.set(state);
+            })
+            .forget();
+        })
+    };
+
+    let on_keydown = {
+        let typeahead = typeahead.clone();
+        let filtered_stations = filtered_stations.clone();
+        let selected_station = selected_station.clone();
+        Callback::from(move |e: KeyboardEvent| {
+            let mut state = (*typeahead).clone();
+            match e.key().as_str() {
+                "ArrowDown" => {
+                    e.prevent_default();
+                    state.focused_index =
+                        (state.focused_index + 1).min((filtered_stations.len() - 1) as i32);
+                    typeahead.set(state);
+                }
+                "ArrowUp" => {
+                    e.prevent_default();
+                    state.focused_index = (state.focused_index - 1).max(-1);
+                    typeahead.set(state);
+                }
+                "Enter" => {
+                    if state.focused_index >= 0
+                        && (state.focused_index as usize) < filtered_stations.len()
+                    {
+                        let station = &filtered_stations[state.focused_index as usize];
+                        selected_station.set(Some(station.all_stations[0].clone()));
+                        state.query = station.common_name.clone();
+                        state.show_suggestions = false;
+                        typeahead.set(state);
+                    }
+                }
+                "Escape" => {
+                    state.show_suggestions = false;
+                    typeahead.set(state);
+                }
+                _ => {}
+            }
+        })
+    };
+
+    let select_station = {
+        let selected_station = selected_station.clone();
+        let typeahead = typeahead.clone();
+        Callback::from(move |station: GroupedStation| {
+            selected_station.set(Some(station.all_stations[0].clone()));
+            let mut state = (*typeahead).clone();
+            state.query = station.common_name.clone();
+            state.show_suggestions = false;
+            typeahead.set(state);
+        })
+    };
+
+    // Render station selection
+    let station_selection = html! {
+        <div class="relative w-full">
+            <input
+                ref={input_ref}
+                type="text"
+                placeholder="Search for a station..."
+                class="w-full p-3 text-base sm:text-lg border border-gray-200 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={typeahead.query.clone()}
+                oninput={on_input}
+                onfocus={on_focus}
+                onblur={on_blur}
+                onkeydown={on_keydown}
+            />
+            {
+                if typeahead.show_suggestions && !filtered_stations.is_empty() {
+                    html! {
+                        <div class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-[70vh] sm:max-h-60 overflow-y-auto">
+                            {
+                                filtered_stations.iter().enumerate().map(|(index, station)| {
+                                    let is_focused = index as i32 == typeahead.focused_index;
+                                    let station_clone = station.clone();
+                                    let onclick = select_station.reform(move |_| station_clone.clone());
+
+                                    html! {
+                                        <div
+                                            key={station.id.clone()}
+                                            class={classes!(                                                "p-2",
+                                                "cursor-pointer",
+                                                "text-gray-900",
+                                                "hover:bg-gray-100",
+                                                if is_focused { "bg-blue-100" } else { "" }
+                                            )}
+                                            onclick={onclick}
+                                        >
+                                            <div class="font-medium">{&station.common_name}</div>
+                                            <div class="text-sm text-gray-500">
+                                                {station.modes.join(" • ")}
+                                            </div>
+                                        </div>
+                                    }
+                                }).collect::<Html>()
+                            }
+                        </div>
+                    }
+                } else {
+                    html! {}
+                }
+            }
+        </div>
+    };
+
     html! {
         <div class="container mx-auto p-2 sm:p-4">
             <h1 class="text-xl sm:text-2xl font-bold mb-4">{ "TfL Tracker" }</h1>
@@ -263,20 +390,8 @@ pub fn app() -> Html {
                 </div>
             } else {
                 <div class="mb-4 sm:mb-6">
-                    <label class="block mb-2 font-medium">{ "Select a Station" }</label>
-                    <select
-                        ref={select_ref.clone()}
-                        class="w-full p-2 border rounded"
-                        onchange={on_select}
-                        value=""
-                    >
-                        <option value="">{ "-- Choose a station --" }</option>
-                        { for stations.iter().map(|s| html! {
-                            <option value={s.id.clone()}>
-                                { &s.common_name }
-                            </option>
-                        }) }
-                    </select>
+                    <label class="block mb-2 font-medium">{ "Choose a Station" }</label>
+                    {station_selection}
                 </div>
 
                 if let Some(station) = &*selected_station {
