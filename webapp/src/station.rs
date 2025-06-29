@@ -176,7 +176,7 @@ pub struct GroupedStation {
 }
 
 fn normalize_station_name(name: &str) -> String {
-    // Remove various suffix patterns
+    // Remove various suffix patterns recursively
     let suffixes = [
         " Underground Station",
         " DLR Station",
@@ -190,11 +190,14 @@ fn normalize_station_name(name: &str) -> String {
     ];
 
     let mut normalized = name.to_string();
-    for suffix in suffixes {
-        if let Some(stripped) = normalized.strip_suffix(suffix) {
-            normalized = stripped.to_string();
-            break;
+    'outer: loop {
+        for suffix in &suffixes {
+            if let Some(stripped) = normalized.strip_suffix(suffix) {
+                normalized = stripped.to_string();
+                continue 'outer;
+            }
         }
+        break;
     }
 
     // Remove "London " prefix
@@ -212,6 +215,9 @@ fn normalize_station_name(name: &str) -> String {
 
         // Stations with variant spellings
         "Queens Park" | "Queen's Park" => "Queen's Park".to_string(),
+
+        // Richmond variants
+        "Richmond" => "Richmond".to_string(),
 
         _ => normalized,
     }
