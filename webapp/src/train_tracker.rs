@@ -219,7 +219,7 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
                         {&props.train.destination_name.clone().unwrap_or_else(|| "Unknown".to_string())}
                     </span>
                     <span class="text-sm text-gray-500">
-                        {&props.train.current_location}
+                        {&train_status.current_location}
                     </span>
                 </div>
                 <div class="flex items-center gap-2">
