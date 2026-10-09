@@ -3,8 +3,15 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>TfL Tracker</title>
+
+    <!-- Installed on iOS, the page extends under the translucent status bar; keep content clear of it -->
+    <style>
+        body {
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+    </style>
 
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#3b82f6" />

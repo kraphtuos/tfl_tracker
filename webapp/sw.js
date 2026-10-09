@@ -48,33 +48,73 @@ self.addEventListener('fetch', event => {
         return;
     }
 
-    event.respondWith(
-        HASHED_ASSET.test(url.pathname) ? cacheFirst(request) : networkFirst(request)
-    );
+    if (HASHED_ASSET.test(url.pathname)) {
+        event.respondWith(cacheFirst(request));
+    } else if (request.mode === 'navigate') {
+        event.respondWith(networkFirst(request));
+    } else {
+        // Station data, manifest and icons rarely change; don't make startup wait on them
+        event.respondWith(staleWhileRevalidate(request, event));
+    }
 });
 
-// Network first so pages and station data stay fresh; cache is the offline fallback
-async function networkFirst(request) {
+async function staleWhileRevalidate(request, event) {
     const cache = await caches.open(CACHE_NAME);
-    try {
-        const response = await fetch(request);
+    const cached = await cache.match(request, { ignoreSearch: true });
+    const network = fetch(request).then(async response => {
         if (response.ok) {
             await cache.put(request, response.clone());
         }
         return response;
-    } catch (error) {
-        const cached = await cache.match(request, { ignoreSearch: true });
-        if (cached) {
-            return cached;
-        }
-        if (request.mode === 'navigate') {
-            const page = await cache.match('./index.html');
-            if (page) {
-                return page;
-            }
-        }
-        throw error;
+    });
+    if (cached) {
+        event.waitUntil(network.catch(() => {}));
+        return cached;
     }
+    return network;
+}
+
+// On a weak signal (common underground) fall back to the cached copy after this long
+const NETWORK_TIMEOUT_MS = 4000;
+
+// Network first so the page stays fresh after a deploy; cache is the fallback
+// when offline or when the network is too slow
+async function networkFirst(request) {
+    const cache = await caches.open(CACHE_NAME);
+    const network = fetch(request).then(async response => {
+        if (response.ok) {
+            await cache.put(request, response.clone());
+        }
+        return response;
+    });
+    // Still let a slow request finish and refresh the cache in the background
+    network.catch(() => {});
+
+    try {
+        return await withTimeout(network, NETWORK_TIMEOUT_MS);
+    } catch (error) {
+        const cached = await cachedCopy(cache, request);
+        // Nothing cached: keep waiting for the network (or report its failure)
+        return cached || network;
+    }
+}
+
+function withTimeout(promise, ms) {
+    return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error('Network timeout')), ms);
+        promise.then(
+            value => { clearTimeout(timer); resolve(value); },
+            error => { clearTimeout(timer); reject(error); }
+        );
+    });
+}
+
+async function cachedCopy(cache, request) {
+    const cached = await cache.match(request, { ignoreSearch: true });
+    if (cached || request.mode !== 'navigate') {
+        return cached;
+    }
+    return cache.match('./index.html');
 }
 
 async function cacheFirst(request) {
