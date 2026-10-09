@@ -10,6 +10,7 @@
     <meta name="theme-color" content="#3b82f6" />
     <meta name="description"
         content="Track London Underground, DLR, Elizabeth line and Overground trains in real-time" />
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TfL Tracker">
@@ -33,63 +34,59 @@
     <link data-trunk rel="copy-file" href="stop_points.json" />
 
     <!-- Tailwind CSS -->
-    <link data-trunk rel="tailwind-css" href="/tailwind.css" />
+    <link data-trunk rel="tailwind-css" href="tailwind.css" />
 
     <!-- PWA Init Script -->
     <script>
-        // Register Service Worker
+        // Register the service worker relative to the page so it also works from a sub-path
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
+                    .catch(err => console.warn('ServiceWorker registration failed:', err));
             });
         }
 
-        // Add to home screen prompt
-        let deferredPrompt;
+        // Offer an "Add to Home Screen" button where the browser supports it
+        let deferredInstallPrompt = null;
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
-            e.preventDefault();
-            // Stash the event so it can be triggered later
-            deferredPrompt = e;
-
-            // Show install button or notification if you want
-            // You could also update your UI to show an install button
-            const installBtn = document.getElementById('install-btn');
-            if (installBtn) {
-                installBtn.style.display = 'block';
-                installBtn.addEventListener('click', () => {
-                    // Show the install prompt
-                    deferredPrompt.prompt();
-                    // Wait for the user to respond to the prompt
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the install prompt');
-                        } else {
-                            console.log('User dismissed the install prompt');
-                        }
-                        deferredPrompt = null;
-                        // Hide the install button
-                        installBtn.style.display = 'none';
-                    });
-                });
+        function setInstallButtonVisible(visible) {
+            const container = document.getElementById('install-container');
+            if (container) {
+                container.style.display = visible ? 'block' : 'none';
             }
+        }
+
+        window.addEventListener('beforeinstallprompt', event => {
+            event.preventDefault();
+            deferredInstallPrompt = event;
+            setInstallButtonVisible(true);
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            setInstallButtonVisible(false);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('install-btn').addEventListener('click', async () => {
+                if (!deferredInstallPrompt) {
+                    return;
+                }
+                setInstallButtonVisible(false);
+                deferredInstallPrompt.prompt();
+                await deferredInstallPrompt.userChoice;
+                deferredInstallPrompt = null;
+            });
         });
     </script>
 </head>
 
 <body>
-    <div id="install-container" class="fixed bottom-4 right-4 z-50 hidden" style="display: none;">
+    <div id="install-container" class="fixed bottom-4 right-4 z-50" style="display: none;">
         <button id="install-btn"
             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
+                stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
             Add to Home Screen

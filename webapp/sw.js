@@ -1,102 +1,107 @@
 // Service worker for TfL Tracker
-const CACHE_NAME = 'tfl-tracker-cache-v1';
-const URLS_TO_CACHE = [
-    '/',
-    '/index.html',
-    '/tfl-tracker.js',
-    '/stop_points.json',
-    'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css',
-    '/icon.svg',
-    '/icons/icon-72x72.png',
-    '/icons/icon-96x96.png',
-    '/icons/icon-128x128.png',
-    '/icons/icon-144x144.png',
-    '/icons/icon-152x152.png',
-    '/icons/icon-192x192.png',
-    '/icons/icon-384x384.png',
-    '/icons/icon-512x512.png'
+// Bump the version when changing what is cached or how.
+const CACHE_NAME = 'tfl-tracker-v2';
+
+// Relative to this file so the app also works from a sub-path (e.g. GitHub Pages)
+const PRECACHE_URLS = [
+    './',
+    './index.html',
+    './manifest.json',
+    './stop_points.json',
+    './icons/favicon.svg',
+    './icons/favicon-96x96.png',
+    './icons/apple-touch-icon.png',
+    './icons/icon-192x192.png',
+    './icons/icon-512x512.png',
 ];
 
-// Install event - cache essential files
+// Trunk puts a content hash in built asset names (e.g. tfl_tracker-1a2b3c4d_bg.wasm),
+// so a cached copy never goes stale. Captures the name without the hash.
+const HASHED_ASSET = /^(.*)-[0-9a-f]{8,}((?:_bg)?\.(?:js|wasm|css))$/;
+
 self.addEventListener('install', event => {
-    console.log('Service Worker: Installing...');
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => {
-                console.log('Service Worker: Caching files');
-                return cache.addAll(URLS_TO_CACHE);
-            })
+            .then(cache => cache.addAll(PRECACHE_URLS))
             .then(() => self.skipWaiting())
     );
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', event => {
-    console.log('Service Worker: Activated');
     event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cache => {
-                    if (cache !== CACHE_NAME) {
-                        console.log('Service Worker: Clearing Old Cache');
-                        return caches.delete(cache);
-                    }
-                })
-            );
-        })
+        caches.keys()
+            .then(names => Promise.all(
+                names.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
+            ))
+            .then(() => self.clients.claim())
     );
 });
 
-// Fetch event - serve from cache or network with caching
 self.addEventListener('fetch', event => {
-    // Skip caching for TFL API requests
-    if (event.request.url.includes('api.tfl.gov.uk')) {
+    const request = event.request;
+    if (request.method !== 'GET') {
+        return;
+    }
+    // Live data (TfL API) and other origins always go to the network
+    const url = new URL(request.url);
+    if (url.origin !== self.location.origin) {
         return;
     }
 
     event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                // Cache hit - return the response from the cached version
-                if (response) {
-                    return response;
-                }
-
-                // Not in cache - fetch from network
-                return fetch(event.request)
-                    .then(networkResponse => {
-                        // Don't cache if not a valid response
-                        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-                            return networkResponse;
-                        }
-
-                        // Clone the response
-                        var responseToCache = networkResponse.clone();
-
-                        // Add to cache
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-                                cache.put(event.request, responseToCache);
-                            });
-
-                        return networkResponse;
-                    })
-                    .catch(() => {
-                        // If both cache and network fail, show a generic fallback
-                        if (event.request.url.indexOf('.html') > -1) {
-                            return caches.match('/index.html');
-                        }
-
-                        // Return nothing if we can't provide anything useful
-                        return;
-                    });
-            })
+        HASHED_ASSET.test(url.pathname) ? cacheFirst(request) : networkFirst(request)
     );
 });
 
-// Handle messages from the client
-self.addEventListener('message', event => {
-    if (event.data.action === 'skipWaiting') {
-        self.skipWaiting();
+// Network first so pages and station data stay fresh; cache is the offline fallback
+async function networkFirst(request) {
+    const cache = await caches.open(CACHE_NAME);
+    try {
+        const response = await fetch(request);
+        if (response.ok) {
+            await cache.put(request, response.clone());
+        }
+        return response;
+    } catch (error) {
+        const cached = await cache.match(request, { ignoreSearch: true });
+        if (cached) {
+            return cached;
+        }
+        if (request.mode === 'navigate') {
+            const page = await cache.match('./index.html');
+            if (page) {
+                return page;
+            }
+        }
+        throw error;
     }
-});
+}
+
+async function cacheFirst(request) {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(request);
+    if (cached) {
+        return cached;
+    }
+    const response = await fetch(request);
+    if (response.ok) {
+        await removeOldVersions(cache, request.url);
+        await cache.put(request, response.clone());
+    }
+    return response;
+}
+
+// Drop previous builds of a hashed asset so the cache doesn't grow with every deploy
+async function removeOldVersions(cache, newUrl) {
+    const unhashed = url => {
+        const match = new URL(url).pathname.match(HASHED_ASSET);
+        return match && match[1] + match[2];
+    };
+    const name = unhashed(newUrl);
+    const keys = await cache.keys();
+    await Promise.all(
+        keys
+            .filter(key => key.url !== newUrl && unhashed(key.url) === name)
+            .map(key => cache.delete(key))
+    );
+}
