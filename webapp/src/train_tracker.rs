@@ -1,5 +1,5 @@
 use crate::station::{Arrival, StopPoint, VehicleArrival, fetch_arrivals, fetch_vehicle_arrivals};
-use crate::utils::{format_arrival_time, get_line_theme_colors, get_status_color};
+use crate::utils::{format_arrival_time, get_status_color, line_theme};
 use gloo_timers::callback::Interval;
 use std::rc::Rc;
 use wasm_bindgen_futures::spawn_local;
@@ -191,7 +191,7 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
         Callback::from(move |_e: MouseEvent| update_train_status.emit(()))
     };
 
-    let (bg_color, border_color) = get_line_theme_colors(&train.line_name);
+    let theme = line_theme(&train.line_name);
     let status_color = get_status_color(&train_status.status);
 
     // Create a properly cloned callback for the toggle
@@ -211,7 +211,7 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
     html! {
         <div class="rounded-lg shadow-md overflow-hidden">
             <div
-                class={classes!("flex", "items-center", "justify-between", "p-4", "cursor-pointer", border_color, bg_color)}
+                class={classes!("flex", "items-center", "justify-between", "p-4", "cursor-pointer", "border-b", theme.border, theme.light)}
                 onclick={toggle}
             >
                 <div class="flex items-center gap-2">

@@ -3,9 +3,7 @@ use crate::station::{
     group_arrivals_by_line_platform, group_stations_by_name,
 };
 use crate::train_tracker::TrainTracker;
-use crate::utils::{
-    format_arrival_time, get_line_background_colors, get_line_colors, get_mode_colors,
-};
+use crate::utils::{format_arrival_time, line_theme, mode_button_classes};
 use std::collections::HashMap;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::{HtmlInputElement, KeyboardEvent};
@@ -546,7 +544,7 @@ pub fn app() -> Html {
 
                                     html! {
                                         <div class="border rounded-lg overflow-hidden">
-                                            <div class={get_line_colors(&line_name)} onclick={line_toggle} style="cursor:pointer">
+                                            <div class={classes!(line_theme(line_name).header, "font-bold", "py-2", "px-3")} onclick={line_toggle} style="cursor:pointer">
                                                 <div class="flex justify-between items-center">
                                                     <span>{ line_name }</span>
                                                     if is_line_collapsed {
@@ -574,7 +572,7 @@ pub fn app() -> Html {
 
                                                         html! {
                                                             <div class="border-t border-gray-200">
-                                                                <div class={format!("{} flex items-center justify-between", get_line_background_colors(&line_name))}>
+                                                                <div class={classes!(line_theme(line_name).light, "font-medium", "py-2", "px-3", "flex", "items-center", "justify-between")}>
                                                                     <span class="text-gray-700">{ platform_name }</span>
                                                                     if platform_arrivals.len() > 3 {
                                                                         <button
@@ -630,7 +628,7 @@ pub fn app() -> Html {
                                                                                             if tracked_trains.iter().any(|t| t.train.id == arrival_clone.id) {
                                                                                                 "bg-gray-300 text-gray-600 p-1 rounded cursor-not-allowed".to_string()
                                                                                             } else if arrival_clone.vehicle_id.is_some() {
-                                                                                                get_mode_colors(&arrival_clone.mode_name)
+                                                                                                mode_button_classes(&arrival_clone.mode_name).to_string()
                                                                                             } else {
                                                                                                 "bg-blue-100 text-blue-700 hover:bg-blue-200 p-1 rounded".to_string()
                                                                                             }
