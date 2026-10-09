@@ -1,8 +1,9 @@
-use crate::stations::{Station, StopPoint, group_stations_by_name, normalize_station_name};
+use crate::stations::Station;
 use futures::future::try_join_all;
 use gloo_net::http::Request;
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
+use station_names::normalize_station_name;
 use std::fmt;
 
 const API_BASE: &str = "https://api.tfl.gov.uk";
@@ -90,8 +91,7 @@ async fn get_json<T: DeserializeOwned>(url: &str) -> Result<T, ApiError> {
 
 pub async fn fetch_stations() -> Result<Vec<Station>, ApiError> {
     // Relative so the app also works when served from a sub-path
-    let stop_points: Vec<StopPoint> = get_json("stop_points.json").await?;
-    Ok(group_stations_by_name(&stop_points))
+    get_json("stop_points.json").await
 }
 
 /// Arrivals for all the given stop IDs, fetched in parallel.

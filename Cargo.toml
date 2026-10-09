@@ -1,4 +1,4 @@
 [workspace]
-members = ["webapp", "stop_points_generator"]
+members = ["webapp", "stop_points_generator", "station_names"]
 
 resolver = "2"
