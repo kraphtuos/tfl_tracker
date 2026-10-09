@@ -71,15 +71,26 @@ impl Reducible for SearchState {
     }
 }
 
+/// Element ID of the suggestion at `index`, for `aria-activedescendant`
+fn option_id(index: usize) -> String {
+    format!("station-option-{index}")
+}
+
 #[function_component(StationSearch)]
 pub fn station_search(props: &StationSearchProps) -> Html {
     let state = use_reducer(SearchState::default);
     let list_ref = use_node_ref();
 
-    let results: Vec<Station> = search_stations(&props.stations, &state.query)
-        .into_iter()
-        .cloned()
-        .collect();
+    // Only recomputed when the station list or the query changes
+    let results = use_memo(
+        (props.stations.clone(), state.query.clone()),
+        |(stations, query)| -> Vec<Station> {
+            search_stations(stations, query)
+                .into_iter()
+                .cloned()
+                .collect()
+        },
+    );
 
     // Show the selected station's name when it changes (e.g. restored from the URL)
     {
@@ -198,6 +209,8 @@ pub fn station_search(props: &StationSearchProps) -> Html {
                     role="combobox"
                     aria-expanded={(state.open && !results.is_empty()).to_string()}
                     aria-controls="station-suggestions"
+                    aria-autocomplete="list"
+                    aria-activedescendant={state.focused.map(option_id)}
                     class="w-full p-3 text-base sm:text-lg border border-gray-200 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
                     value={state.query.clone()}
                     oninput={on_input}
@@ -212,7 +225,7 @@ pub fn station_search(props: &StationSearchProps) -> Html {
                         class="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-gray-700"
                         aria-label="Clear search"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </button>
@@ -235,6 +248,7 @@ pub fn station_search(props: &StationSearchProps) -> Html {
                         html! {
                             <div
                                 key={station.id.clone()}
+                                id={option_id(index)}
                                 role="option"
                                 aria-selected={is_focused.to_string()}
                                 class={classes!(
