@@ -1,6 +1,6 @@
 // Service worker for TfL Tracker
 // Bump the version when changing what is cached or how.
-const CACHE_NAME = 'tfl-tracker-v3';
+const CACHE_NAME = 'tfl-tracker-v4';
 
 // Relative to this file so the app also works from a sub-path (e.g. GitHub Pages)
 const PRECACHE_URLS = [
@@ -10,7 +10,7 @@ const PRECACHE_URLS = [
     './stop_points.json',
     './icons/favicon.svg',
     './icons/favicon-96x96.png',
-    './icons/apple-touch-icon.png',
+    './icons/apple-touch-icon-180x180.png',
     './icons/icon-192x192.png',
     './icons/icon-512x512.png',
 ];
@@ -22,7 +22,8 @@ const HASHED_ASSET = /^(.*)-[0-9a-f]{8,}((?:_bg)?\.(?:js|wasm|css))$/;
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(PRECACHE_URLS))
+            // Bypass the HTTP cache so a new version never precaches stale copies
+            .then(cache => cache.addAll(PRECACHE_URLS.map(url => new Request(url, { cache: 'reload' }))))
             .then(() => self.skipWaiting())
     );
 });
@@ -50,18 +51,21 @@ self.addEventListener('fetch', event => {
 
     if (HASHED_ASSET.test(url.pathname)) {
         event.respondWith(cacheFirst(request));
-    } else if (request.mode === 'navigate') {
-        event.respondWith(networkFirst(request));
-    } else {
-        // Station data, manifest and icons rarely change; don't make startup wait on them
+    } else if (url.pathname.endsWith('/stop_points.json')) {
+        // Station data rarely changes and the app can't start without it; don't wait on the network
         event.respondWith(staleWhileRevalidate(request, event));
+    } else {
+        // The page, manifest and icons: fresh when online. iOS reads the icon only once,
+        // when the app is added to the Home Screen, so it must not get a stale copy.
+        event.respondWith(networkFirst(request));
     }
 });
 
 async function staleWhileRevalidate(request, event) {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(request, { ignoreSearch: true });
-    const network = fetch(request).then(async response => {
+    // Revalidate with the server rather than reuse the HTTP cache (GitHub Pages allows 10 minutes)
+    const network = fetch(request, { cache: 'no-cache' }).then(async response => {
         if (response.ok) {
             await cache.put(request, response.clone());
         }
@@ -81,7 +85,8 @@ const NETWORK_TIMEOUT_MS = 4000;
 // when offline or when the network is too slow
 async function networkFirst(request) {
     const cache = await caches.open(CACHE_NAME);
-    const network = fetch(request).then(async response => {
+    // Revalidate with the server rather than reuse the HTTP cache (GitHub Pages allows 10 minutes)
+    const network = fetch(request, { cache: 'no-cache' }).then(async response => {
         if (response.ok) {
             await cache.put(request, response.clone());
         }
