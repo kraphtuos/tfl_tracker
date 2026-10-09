@@ -6,6 +6,7 @@ mod arrivals;
 mod components;
 mod pwa;
 mod stations;
+mod storage;
 mod utils;
 
 fn main() {

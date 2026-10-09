@@ -21,8 +21,12 @@ web-sys = { version = "0.3", features = [
     "CssStyleDeclaration",
     "Document",
     "Element",
+    "History",
     "HtmlCollection",
     "HtmlElement",
     "HtmlInputElement",
     "KeyboardEvent",
+    "Location",
+    "Storage",
+    "Window",
 ] }

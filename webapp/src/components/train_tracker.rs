@@ -1,6 +1,7 @@
 use crate::api::{Arrival, fetch_arrivals, fetch_vehicle_arrivals};
 use crate::utils::{format_arrival_time, get_status_color, line_theme, page_visible};
 use gloo_timers::callback::Interval;
+use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::rc::Rc;
 use wasm_bindgen_futures::spawn_local;
@@ -9,12 +10,15 @@ use yew::prelude::*;
 /// How often a tracked train's position is refreshed
 const POLL_INTERVAL_MS: u32 = 15_000;
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TrackedTrain {
     pub train: Arrival,
     /// Stop ID the arrival was predicted for
     pub stop_id: String,
+    #[serde(default)]
     pub collapsed: bool,
+    /// When tracking started, in milliseconds since the epoch
+    pub tracked_at: f64,
 }
 
 #[derive(Properties, PartialEq)]

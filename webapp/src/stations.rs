@@ -21,6 +21,11 @@ impl Station {
     pub fn stop_ids(&self) -> Vec<String> {
         self.stops.iter().map(|s| s.id.clone()).collect()
     }
+
+    /// Whether `id` is this station's ID or one of its stop IDs.
+    pub fn has_id(&self, id: &str) -> bool {
+        self.id == id || self.stops.iter().any(|s| s.id == id)
+    }
 }
 
 /// Lowercase, drop punctuation and spell out "&" so that e.g. "kings cross"

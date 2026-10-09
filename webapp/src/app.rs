@@ -4,6 +4,11 @@ use crate::components::spinner::LoadingSpinner;
 use crate::components::station_search::StationSearch;
 use crate::components::train_tracker::{TrackedTrain, TrainTracker};
 use crate::stations::Station;
+use crate::storage::{
+    load_tracked_trains, save_tracked_trains, set_station_in_url, station_from_url,
+};
+use crate::utils::now_ms;
+use gloo_events::EventListener;
 use std::collections::HashSet;
 use std::rc::Rc;
 use wasm_bindgen_futures::spawn_local;
@@ -52,17 +57,25 @@ impl Reducible for TrackedTrains {
 pub fn app() -> Html {
     let stations = use_state(|| StationsState::Loading);
     let selected = use_state(|| None::<Station>);
-    let tracked = use_reducer(TrackedTrains::default);
+    let tracked = use_reducer(|| TrackedTrains(load_tracked_trains()));
     let collapsed_lines = use_state(|| Rc::new(HashSet::<String>::new()));
 
     let load_stations = {
         let stations = stations.clone();
+        let selected = selected.clone();
         Callback::from(move |()| {
             stations.set(StationsState::Loading);
             let stations = stations.clone();
+            let selected = selected.clone();
             spawn_local(async move {
                 stations.set(match fetch_stations().await {
-                    Ok(list) => StationsState::Loaded(Rc::new(list)),
+                    Ok(list) => {
+                        // Open the station named in the URL, if any
+                        if let Some(station) = station_from_url(&list) {
+                            selected.set(Some(station));
+                        }
+                        StationsState::Loaded(Rc::new(list))
+                    }
                     Err(e) => StationsState::Failed(e),
                 });
             });
@@ -72,6 +85,40 @@ pub fn app() -> Html {
     {
         let load_stations = load_stations.clone();
         use_effect_with((), move |_| load_stations.emit(()));
+    }
+
+    let loaded_stations = match &*stations {
+        StationsState::Loaded(list) => Some(list.clone()),
+        _ => None,
+    };
+
+    // Follow manual edits of the URL hash
+    {
+        let selected = selected.clone();
+        use_effect_with(loaded_stations.clone(), move |list| {
+            let listener = list.clone().and_then(|list| {
+                let window = web_sys::window()?;
+                Some(EventListener::new(&window, "hashchange", move |_| {
+                    selected.set(station_from_url(&list));
+                }))
+            });
+            move || drop(listener)
+        });
+    }
+
+    // Keep the URL in sync with the selection once stations have loaded
+    {
+        let selected_id = selected.as_ref().map(|s| s.id.clone());
+        use_effect_with((selected_id, loaded_stations.is_some()), |(id, loaded)| {
+            if *loaded {
+                set_station_in_url(id.as_deref());
+            }
+        });
+    }
+
+    {
+        let trains = tracked.0.clone();
+        use_effect_with(trains, |trains| save_tracked_trains(trains));
     }
 
     let on_select = {
@@ -94,6 +141,7 @@ pub fn app() -> Html {
                 train: arrival,
                 stop_id,
                 collapsed: false,
+                tracked_at: now_ms(),
             }));
         })
     };
