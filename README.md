@@ -42,7 +42,7 @@ trunk build --release
 ```
 
 To serve from a sub-path, pass it with `--public-url`, e.g.
-`trunk build --release --public-url /tube_tracker/`.
+`trunk build --release --public-url /tfl_tracker/`.
 
 ### Checks
 
