@@ -25,7 +25,7 @@ enum StationsState {
 struct TrackedTrains(Vec<TrackedTrain>);
 
 enum TrackedAction {
-    Track(TrackedTrain),
+    Track(Box<TrackedTrain>),
     Remove(String),
     ToggleCollapsed(String),
 }
@@ -40,7 +40,7 @@ impl Reducible for TrackedTrains {
                 if trains.iter().any(|t| t.train.id == tracked.train.id) {
                     return self;
                 }
-                trains.push(tracked);
+                trains.push(*tracked);
             }
             TrackedAction::Remove(id) => trains.retain(|t| t.train.id != id),
             TrackedAction::ToggleCollapsed(id) => {
@@ -137,12 +137,12 @@ pub fn app() -> Html {
             } else {
                 arrival.naptan_id.clone()
             };
-            tracked.dispatch(TrackedAction::Track(TrackedTrain {
+            tracked.dispatch(TrackedAction::Track(Box::new(TrackedTrain {
                 train: arrival,
                 stop_id,
                 collapsed: false,
                 tracked_at: now_ms(),
-            }));
+            })));
         })
     };
 
