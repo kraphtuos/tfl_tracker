@@ -203,9 +203,16 @@ pub fn app() -> Html {
     };
 
     html! {
-        <div class="container mx-auto p-2 sm:p-4">
-            <h1 class="text-xl sm:text-2xl font-bold mb-4">{ "TfL Tracker" }</h1>
+        <>
+        // An opaque, full-width sticky header at the top edge lets iOS 26 sample a flat
+        // colour there instead of blurring the top of the installed app.
+        <header class="ios-app-header sticky top-0 z-40 bg-white">
+            <div class="container mx-auto px-2 sm:px-4 pt-2 sm:pt-4 pb-3">
+                <h1 class="text-xl sm:text-2xl font-bold">{ "TfL Tracker" }</h1>
+            </div>
+        </header>
 
+        <main class="container mx-auto px-2 sm:px-4 pt-1 pb-2 sm:pb-4">
             if !tracked.0.is_empty() {
                 <div class="mb-6">
                     <h2 class="text-lg font-semibold mb-4">{ "Tracked Trains" }</h2>
@@ -231,6 +238,7 @@ pub fn app() -> Html {
             }
 
             { content }
-        </div>
+        </main>
+        </>
     }
 }
