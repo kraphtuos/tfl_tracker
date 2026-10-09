@@ -1,6 +1,6 @@
 // Service worker for TfL Tracker
 // Bump the version when changing what is cached or how.
-const CACHE_NAME = 'tfl-tracker-v2';
+const CACHE_NAME = 'tfl-tracker-v3';
 
 // Relative to this file so the app also works from a sub-path (e.g. GitHub Pages)
 const PRECACHE_URLS = [
