@@ -1,8 +1,11 @@
 use crate::api::{ApiError, Arrival, fetch_arrivals};
 use crate::arrivals::group_arrivals_by_line_platform;
 use crate::components::spinner::LoadingSpinner;
+use crate::components::updated_ago::UpdatedAgo;
 use crate::stations::Station;
-use crate::utils::{format_arrival_time, line_theme, mode_button_classes};
+use crate::utils::{format_arrival_time, line_theme, mode_button_classes, now_ms, page_visible};
+use gloo_events::EventListener;
+use gloo_timers::callback::Interval;
 use std::collections::HashSet;
 use std::rc::Rc;
 use wasm_bindgen_futures::spawn_local;
@@ -10,6 +13,9 @@ use yew::prelude::*;
 
 /// Number of arrivals shown per platform before "Show all"
 const COLLAPSED_ARRIVALS: usize = 3;
+
+/// How often arrivals refresh while the page is visible
+const REFRESH_INTERVAL_MS: u32 = 30_000;
 
 #[derive(Properties, PartialEq)]
 pub struct ArrivalsBoardProps {
@@ -28,6 +34,9 @@ pub fn arrivals_board(props: &ArrivalsBoardProps) -> Html {
     let arrivals = use_state(|| None::<Rc<Vec<Arrival>>>);
     let error = use_state(|| None::<ApiError>);
     let fetching = use_state(|| false);
+    // Time of the last successful load, for display and for the timers below
+    let updated_at = use_state(|| None::<f64>);
+    let last_loaded = use_mut_ref(|| 0.0);
     let in_flight = use_mut_ref(|| false);
     let expanded_platforms = use_state(HashSet::<String>::new);
     let show_stop_ids = use_state(|| false);
@@ -36,6 +45,8 @@ pub fn arrivals_board(props: &ArrivalsBoardProps) -> Html {
         let arrivals = arrivals.clone();
         let error = error.clone();
         let fetching = fetching.clone();
+        let updated_at = updated_at.clone();
+        let last_loaded = last_loaded.clone();
         let stop_ids = props.station.stop_ids();
         Callback::from(move |()| {
             if in_flight.replace(true) {
@@ -45,11 +56,16 @@ pub fn arrivals_board(props: &ArrivalsBoardProps) -> Html {
             let arrivals = arrivals.clone();
             let error = error.clone();
             let fetching = fetching.clone();
+            let updated_at = updated_at.clone();
+            let last_loaded = last_loaded.clone();
             let in_flight = in_flight.clone();
             let stop_ids = stop_ids.clone();
             spawn_local(async move {
                 match fetch_arrivals(&stop_ids).await {
                     Ok(data) => {
+                        let now = now_ms();
+                        *last_loaded.borrow_mut() = now;
+                        updated_at.set(Some(now));
                         arrivals.set(Some(Rc::new(data)));
                         error.set(None);
                     }
@@ -61,9 +77,29 @@ pub fn arrivals_board(props: &ArrivalsBoardProps) -> Html {
         })
     };
 
+    // Load on mount, then refresh periodically while the page is visible and
+    // straight away when returning to a page whose data has gone stale
     {
         let load = load.clone();
-        use_effect_with((), move |_| load.emit(()));
+        use_effect_with((), move |_| {
+            load.emit(());
+            let refresh_if_stale = move || {
+                let age = now_ms() - *last_loaded.borrow();
+                if page_visible() && age >= f64::from(REFRESH_INTERVAL_MS) - 1_000.0 {
+                    load.emit(());
+                }
+            };
+            let interval = Interval::new(REFRESH_INTERVAL_MS, {
+                let refresh_if_stale = refresh_if_stale.clone();
+                move || refresh_if_stale()
+            });
+            let visibility = web_sys::window()
+                .and_then(|w| w.document())
+                .map(|document| {
+                    EventListener::new(&document, "visibilitychange", move |_| refresh_if_stale())
+                });
+            move || drop((interval, visibility))
+        });
     }
 
     let grouped = use_memo((*arrivals).clone(), |arrivals| {
@@ -116,6 +152,7 @@ pub fn arrivals_board(props: &ArrivalsBoardProps) -> Html {
                     }
                 </div>
             </div>
+            <div class="flex flex-col items-stretch sm:items-end gap-1 w-full sm:w-auto">
             <button
                 onclick={load.reform(|_: MouseEvent| ())}
                 class="w-full sm:w-auto bg-blue-500 hover:bg-blue-700 disabled:opacity-75 text-white font-bold py-2 px-4 rounded"
@@ -130,6 +167,10 @@ pub fn arrivals_board(props: &ArrivalsBoardProps) -> Html {
                     { "Refresh Arrivals" }
                 }
             </button>
+            if let Some(at) = *updated_at {
+                <UpdatedAgo {at} />
+            }
+            </div>
         </div>
     };
 

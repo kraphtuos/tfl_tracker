@@ -1,5 +1,5 @@
 use crate::api::{Arrival, fetch_arrivals, fetch_vehicle_arrivals};
-use crate::utils::{format_arrival_time, get_status_color, line_theme};
+use crate::utils::{format_arrival_time, get_status_color, line_theme, page_visible};
 use gloo_timers::callback::Interval;
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -164,12 +164,16 @@ pub fn train_tracker(props: &TrainTrackerProps) -> Html {
         })
     };
 
-    // Poll while mounted; dropping the interval on unmount cancels it
+    // Poll while mounted and visible; dropping the interval on unmount cancels it
     {
         let refresh = refresh.clone();
         use_effect_with((), move |_| {
             refresh.emit(());
-            let interval = Interval::new(POLL_INTERVAL_MS, move || refresh.emit(()));
+            let interval = Interval::new(POLL_INTERVAL_MS, move || {
+                if page_visible() {
+                    refresh.emit(());
+                }
+            });
             move || drop(interval)
         });
     }

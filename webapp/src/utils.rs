@@ -131,6 +131,28 @@ pub fn mode_button_classes(mode_name: &str) -> &'static str {
     }
 }
 
+/// Current time in milliseconds since the epoch.
+pub fn now_ms() -> f64 {
+    js_sys::Date::now()
+}
+
+/// Whether the page is visible; polling pauses while it is hidden.
+pub fn page_visible() -> bool {
+    web_sys::window()
+        .and_then(|w| w.document())
+        .is_none_or(|d| !d.hidden())
+}
+
+/// Human-friendly age of something updated `age_ms` ago.
+pub fn format_age(age_ms: f64) -> String {
+    let seconds = (age_ms / 1000.0).max(0.0) as u64;
+    match seconds {
+        0..10 => "just now".to_string(),
+        10..60 => format!("{seconds}s ago"),
+        _ => format!("{} min ago", seconds / 60),
+    }
+}
+
 pub fn format_arrival_time(seconds: i32) -> String {
     if seconds < 60 {
         "Due".to_string()
@@ -188,6 +210,13 @@ mod tests {
     fn mode_colours_match_api_mode_names() {
         assert!(mode_button_classes("tube").contains("blue"));
         assert!(mode_button_classes("elizabeth-line").contains("purple"));
+    }
+
+    #[test]
+    fn age_formatting() {
+        assert_eq!(format_age(9_999.0), "just now");
+        assert_eq!(format_age(42_000.0), "42s ago");
+        assert_eq!(format_age(150_000.0), "2 min ago");
     }
 
     #[test]
