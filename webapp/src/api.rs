@@ -1,5 +1,5 @@
 use crate::stations::Station;
-use futures::future::try_join_all;
+use futures::future::join_all;
 use gloo_net::http::Request;
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
@@ -94,26 +94,59 @@ pub async fn fetch_stations() -> Result<Vec<Station>, ApiError> {
     get_json("stop_points.json").await
 }
 
-/// Arrivals for all the given stop IDs, fetched in parallel.
-pub async fn fetch_arrivals(stop_ids: &[String]) -> Result<Vec<Arrival>, ApiError> {
+#[derive(Debug, PartialEq)]
+pub struct StationArrivals {
+    pub arrivals: Vec<Arrival>,
+    /// Set when some stops failed to load but others succeeded
+    pub partial_error: Option<ApiError>,
+}
+
+/// Combine per-stop results, failing only if every stop failed.
+fn combine_stop_results(
+    results: Vec<Result<Vec<Arrival>, ApiError>>,
+) -> Result<StationArrivals, ApiError> {
+    let mut arrivals = Vec::new();
+    let mut first_error = None;
+    let mut any_succeeded = false;
+
+    for result in results {
+        match result {
+            Ok(stop_arrivals) => {
+                any_succeeded = true;
+                arrivals.extend(stop_arrivals);
+            }
+            Err(e) => {
+                first_error.get_or_insert(e);
+            }
+        }
+    }
+
+    match first_error {
+        Some(e) if !any_succeeded => Err(e),
+        partial_error => Ok(StationArrivals {
+            arrivals,
+            partial_error,
+        }),
+    }
+}
+
+/// Arrivals for all the given stop IDs, fetched in parallel. One failing stop
+/// (e.g. an ID TfL has since changed) doesn't hide the others.
+pub async fn fetch_arrivals(stop_ids: &[String]) -> Result<StationArrivals, ApiError> {
     let urls: Vec<String> = stop_ids
         .iter()
         .map(|id| format!("{API_BASE}/StopPoint/{id}/Arrivals"))
         .collect();
     let requests = urls.iter().map(|url| get_json::<Vec<Arrival>>(url));
-    let mut arrivals: Vec<Arrival> = try_join_all(requests)
-        .await?
-        .into_iter()
-        .flatten()
-        .collect();
+    let mut result = combine_stop_results(join_all(requests).await)?;
 
-    for arrival in &mut arrivals {
+    for arrival in &mut result.arrivals {
         if let Some(dest) = &arrival.destination_name {
             arrival.destination_name = Some(normalize_station_name(dest));
         }
     }
 
-    Ok(arrivals)
+    Ok(result)
 }
 
 pub async fn fetch_vehicle_arrivals(vehicle_id: &str) -> Result<Vec<VehicleArrival>, ApiError> {
@@ -125,4 +158,51 @@ pub async fn fetch_vehicle_arrivals(vehicle_id: &str) -> Result<Vec<VehicleArriv
     }
 
     Ok(arrivals)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn arrival(id: &str) -> Arrival {
+        Arrival {
+            id: id.to_string(),
+            naptan_id: String::new(),
+            platform_name: String::new(),
+            destination_name: None,
+            current_location: String::new(),
+            time_to_station: 0,
+            vehicle_id: None,
+            line_id: None,
+            line_name: "Central".to_string(),
+            mode_name: "tube".to_string(),
+            expected_arrival: String::new(),
+        }
+    }
+
+    #[test]
+    fn one_failing_stop_keeps_the_others() {
+        let result = combine_stop_results(vec![
+            Ok(vec![arrival("1")]),
+            Err(ApiError::Status(404)),
+            Ok(vec![arrival("2")]),
+        ])
+        .unwrap();
+        assert_eq!(result.arrivals.len(), 2);
+        assert_eq!(result.partial_error, Some(ApiError::Status(404)));
+    }
+
+    #[test]
+    fn all_stops_failing_is_an_error() {
+        let result =
+            combine_stop_results(vec![Err(ApiError::Status(429)), Err(ApiError::Status(500))]);
+        assert_eq!(result, Err(ApiError::Status(429)));
+    }
+
+    #[test]
+    fn all_stops_succeeding_has_no_error() {
+        let result = combine_stop_results(vec![Ok(vec![]), Ok(vec![arrival("1")])]).unwrap();
+        assert_eq!(result.partial_error, None);
+        assert_eq!(result.arrivals.len(), 1);
+    }
 }

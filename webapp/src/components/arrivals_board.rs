@@ -1,4 +1,4 @@
-use crate::api::{ApiError, Arrival, fetch_arrivals};
+use crate::api::{Arrival, fetch_arrivals};
 use crate::arrivals::group_arrivals_by_line_platform;
 use crate::components::spinner::LoadingSpinner;
 use crate::components::updated_ago::UpdatedAgo;
@@ -32,7 +32,7 @@ pub struct ArrivalsBoardProps {
 pub fn arrivals_board(props: &ArrivalsBoardProps) -> Html {
     // None until the first successful load
     let arrivals = use_state(|| None::<Rc<Vec<Arrival>>>);
-    let error = use_state(|| None::<ApiError>);
+    let error = use_state(|| None::<String>);
     let fetching = use_state(|| false);
     // Time of the last successful load, for display and for the timers below
     let updated_at = use_state(|| None::<f64>);
@@ -66,10 +66,13 @@ pub fn arrivals_board(props: &ArrivalsBoardProps) -> Html {
                         let now = now_ms();
                         *last_loaded.borrow_mut() = now;
                         updated_at.set(Some(now));
-                        arrivals.set(Some(Rc::new(data)));
-                        error.set(None);
+                        arrivals.set(Some(Rc::new(data.arrivals)));
+                        error.set(
+                            data.partial_error
+                                .map(|e| format!("Some arrivals couldn't be loaded. {e}")),
+                        );
                     }
-                    Err(e) => error.set(Some(e)),
+                    Err(e) => error.set(Some(e.to_string())),
                 }
                 *in_flight.borrow_mut() = false;
                 fetching.set(false);
@@ -261,7 +264,7 @@ pub fn arrivals_board(props: &ArrivalsBoardProps) -> Html {
             { header }
             if let Some(error) = &*error {
                 <div class="mb-4 p-2 bg-red-50 text-red-700 rounded text-sm" role="alert">
-                    { error.to_string() }
+                    { error }
                 </div>
             }
             { body }

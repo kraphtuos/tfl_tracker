@@ -68,7 +68,8 @@ async fn poll_status(
     if ids.borrow().vehicle_id.is_none() {
         let arrivals = fetch_arrivals(&[stop_id])
             .await
-            .map_err(|e| e.to_string())?;
+            .map_err(|e| e.to_string())?
+            .arrivals;
         let arrival = arrivals
             .iter()
             .find(|a| a.id == train_id)
