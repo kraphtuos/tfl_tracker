@@ -3,15 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TfL Tracker</title>
-
-    <!-- Installed on iOS, the page extends under the translucent status bar; keep content clear of it -->
-    <style>
-        body {
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-        }
-    </style>
 
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#3b82f6" />
@@ -19,7 +12,9 @@
         content="Track London Underground, DLR, Elizabeth line and Overground trains in real-time" />
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- "default" keeps the page below an opaque status bar. With "black-translucent" the page runs
+         under it and iOS 26 blurs the top ~40pt of the app, which no CSS can avoid. -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="TfL Tracker">
 
     <!-- Manifest -->
